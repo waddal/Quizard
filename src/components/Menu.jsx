@@ -6,24 +6,26 @@ import { BASE_URL, API_KEY } from "../constants";
 // dotenv.config({ path: ".env" });
 
 const Menu = () => {
-  useEffect(() => {
-    axios
-      .get(`${BASE_URL}${API_KEY}`)
-      .then((res) => {
-        console.log("request url:", `${BASE_URL}${API_KEY}`);
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  
+  // useEffect(() => {
+  //   axios
+  //     .get(`${BASE_URL}${API_KEY}`)
+  //     .then((res) => {
+  //       console.log("request url:", `${BASE_URL}${API_KEY}`);
+  //       console.log(res);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
 
   return (
     <StyledMenu>
-      <Header>Title HERE</Header>
+      <Header>SETTINGS</Header>
       <MenuList>
-        <MenuItem>bloop</MenuItem>
-        <MenuItem>bleep</MenuItem>
+        <MenuItem>Difficulty</MenuItem>
+        <MenuItem>Category</MenuItem>
+        <MenuItem>Questions</MenuItem>
       </MenuList>
     </StyledMenu>
   );
