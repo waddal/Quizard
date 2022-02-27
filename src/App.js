@@ -1,12 +1,11 @@
-import styled from 'styled-components';
-
-const StyledApp = styled.div``;
+import { Routes, Route } from "react-router-dom";
+import Menu from './components/Menu';
 
 function App() {
   return (
-    <StyledApp>
-      App!
-    </StyledApp>
+    <Routes>
+      <Route path="/" element={<Menu />} />
+    </Routes>
   );
 }
 
