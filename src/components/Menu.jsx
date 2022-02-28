@@ -34,7 +34,8 @@ const Menu = () => {
       .get(`${BASE_URL}${API_KEY}`, {
         params: {
           limit: `${formValues.mode}`,
-          category: `${formValues.category}` === "Any" ? "" :`${formValues.category}`,
+          category:
+            `${formValues.category}` === "Any" ? "" : `${formValues.category}`,
           difficulty: `${formValues.difficulty}`,
         },
       })
@@ -81,81 +82,85 @@ const Menu = () => {
       <Title>SETTINGS</Title>
       <MenuList>
         <form onSubmit={handleSubmit}>
-          <h2>Difficulty</h2>
-          <label>
-            <select
-              name="difficulty"
-              value={formValues.difficulty}
-              onChange={handleChange}
-            >
-              <option value=""> -- </option>
-              <option value="easy"> easy </option>
-              <option value="medium"> medium </option>
-              <option value="hard"> hard </option>
-            </select>
-          </label>
-
-          <h2>Category</h2>
-          {categories.map((item, idx) => {
-            return (
-              <label className="category" key={item[idx]}>
-                <input
-                  type="radio"
-                  name="category"
-                  id={item}
-                  value={item}
-                  checked={formValues.category === item}
-                  onChange={handleChange}
-                />{" "}
-                {item} &nbsp;
-              </label>
-            );
-          })}
-
-          <h2>Mode</h2>
-          <label className="modeSelect">
-            {" "}
-            5
-            <input
-              type="radio"
-              name="mode"
-              id="5"
-              value="5"
-              checked={formValues.mode === "5"}
-              onChange={handleChange}
-            />
-          </label>
-          <label className="modeSelect">
-            {" "}
-            10
-            <input
-              type="radio"
-              name="mode"
-              value="10"
-              checked={formValues.mode === "10"}
-              onChange={handleChange}
-            />
-          </label>
-          <label className="modeSelect">
-            {" "}
-            ☠️
-            <input
-              type="radio"
-              name="mode"
-              value="20"
-              checked={formValues.mode === "20"}
-              onChange={handleChange}
-            />
-          </label>
+          <MenuSelection>
+            <h2>Difficulty</h2>
+            <label>
+              <select
+                name="difficulty"
+                value={formValues.difficulty}
+                onChange={handleChange}
+              >
+                <option value=""> -- </option>
+                <option value="easy"> easy </option>
+                <option value="medium"> medium </option>
+                <option value="hard"> hard </option>
+              </select>
+            </label>
+          </MenuSelection>
+          <MenuSelection>
+            <h2>Category</h2>
+            {categories.map((item, idx) => {
+              return (
+                <label className="category" key={item[idx]}>
+                  <input
+                    type="radio"
+                    name="category"
+                    id={item}
+                    value={item}
+                    checked={formValues.category === item}
+                    onChange={handleChange}
+                  />{" "}
+                  {item} &nbsp;
+                </label>
+              );
+            })}
+          </MenuSelection>
+          <MenuSelection>
+            <h2>Mode</h2>
+            <label className="modeSelect">
+              {" "}
+              5
+              <input
+                type="radio"
+                name="mode"
+                id="5"
+                value="5"
+                checked={formValues.mode === "5"}
+                onChange={handleChange}
+              />
+            </label>
+            <label className="modeSelect">
+              {" "}
+              10
+              <input
+                type="radio"
+                name="mode"
+                value="10"
+                checked={formValues.mode === "10"}
+                onChange={handleChange}
+              />
+            </label>
+            <label className="modeSelect">
+              {" "}
+              ☠️
+              <input
+                type="radio"
+                name="mode"
+                value="20"
+                checked={formValues.mode === "20"}
+                onChange={handleChange}
+              />
+            </label>
+          </MenuSelection>
           <br></br>
           <button disabled={disabled}>start</button>
         </form>
-        <Errors>
-          <Error>{formErrors.difficulty}</Error>
-          <Error>{formErrors.category}</Error>
-          <Error>{formErrors.mode}</Error>
-        </Errors>
       </MenuList>
+      <Errors>
+        <Error>{formErrors.difficulty}</Error>
+        <Error>{formErrors.category}</Error>
+        <Error>{formErrors.mode}</Error>
+      </Errors>
     </StyledMenu>
   );
 };
@@ -178,15 +183,51 @@ tip: null
 */
 
 const StyledMenu = styled.div`
-  height: 100vh;
+  height: auto;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  border: 1px solid red;
+
+  form {
+    width: 600px;
+    border:1px solid orange;
+
+  }
+
+  label {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    border: 1px solid red;
+    width: 20%;
+    padding: 5px;
+  }
+  button {
+    width: 70px;
+    height: 50px;
+
+    &:hover {
+      background-color: #f6f69a;
+    }
+  }
+`;
+
+const MenuSelection = styled.div`
+  background-color: cadetblue;
+  width: 100%;
+  height: 200px;
 `;
 const Title = styled.h1`
   font-size: 4rem;
 `;
-const MenuList = styled.div``;
+const MenuList = styled.div`
+  margin: 2%;
+`;
+
 const Errors = styled.div``;
-const Error = styled.div``;
+const Error = styled.div`
+  color: red;
+`;
