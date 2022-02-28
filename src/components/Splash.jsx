@@ -32,13 +32,14 @@ const StyledSplash = styled.div`
 
 const Title = styled.h1`
   font-size: 4rem;
+  margin:2%;
 `;
 
 const Button = styled.button`
   width: 140px;
   height: 50px;
   background-color: silver;
-  margin: 2%;
+  margin: 1%;
 
   &:hover {
     background-color: #f4f6ed;
