@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { BASE_URL, API_KEY } from "../constants";
+import * as yup from 'yup';
+import schema from '../validation/formSchema';
 // import dotenv from "dotenv";
 // dotenv.config({ path: ".env" });
 
@@ -11,8 +13,18 @@ const initialFormValues = {
   mode: "",
 };
 
+const initialFormErrors = {
+  difficulty: "",
+  category: "",
+  mode: "",
+};
+
+const initialDisabled = true;
+
 const Menu = () => {
   const [formValues, setFormValues] = useState(initialFormValues);
+  const [formErrors, setFormErrors] = useState(initialFormErrors);
+  const [disabled, setDisabled] = useState(initialDisabled);
 
   // useEffect(() => {
   //   axios
@@ -32,15 +44,35 @@ const Menu = () => {
   };
 
   const handleChange = (e) => {
-    const { name, checked, type } = e.target;
-    const value = type === "checkbox" ? checked : e.target.value;
+    const { name, value } = e.target;
 
+    yup
+      .reach(schema, name)
+      .validate(value)
+      .then(() => {
+        setFormErrors({
+          ...formErrors,
+          [name]: "",
+        });
+      })
+      .catch((err) => {
+        setFormErrors({
+          ...formErrors,
+          [name]: err.errors[0],
+        });
+      });
     setFormValues({
       ...formValues,
       [name]: value,
     });
-    console.log(formValues);
   };
+
+  useEffect(() => {
+    schema.isValid(formValues)
+    .then((valid) => {
+        setDisabled(!valid);
+    });
+    }, [formValues]);
 
   return (
     <StyledMenu>
@@ -52,7 +84,8 @@ const Menu = () => {
             <select
               name="difficulty"
               value={formValues.difficulty}
-              onChange={handleChange}>
+              onChange={handleChange}
+            >
               <option value=""> -- </option>
               <option value="easy"> easy </option>
               <option value="medium"> medium </option>
@@ -61,7 +94,7 @@ const Menu = () => {
           </label>
 
           <h2>Category</h2>
-          <label className="category"> 
+          <label className="category">
             <input
               type="radio"
               name="category"
@@ -69,9 +102,10 @@ const Menu = () => {
               value="code"
               checked={formValues.category === "code"}
               onChange={handleChange}
-            /> Code &nbsp;
+            />{" "}
+            Code &nbsp;
           </label>
-          <label className="category"> 
+          <label className="category">
             <input
               type="radio"
               name="category"
@@ -79,21 +113,25 @@ const Menu = () => {
               value="programming"
               checked={formValues.category === "programming"}
               onChange={handleChange}
-            /> Programming &nbsp;
+            />{" "}
+            Programming &nbsp;
           </label>
-          <label className="category"> 
+          <label className="category">
             <input
               type="radio"
               name="category"
-              id="DevOps"
-              value="DevOps"
-              checked={formValues.category === "DevOps"}
+              id="devops"
+              value="devops"
+              checked={formValues.category === "devops"}
               onChange={handleChange}
-            /> DevOps &nbsp;
+            />{" "}
+            DevOps &nbsp;
           </label>
 
           <h2>Mode</h2>
-          <label className="modeSelect"> 5
+          <label className="modeSelect">
+            {" "}
+            5
             <input
               type="radio"
               name="mode"
@@ -103,7 +141,9 @@ const Menu = () => {
               onChange={handleChange}
             />
           </label>
-          <label className="modeSelect"> 10
+          <label className="modeSelect">
+            {" "}
+            10
             <input
               type="radio"
               name="mode"
@@ -112,17 +152,19 @@ const Menu = () => {
               onChange={handleChange}
             />
           </label>
-          <label className="modeSelect"> unlimited
+          <label className="modeSelect">
+            {" "}
+            sudden death
             <input
               type="radio"
               name="mode"
-              value="unlimited"
-              checked={formValues.mode === "unlimited"}
+              value="suddendeath"
+              checked={formValues.mode === "suddendeath"}
               onChange={handleChange}
             />
           </label>
           <br></br>
-          <button>start</button>
+          <button disabled={disabled}>start</button>
         </form>
       </MenuList>
     </StyledMenu>
