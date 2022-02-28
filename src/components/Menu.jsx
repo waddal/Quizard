@@ -1,22 +1,23 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import axios from "axios";
 import { BASE_URL, API_KEY } from "../constants";
-import * as yup from 'yup';
-import schema from '../validation/formSchema';
+import axios from "axios";
+import * as yup from "yup";
+import schema from "../validation/formSchema";
+import categories from "../data/categories";
 // import dotenv from "dotenv";
 // dotenv.config({ path: ".env" });
 
 const initialFormValues = {
-  difficulty: "",
-  category: "",
   mode: "",
+  category: "",
+  difficulty: "",
 };
 
 const initialFormErrors = {
-  difficulty: "",
-  category: "",
   mode: "",
+  category: "",
+  difficulty: "",
 };
 
 const initialDisabled = true;
@@ -26,21 +27,23 @@ const Menu = () => {
   const [formErrors, setFormErrors] = useState(initialFormErrors);
   const [disabled, setDisabled] = useState(initialDisabled);
 
-  // useEffect(() => {
-  //   axios
-  //     .get(`${BASE_URL}${API_KEY}`)
-  //     .then((res) => {
-  //       console.log("request url:", `${BASE_URL}${API_KEY}`);
-  //       console.log(res);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
-
   const handleSubmit = (e) => {
-    e.target.preventDefault();
-    console.log("submit");
+    e.preventDefault();
+    console.log("submit!");
+    axios
+      .get(`${BASE_URL}${API_KEY}`, {
+        params: {
+          limit: `${formValues.mode}`,
+          category: `${formValues.category}` === "Any" ? "" :`${formValues.category}`,
+          difficulty: `${formValues.difficulty}`,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleChange = (e) => {
@@ -68,12 +71,11 @@ const Menu = () => {
   };
 
   useEffect(() => {
-    schema.isValid(formValues)
-    .then((valid) => {
-        setDisabled(!valid);
+    schema.isValid(formValues).then((valid) => {
+      setDisabled(!valid);
     });
-    }, [formValues]);
-
+  }, [formValues]);
+  console.log(formValues);
   return (
     <StyledMenu>
       <Title>SETTINGS</Title>
@@ -94,39 +96,21 @@ const Menu = () => {
           </label>
 
           <h2>Category</h2>
-          <label className="category">
-            <input
-              type="radio"
-              name="category"
-              id="code"
-              value="code"
-              checked={formValues.category === "code"}
-              onChange={handleChange}
-            />{" "}
-            Code &nbsp;
-          </label>
-          <label className="category">
-            <input
-              type="radio"
-              name="category"
-              id="programming"
-              value="programming"
-              checked={formValues.category === "programming"}
-              onChange={handleChange}
-            />{" "}
-            Programming &nbsp;
-          </label>
-          <label className="category">
-            <input
-              type="radio"
-              name="category"
-              id="devops"
-              value="devops"
-              checked={formValues.category === "devops"}
-              onChange={handleChange}
-            />{" "}
-            DevOps &nbsp;
-          </label>
+          {categories.map((item, idx) => {
+            return (
+              <label className="category" key={item[idx]}>
+                <input
+                  type="radio"
+                  name="category"
+                  id={item}
+                  value={item}
+                  checked={formValues.category === item}
+                  onChange={handleChange}
+                />{" "}
+                {item} &nbsp;
+              </label>
+            );
+          })}
 
           <h2>Mode</h2>
           <label className="modeSelect">
@@ -154,12 +138,12 @@ const Menu = () => {
           </label>
           <label className="modeSelect">
             {" "}
-            sudden death
+            ☠️
             <input
               type="radio"
               name="mode"
-              value="suddendeath"
-              checked={formValues.mode === "suddendeath"}
+              value="20"
+              checked={formValues.mode === "20"}
               onChange={handleChange}
             />
           </label>
