@@ -166,6 +166,11 @@ const Menu = () => {
           <br></br>
           <button disabled={disabled}>start</button>
         </form>
+        <Errors>
+          <Error>{formErrors.difficulty}</Error>
+          <Error>{formErrors.category}</Error>
+          <Error>{formErrors.mode}</Error>
+        </Errors>
       </MenuList>
     </StyledMenu>
   );
@@ -199,3 +204,5 @@ const Title = styled.h1`
   font-size: 4rem;
 `;
 const MenuList = styled.div``;
+const Errors = styled.div``;
+const Error = styled.div``;
