@@ -31,7 +31,7 @@ const Menu = props => {
   const navigate = useNavigate();
   return (
     <StyledMenu>
-      <Title>{props.title}</Title>
+      <Title>{props.title || 'hello'}</Title>
       <Button onClick={() => navigate("/settings")}>New Game</Button>
       <Button>Hiscores</Button>
       <Button>Settings</Button>

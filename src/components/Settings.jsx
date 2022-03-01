@@ -6,6 +6,9 @@ import * as yup from "yup";
 import schema from "../validation/formSchema";
 import categories from "../data/categories";
 import { useNavigate } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { setData } from '../actions/quizActions';
+
 // import dotenv from "dotenv";
 // dotenv.config({ path: ".env" });
 
@@ -23,7 +26,8 @@ const initialFormErrors = {
 
 const initialDisabled = true;
 
-const Settings = () => {
+const Settings = props => {
+  // const { setData } = props;
   const [formValues, setFormValues] = useState(initialFormValues);
   const [formErrors, setFormErrors] = useState(initialFormErrors);
   const [disabled, setDisabled] = useState(initialDisabled);
@@ -42,7 +46,8 @@ const Settings = () => {
         },
       })
       .then((res) => {
-        console.log(res);
+        console.log('data: ', res.data);
+        props.setData(res.data);
         navigate('/quiz')
       })
       .catch((err) => {
@@ -79,7 +84,7 @@ const Settings = () => {
       setDisabled(!valid);
     });
   }, [formValues]);
-  console.log(formValues);
+
   return (
     <StyledSettings>
       <Title>NEW QUIZ</Title>
@@ -103,7 +108,7 @@ const Settings = () => {
           <SettingTitle>Category</SettingTitle>
           {categories.map((item, idx) => {
             return (
-              <label key={item[idx]}>
+              <label key={idx}>
                 <input
                   type="radio"
                   name="category"
@@ -168,7 +173,13 @@ const Settings = () => {
   );
 };
 
-export default Settings;
+const mapStateToProps = (state) => {
+  return {
+    data: state.data,
+  }
+}
+
+export default connect(mapStateToProps, {setData})(Settings);
 
 /*
 answers: {answer_a: '<cite title"value">Some Text Here</cite>', answer_b: '<cite title:"value">Some Text Here</cite>', answer_c: '<cite title="value">Some Text Here</cite>', answer_d: null, answer_e: null, …}

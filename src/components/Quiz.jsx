@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { connect } from "react-redux";
 
 const StyledQuiz = styled.div`
   height: 100vh;
@@ -13,26 +14,59 @@ const Title = styled.h1`
   margin: 2%;
 `;
 
-const Questions = styled.div`
-  display:flex;
-  align-items: flex-start;
-  justify-content: center;
-  flex-direction: column;
+const Question = styled.div`
 `;
 
-const Quiz = () => {
+const Answers = styled.div``;
+
+const Answer = styled.div`
+  width:100%;
+  height:20px;
+  padding:2px;
+  margin:2px;
+  background-color: #ffeaea;
+
+  &:hover {
+    background-color: #fcffea;
+  }
+`;
+
+const Quiz = (props) => {
+  const { data } = props;
+  const [isAnswered, setIsAnswered] = useState(false);
+  const [questionIndex, setQuestionIndex] = useState(0);
+
+  const answers = data[questionIndex].answers;
+
   return (
     <StyledQuiz>
       <Title>QUIZ</Title>
-      <Questions>
-        <div>1</div>
-        <div>2</div>
-        <div>3</div>
-        <div>4</div>
+        <h5>Category: {data[questionIndex].category}</h5>
+      <Question>
+        <div>{data[questionIndex].question}</div>
+      </Question>
+      <Answers>
+      {/* {Object.keys(answers).map(answer => {
+        return (
+          <div>{answers}{answer}</div>
+        )
+      })} */}
+      {answers.answer_a === null ? null : <Answer>{answers.answer_a}</Answer>}
+      {answers.answer_b === null ? null : <Answer>{answers.answer_b}</Answer>}
+      {answers.answer_c === null ? null : <Answer>{answers.answer_c}</Answer>}
+      {answers.answer_d === null ? null : <Answer>{answers.answer_d}</Answer>}
+      {answers.answer_e === null ? null : <Answer>{answers.answer_e}</Answer>}
+      {answers.answer_f === null ? null : <Answer>{answers.answer_f}</Answer>}
+      </Answers>
         <button>next</button>
-      </Questions>
     </StyledQuiz>
   );
 };
 
-export default Quiz;
+const mapStateToProps = (state) => {
+  return {
+    data: state.quizReducer.data,
+  };
+};
+
+export default connect(mapStateToProps, {})(Quiz);

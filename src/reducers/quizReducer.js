@@ -1,19 +1,24 @@
+import { SET_DATA } from '../actions/quizActions.js';
+
 const initialState = {
-  id: 0,
-  answers: {},
+  data: {},
   category: "",
-  correct_answers: {},
   question: "",
+  answers: {},
+  correct_answers: {},
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_QUESTION:
+    case SET_DATA:
+      console.log('quizReducer was here');
       return {
         ...state,
-        question: state.question,
+        data: action.payload,
       };
     default:
       return state;
   }
 };
+
+export default reducer;

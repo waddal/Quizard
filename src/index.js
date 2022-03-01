@@ -4,12 +4,7 @@ import App from "./App";
 import { BrowserRouter as Router } from "react-router-dom";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
-
-function reducer() {
-  return {
-    title: "hi man",
-  };
-}
+import reducer from './reducers'
 
 const store = createStore(reducer);
 
