@@ -5,6 +5,7 @@ import Settings from './components/Settings';
 import Quiz from "./components/Quiz";
 
 function App() {
+  
   return (
     <Routes>
       <Route path="/" element={<Splash />} />

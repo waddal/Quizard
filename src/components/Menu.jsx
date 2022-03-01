@@ -1,6 +1,7 @@
 import React from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { connect } from "react-redux";
 
 const StyledMenu = styled.div`
   height: 100vh;
@@ -12,7 +13,7 @@ const StyledMenu = styled.div`
 
 const Title = styled.h1`
   font-size: 4rem;
-  margin:1%;
+  margin: 1%;
 `;
 
 const Button = styled.button`
@@ -26,16 +27,22 @@ const Button = styled.button`
   }
 `;
 
-const Menu = () => {
-    const navigate = useNavigate();
+const Menu = props => {
+  const navigate = useNavigate();
   return (
     <StyledMenu>
-      <Title>MENU</Title>
-      <Button onClick={() => navigate('/settings')}>New Game</Button>
+      <Title>{props.title}</Title>
+      <Button onClick={() => navigate("/settings")}>New Game</Button>
       <Button>Hiscores</Button>
       <Button>Settings</Button>
     </StyledMenu>
   );
 };
 
-export default Menu;
+const mapStateToProps = (state) => {
+  return {
+    title: state.title,
+  };
+};
+
+export default connect(mapStateToProps, {})(Menu);
