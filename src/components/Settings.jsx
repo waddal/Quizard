@@ -43,7 +43,7 @@ const Settings = () => {
       })
       .then((res) => {
         console.log(res);
-        navigate('/game')
+        navigate('/quiz')
       })
       .catch((err) => {
         console.log(err);
