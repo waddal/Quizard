@@ -181,21 +181,6 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {setData})(Settings);
 
-/*
-answers: {answer_a: '<cite title"value">Some Text Here</cite>', answer_b: '<cite title:"value">Some Text Here</cite>', answer_c: '<cite title="value">Some Text Here</cite>', answer_d: null, answer_e: null, …}
-category: "Code"
-correct_answer: "answer_a"
-correct_answers: {answer_a_correct: 'false', answer_b_correct: 'false', answer_c_correct: 'true', answer_d_correct: 'false', answer_e_correct: 'false', …}
-description: null
-difficulty: "Easy"
-explanation: null
-id: 543
-multiple_correct_answers: "false"
-question: "What is cite tag in HTML5?"
-tags: [{…}]
-tip: null
-*/
-
 const StyledSettings = styled.div`
   display: flex;
   align-items: center;

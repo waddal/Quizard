@@ -4,12 +4,24 @@ import { connect } from "react-redux";
 
 const Quiz = (props) => {
   const { data } = props;
-  const [selected, setSelected] = useState();
   const [questionIndex, setQuestionIndex] = useState(0);
   const [answer, setAnswer] = useState();
+  const [choices, setChoices] = useState([]);
+  const [selected, setSelected] = useState();
+  const [check, setCheck] = useState(false);
+  const [result, setResult] = useState(null);
+  const [score, setScore] = useState(0);
+
   const api = data[questionIndex];
-  console.log(answer);
-  
+
+  const renderChoices = () => {
+    for(let choice in api.answers){
+      if(api.answers[choice] !== null){
+        setChoices(choices => choices.concat(api.answers[choice]))
+      }
+    }
+  } 
+
   const correctAnswer = () => {
     for(let ans in api.correct_answers){ 
       if(api.correct_answers[ans] === "true"){
@@ -19,8 +31,14 @@ const Quiz = (props) => {
   };
 
   useEffect(() => {
+    setChoices([]);
+    renderChoices();
     setSelected(null);
     setAnswer(correctAnswer());
+    setResult(null)
+    setCheck(false)
+    console.log('cheater!', answer);
+
   }, [questionIndex])
 
   const getClassName = (id) => {
@@ -33,15 +51,18 @@ const Quiz = (props) => {
 
   const handleNext = () => {
     if(`answer_${selected}_correct` === answer){
-      console.log('right!');
+      setCheck(!check);
+      setResult('correct!');
     } else {
-      console.log('wrong!');
+      setCheck(!check)
+      setResult(`the correct answer is: unavailable lol`);
     }
 
-    if (questionIndex < data.length - 1) {
+    if (questionIndex < data.length - 1 && check) {
+      if(result === "correct!"){
+        setScore(score + 1);
+      }
       setQuestionIndex(questionIndex + 1);
-    } else {
-      console.log('you shall not pass')
     }
   };
 
@@ -49,25 +70,22 @@ const Quiz = (props) => {
     <StyledQuiz>
       <Title>QUIZ</Title>
       <h5>Category: {api.category}</h5>
+      <div>Score: {score} out of {questionIndex}/{data.length}</div>
       <Question>
         <div>{api.question}</div>
       </Question>
+      {}
       <Answers>
-        {/* Find a way to dry this code one day... */}
-        {/* {Object.keys(answers).map(answer => {
-        return (
-          <div>{answers}{answer}</div>
-        )})} */}
-        {api.answers.answer_a && <div className={`answer${getClassName('a')}`} onClick={() => handleChoice('a')} selected={selected}>{api.answers.answer_a}</div>}
-        {api.answers.answer_b && <div className={`answer${getClassName('b')}`} onClick={() => handleChoice('b')} selected={selected}>{api.answers.answer_b}</div>}
-        {api.answers.answer_c && <div className={`answer${getClassName('c')}`} onClick={() => handleChoice('c')} selected={selected}>{api.answers.answer_c}</div>}
-        {api.answers.answer_d && <div className={`answer${getClassName('d')}`} onClick={() => handleChoice('d')} selected={selected}>{api.answers.answer_d}</div>}
-        {api.answers.answer_e && <div className={`answer${getClassName('e')}`} onClick={() => handleChoice('e')} selected={selected}>{api.answers.answer_e}</div>}
-        {api.answers.answer_f && <div className={`answer${getClassName('f')}`} onClick={() => handleChoice('f')} selected={selected}>{api.answers.answer_f}</div>}
+        {choices.map((choice, idx) => {
+          return (
+            <div className={`answer${getClassName(idx)}`} onClick={() => handleChoice(idx)} selected={selected}>{choice}</div>
+          )
+        })}
       </Answers>
       <Button disabled={!selected} onClick={handleNext}>
-        next
+        {check === false ? 'check' : 'next'}
       </Button>
+      {check && <div>{result}</div>}
     </StyledQuiz>
   );
 };
@@ -95,6 +113,8 @@ const Title = styled.h1`
 const Question = styled.div``;
 
 const Answers = styled.div`
+  cursor:pointer;
+
   .answer {
     width: 100%;
     height: 20px;
