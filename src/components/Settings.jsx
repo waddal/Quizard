@@ -226,7 +226,6 @@ const SettingTitle = styled.h2`
 `;
 
 const Button = styled.button`
-  /* width: 70px; */
   width: 50%;
   height: 50px;
 `;
