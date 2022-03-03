@@ -144,10 +144,10 @@ const Answers = styled.div`
     height: 20px;
     padding: 2px;
     margin: 2px;
-    background-color: ${(props) => (props.selected ? "orange" : "#ffeaea")};
+    background-color: ${(props) => (props.selected ? `${theme => theme.accent}` : `${theme => theme.text}`)};
 
     &:hover {
-      background-color: ${(props) => (props.selected ? "orange" : "#fcffea")};
+      background-color: ${(props) => (props.selected ? "orange" : `${theme => theme.accent}`)};
     }
   }
 
