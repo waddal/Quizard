@@ -2,19 +2,17 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { connect } from "react-redux";
+import useSound from 'use-sound';
+import tune from '../assets/audio/tune.m4a';
 
 const Menu = (props) => {
   const [settings, setSettings] = useState(false);
-  const [music, setMusic] = useState(false);
+  const [music] = useSound(tune);
   const { theme, themeToggler } = props;
   const navigate = useNavigate();
 
   const handleSettings = () => {
     setSettings(!settings);
-  };
-
-  const handleMusic = () => {
-    setMusic(!music);
   };
 
   useEffect(() => {
@@ -33,7 +31,7 @@ const Menu = (props) => {
       ) : (
         <>
           <Button onClick={themeToggler}>Theme</Button>
-          <Button>Music</Button>
+          <Button onClick={music}>Music</Button>
           <Button onClick={handleSettings}>Settings</Button>
         </>
       )}
