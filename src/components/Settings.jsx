@@ -8,6 +8,8 @@ import categories from "../data/categories";
 import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { setData } from "../actions/quizActions";
+import useSound from "use-sound";
+import popSfx from "../assets/audio/pop.mp3";
 
 // import dotenv from "dotenv";
 // dotenv.config({ path: ".env" });
@@ -30,6 +32,7 @@ const Settings = (props) => {
   const [formValues, setFormValues] = useState(initialFormValues);
   const [formErrors, setFormErrors] = useState(initialFormErrors);
   const [disabled, setDisabled] = useState(initialDisabled);
+  const [pop] = useSound(popSfx, { volume: 0.01 });
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -86,7 +89,7 @@ const Settings = (props) => {
 
   return (
     <StyledSettings>
-      <Title>NEW QUIZ</Title>
+      <Title>SETTINGS</Title>
       <Form onSubmit={handleSubmit}>
         <SettingsSection>
           <SettingTitle>Mode</SettingTitle>
@@ -100,6 +103,7 @@ const Settings = (props) => {
               value="5"
               checked={formValues.mode === "5"}
               onChange={handleChange}
+              onMouseOver={pop}
             />
           </label>
           <label className="modeSelect">
@@ -111,6 +115,7 @@ const Settings = (props) => {
               value="10"
               checked={formValues.mode === "10"}
               onChange={handleChange}
+              onMouseOver={pop}
             />
           </label>
           <label className="modeSelect">
@@ -122,6 +127,7 @@ const Settings = (props) => {
               value="20"
               checked={formValues.mode === "20"}
               onChange={handleChange}
+              onMouseOver={pop}
             />
           </label>
         </SettingsSection>
@@ -137,6 +143,7 @@ const Settings = (props) => {
               value="easy"
               checked={formValues.difficulty === "easy"}
               onChange={handleChange}
+              onMouseOver={pop}
             />
           </label>
           <label className="difficultySelect">
@@ -148,6 +155,7 @@ const Settings = (props) => {
               value="medium"
               checked={formValues.difficulty === "medium"}
               onChange={handleChange}
+              onMouseOver={pop}
             />
           </label>
           <label className="difficultySelect">
@@ -159,6 +167,7 @@ const Settings = (props) => {
               value="hard"
               checked={formValues.difficulty === "hard"}
               onChange={handleChange}
+              onMouseOver={pop}
             />
           </label>
           {/* <label>
@@ -186,6 +195,7 @@ const Settings = (props) => {
                   value={item}
                   checked={formValues.category === item}
                   onChange={handleChange}
+                  onMouseOver={pop}
                 />{" "}
                 {item} &nbsp;
               </label>
@@ -194,7 +204,7 @@ const Settings = (props) => {
         </CategorySection>
         <br></br>
       </Form>
-      <Button disabled={disabled} onClick={handleSubmit}>
+      <Button disabled={disabled} onClick={handleSubmit} onMouseOver={pop}>
         start
       </Button>
       <Errors>
@@ -237,7 +247,7 @@ const Form = styled.form`
 
 const SettingTitle = styled.h2`
   font-size: 1.5rem;
-  margin-bottom:20px;
+  margin-bottom: 20px;
 `;
 
 const SettingsSection = styled.div`
