@@ -3,11 +3,13 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import useSound from 'use-sound';
-import tune from '../assets/audio/tune.m4a';
+import tuneSfx from '../assets/audio/tune.mp3';
+import popSfx from '../assets/audio/pop.mp3';
 
 const Menu = (props) => {
   const [settings, setSettings] = useState(false);
-  const [music] = useSound(tune);
+  const [tune] = useSound(tuneSfx);
+  const [pop] = useSound(popSfx, {volume: 0.01});
   const { theme, themeToggler } = props;
   const navigate = useNavigate();
 
@@ -24,15 +26,15 @@ const Menu = (props) => {
       <Title>Menu</Title>
       {settings ? (
         <>
-          <Button onClick={() => navigate("/settings")}>New Game</Button>
-          <Button>Hiscores</Button>
-          <Button onClick={handleSettings}>Settings</Button>
+          <Button onClick={() => navigate("/settings")} onMouseOver={pop}>New Game</Button>
+          <Button onMouseOver={pop}>Hiscores</Button>
+          <Button onClick={handleSettings} onMouseOver={pop}>Settings</Button>
         </>
       ) : (
         <>
-          <Button onClick={themeToggler}>Theme</Button>
-          <Button onClick={music}>Music</Button>
-          <Button onClick={handleSettings}>Settings</Button>
+          <Button onClick={themeToggler} onMouseOver={pop}>Theme</Button>
+          <Button onClick={tune} onMouseOver={pop}>Music</Button>
+          <Button onClick={handleSettings} onMouseOver={pop}>Settings</Button>
         </>
       )}
     </StyledMenu>
