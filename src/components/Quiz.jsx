@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 const Quiz = (props) => {
   const { data } = props;
   const [questionIndex, setQuestionIndex] = useState(0);
-  const [answer, setAnswer] = useState();
+  const [answers, setAnswers] = useState([]);
   const [choices, setChoices] = useState([]);
   const [selected, setSelected] = useState();
   const [check, setCheck] = useState(false);
@@ -15,31 +15,30 @@ const Quiz = (props) => {
   const api = data[questionIndex];
 
   const renderChoices = () => {
-    for(let choice in api.answers){
-      if(api.answers[choice] !== null){
-        setChoices(choices => choices.concat(api.answers[choice]))
-      }
-    }
-  } 
-
-  const correctAnswer = () => {
-    for(let ans in api.correct_answers){ 
-      if(api.correct_answers[ans] === "true"){
-        return ans
+    for (let choice in api.answers) {
+      if (api.answers[choice] !== null) {
+        setChoices((choices) => choices.concat(api.answers[choice]));
       }
     }
   };
 
-  useEffect(() => {
-    setChoices([]);
-    renderChoices();
-    setSelected(null);
-    setAnswer(correctAnswer());
-    setResult(null)
-    setCheck(false)
-    console.log('cheater!', answer);
-
-  }, [questionIndex])
+  const renderAnswers = () => {
+    for (let answer in api.correct_answers) {
+      setAnswers((answers) => answers.concat(api.correct_answers[answer]));
+    }
+  };
+  
+  let answerIndex = 0;
+  const correctAnswer = () => {
+    for (let i = 0; i < answers.length; i++) {
+      if (answers[i] === "true") {
+        return answerIndex;
+      } else {
+        answerIndex++;
+      }
+      return answerIndex;
+    }
+  };
 
   const getClassName = (id) => {
     return (id = id === selected ? "_selected" : "");
@@ -47,30 +46,43 @@ const Quiz = (props) => {
 
   const handleChoice = (id) => {
     selected === id ? setSelected(null) : setSelected(id);
+    correctAnswer();
   };
 
   const handleNext = () => {
-    if(`answer_${selected}_correct` === answer){
+    if(selected === correctAnswer()) {
       setCheck(!check);
-      setResult('correct!');
-    } else {
-      setCheck(!check)
-      setResult(`the correct answer is: unavailable lol`);
+      setResult("correct!");
+    }else {
+      setCheck(!check);
+      setResult(`the correct answer is option: ${answerIndex + 1}`);
     }
 
     if (questionIndex < data.length - 1 && check) {
-      if(result === "correct!"){
+      if (result === "correct!") {
         setScore(score + 1);
       }
       setQuestionIndex(questionIndex + 1);
     }
   };
 
+  useEffect(() => {
+    setChoices([]);
+    renderChoices();
+    renderAnswers();
+    setSelected(null);
+    setResult(null);
+    setCheck(false);
+
+  }, [questionIndex]);
+
   return (
     <StyledQuiz>
       <Title>QUIZ</Title>
       <h5>Category: {api.category}</h5>
-      <div>Score: {score} out of {questionIndex}/{data.length}</div>
+      <div>
+        Score: {score} out of {questionIndex}/{data.length}
+      </div>
       <Question>
         <div>{api.question}</div>
       </Question>
@@ -78,12 +90,20 @@ const Quiz = (props) => {
       <Answers>
         {choices.map((choice, idx) => {
           return (
-            <div className={`answer${getClassName(idx)}`} onClick={() => handleChoice(idx)} selected={selected}>{choice}</div>
-          )
+            <div
+              key={idx}
+              className={`answer${getClassName(idx)}`}
+              onClick={() => handleChoice(idx)}
+              selected={selected}
+              disabled={check}
+            >
+              {choice}
+            </div>
+          );
         })}
       </Answers>
-      <Button disabled={!selected} onClick={handleNext}>
-        {check === false ? 'check' : 'next'}
+      <Button onClick={handleNext}>
+        {check === false ? "check" : "next"}
       </Button>
       {check && <div>{result}</div>}
     </StyledQuiz>
@@ -113,7 +133,7 @@ const Title = styled.h1`
 const Question = styled.div``;
 
 const Answers = styled.div`
-  cursor:pointer;
+  cursor: pointer;
 
   .answer {
     width: 100%;
