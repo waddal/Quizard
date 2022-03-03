@@ -1,5 +1,4 @@
 import * as yup from "yup";
-import categories from "../data/categories";
 
 export default yup.object().shape({
   difficulty: yup
@@ -10,14 +9,13 @@ export default yup.object().shape({
     .oneOf(
       [
         "Any",
-        "Linux",
         "Bash",
-        "Uncategorized",
-        "Docker",
-        "SQL",
-        "CMS",
         "Code",
+        "SQL",
         "DevOps",
+        "CMS",
+        "Linux",
+        "Docker",
       ],
       "select a category"
     ),

@@ -1,13 +1,12 @@
 const categories = [
   "Any",
-  "Linux",
   "Bash",
-  "Uncategorized",
-  "Docker",
-  "SQL",
-  "CMS",
   "Code",
+  "SQL",
   "DevOps",
+  "CMS",
+  "Linux",
+  "Docker",
 ];
 
 export default categories;

@@ -8,6 +8,6 @@ export const lightTheme = {
 export const darkTheme = {
     body: '#212121',
     text: '#FAFAFA',
-    accent: '#3cc83c',
+    accent: '#5742f5',
     background: '#999',
 }
