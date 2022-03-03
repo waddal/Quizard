@@ -3,6 +3,7 @@ import Splash from './components/Splash';
 import Menu from "./components/Menu";
 import Settings from './components/Settings';
 import Quiz from "./components/Quiz";
+import Result from "./components/Result";
 
 function App() {
   
@@ -12,6 +13,7 @@ function App() {
       <Route path="/menu" element={<Menu />} />
       <Route path="/settings" element={<Settings />} />
       <Route path="/quiz" element={<Quiz />} />
+      <Route path="/result" element={<Result />} />
     </Routes>
   );
 }

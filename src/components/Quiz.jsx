@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Quiz = (props) => {
   const { data } = props;
@@ -11,7 +12,7 @@ const Quiz = (props) => {
   const [check, setCheck] = useState(false);
   const [result, setResult] = useState(null);
   const [score, setScore] = useState(0);
-
+  const navigate = useNavigate();
   const api = data[questionIndex];
 
   const renderChoices = () => {
@@ -27,7 +28,7 @@ const Quiz = (props) => {
       setAnswers((answers) => answers.concat(api.correct_answers[answer]));
     }
   };
-  
+
   let answerIndex = 0;
   const correctAnswer = () => {
     for (let i = 0; i < answers.length; i++) {
@@ -46,14 +47,14 @@ const Quiz = (props) => {
 
   const handleChoice = (id) => {
     selected === id ? setSelected(null) : setSelected(id);
-    correctAnswer();
+
   };
 
   const handleNext = () => {
-    if(selected === correctAnswer()) {
+    if (selected === correctAnswer()) {
       setCheck(!check);
       setResult("correct!");
-    }else {
+    } else {
       setCheck(!check);
       setResult(`the correct answer is option: ${answerIndex + 1}`);
     }
@@ -63,6 +64,11 @@ const Quiz = (props) => {
         setScore(score + 1);
       }
       setQuestionIndex(questionIndex + 1);
+    } else if (questionIndex + 1 === data.length && check) {
+      if (result === "correct!") {
+        setScore(score + 1);
+      }
+      navigate('/result')
     }
   };
 
@@ -102,9 +108,7 @@ const Quiz = (props) => {
           );
         })}
       </Answers>
-      <Button onClick={handleNext}>
-        {check === false ? "check" : "next"}
-      </Button>
+      <Button onClick={handleNext}>{check === false ? "check" : "next"}</Button>
       {check && <div>{result}</div>}
     </StyledQuiz>
   );
