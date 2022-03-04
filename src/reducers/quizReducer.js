@@ -1,4 +1,4 @@
-import { SET_DATA } from '../actions/quizActions.js';
+import { SET_DATA, ADD_SCORE } from '../actions/quizActions.js';
 
 const initialState = {
   data: {},
@@ -6,15 +6,26 @@ const initialState = {
   question: "",
   answers: {},
   correct_answers: {},
+  score: 0,
+  isFetching: false,
+  isLoading: false,
+  isSuccessful: false,
+  isFailure: false,
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_DATA:
-      console.log('quizReducer was here');
+      console.log('reducer: set data');
       return {
         ...state,
         data: action.payload,
+      };
+    case ADD_SCORE:
+      console.log('reducer: add score');
+      return {
+        ...state,
+        score: state.score + 1,
       };
     default:
       return state;
