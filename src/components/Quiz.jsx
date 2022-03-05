@@ -2,18 +2,17 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { addScore } from '../actions/quizActions';
+import { addIndex, addScore } from '../actions/quizActions';
 
 const Quiz = (props) => {
-  const { data, score, addScore } = props;
-  const [questionIndex, setQuestionIndex] = useState(0);
+  const { data, index, score, addIndex, addScore } = props;
   const [answers, setAnswers] = useState([]);
   const [choices, setChoices] = useState([]);
   const [selected, setSelected] = useState();
   const [check, setCheck] = useState(false);
   const [result, setResult] = useState(null);
   const navigate = useNavigate();
-  const api = data[questionIndex];
+  const api = data[index];
 
   const renderChoices = () => {
     for (let choice in api.answers) {
@@ -24,16 +23,20 @@ const Quiz = (props) => {
   };
 
   const renderAnswers = () => {
+    console.log('renderAnwsers')
     for (let answer in api.correct_answers) {
+      //set property values (true or false) to answers array 
       setAnswers((answers) => answers.concat(api.correct_answers[answer]));
     }
+    correctAnswer();
   };
 
   let answerIndex = 0;
   const correctAnswer = () => {
+    console.log('correctAnswer hit')
     for (let i = 0; i < answers.length; i++) {
+      console.log(answers);
       if (answers[i] === "true") {
-        console.log(`correct: ${answers}`)
         return answerIndex;
       } else {
         answerIndex++;
@@ -41,14 +44,14 @@ const Quiz = (props) => {
       return answerIndex;
     }
   };
-
+  
   const getClassName = (id) => {
     return (id = id === selected ? "_selected" : "");
   };
 
   const handleChoice = (id) => {
     selected === id ? setSelected(null) : setSelected(id);
-    console.log(`answer ${id} selected`)
+    console.log('correct answer = ', correctAnswer());
   };
 
   const handleNext = () => {
@@ -60,12 +63,12 @@ const Quiz = (props) => {
       setResult(`the correct answer is option: ${answerIndex + 1}`);
     }
 
-    if (questionIndex < data.length - 1 && check) {
+    if (index < data.length - 1 && check) {
       if (result === "correct!") {
         addScore();
       }
-      setQuestionIndex(questionIndex + 1);
-    } else if (questionIndex + 1 === data.length && check) {
+      addIndex();
+    } else if (index + 1 === data.length && check) {
       if (result === "correct!") {
         addScore();
       }
@@ -80,15 +83,16 @@ const Quiz = (props) => {
     setSelected(null);
     setResult(null);
     setCheck(false);
+    setAnswers([]);
 
-  }, [questionIndex]);
+  }, [index]);
 
   return (
     <StyledQuiz>
       <Title>QUIZ</Title>
       <h5>Category: {api.category}</h5>
       <div>
-        Score: {score} out of {questionIndex}/{data.length}
+        Score: {score} out of {index}/{data.length}
       </div>
       <Question>
         <div>{api.question}</div>
@@ -118,11 +122,12 @@ const Quiz = (props) => {
 const mapStateToProps = (state) => {
   return {
     data: state.quizReducer.data,
+    index: state.quizReducer.index,
     score: state.quizReducer.score,
   };
 };
 
-export default connect(mapStateToProps, { addScore })(Quiz);
+export default connect(mapStateToProps, { addIndex, addScore })(Quiz);
 
 
 /* STYLES */

@@ -48,7 +48,6 @@ const Settings = (props) => {
         },
       })
       .then((res) => {
-        console.log("data: ", res.data);
         props.setData(res.data);
         navigate("/quiz");
       })
@@ -170,18 +169,6 @@ const Settings = (props) => {
               onMouseOver={pop}
             />
           </label>
-          {/* <label>
-            <select
-              name="difficulty"
-              value={formValues.difficulty}
-              onChange={handleChange}
-            >
-              <option value=""> -- </option>
-              <option value="easy"> easy </option>
-              <option value="medium"> medium </option>
-              <option value="hard"> hard </option>
-            </select>
-          </label> */}
         </SettingsSection>
         <CategorySection>
           <SettingTitle>Category</SettingTitle>
