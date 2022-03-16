@@ -2,41 +2,50 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { connect } from "react-redux";
-import useSound from 'use-sound';
-import tuneSfx from '../assets/audio/tune.mp3';
-import popSfx from '../assets/audio/pop.mp3';
+import useSound from "use-sound";
+import tuneSfx from "../assets/audio/tune.mp3";
+import popSfx from "../assets/audio/pop.mp3";
 
-const Menu = (props) => {
-  const [settings, setSettings] = useState(false);
+const Menu = ({ theme, themeToggler }) => {
+  const [settings, setSettings] = useState(true);
   const [tune] = useSound(tuneSfx);
-  const [pop] = useSound(popSfx, {volume: 0.01});
-  const { theme, themeToggler } = props;
+  const [pop] = useSound(popSfx, { volume: 0.03 });
   const navigate = useNavigate();
 
   const handleSettings = () => {
     setSettings(!settings);
   };
 
-  useEffect(() => {
-    setSettings(true);
-  }, [])
-
   return (
     <StyledMenu>
       <Title>Menu</Title>
       {settings ? (
         <>
-          <Button onClick={() => navigate("/settings")} onMouseOver={pop}>New Game</Button>
-          <Button onMouseOver={pop}>Hiscores</Button>
-          <Button onClick={handleSettings} onMouseOver={pop}>Settings</Button>
+          <NewGameButton
+            onClick={() => navigate("/settings")}
+            onMouseOver={pop}
+          >
+            New Game
+          </NewGameButton>
+          <HiscoresButton onMouseOver={pop}>Hiscores</HiscoresButton>
         </>
       ) : (
         <>
-          <Button onClick={themeToggler} onMouseOver={pop}>Theme</Button>
-          <Button onClick={tune} onMouseOver={pop}>Music</Button>
-          <Button onClick={handleSettings} onMouseOver={pop}>Settings</Button>
+          <ThemeButton onClick={themeToggler} onMouseOver={pop} theme={theme}>
+            Theme
+          </ThemeButton>
+          <MusicButton onClick={tune} onMouseOver={pop}>
+            Music
+          </MusicButton>
         </>
       )}
+      <SettingsButton
+        onClick={handleSettings}
+        onMouseOver={pop}
+        settings={settings}
+      >
+        Settings
+      </SettingsButton>
     </StyledMenu>
   );
 };
@@ -70,5 +79,48 @@ const Button = styled.button`
 
   &:hover {
     background-color: #f4f6ed;
+  }
+`;
+//MAIN MENU
+const NewGameButton = styled(Button)`
+  background-color: #98ea75;
+  box-shadow: 0 0 2px 1px #0ff;
+
+  &:hover {
+    background-color: #6be338;
+  }
+`;
+
+const HiscoresButton = styled(Button)`
+  background-color: #eada75;
+
+  &:hover {
+    background-color: #ffe74b;
+  }
+`;
+
+const SettingsButton = styled(Button)`
+  background-color: ${(props) => (props.settings === true ? "#ff678a" : "#fc537a")};
+  box-shadow: ${props => props.settings === false ? "0 0 2px 1px #0ff" : null};
+
+  &:hover {
+    background-color: #fc537a;
+  }
+`;
+
+//SETTINGS
+const ThemeButton = styled(Button)`
+  color: ${(props) => (props.theme === "light" ? "white" : "black")};
+  background-color: ${(props) => (props.theme === "light" ? "#3b3b3b" : "#e5e5e5")};
+
+  &:hover {
+    background-color: ${(props) => (props.theme === "light" ? "black" : "white")};
+  }
+`;
+const MusicButton = styled(Button)`
+  background-color: #9d75f9;
+
+  &:hover {
+    background-color: #8a5bf7;
   }
 `;
