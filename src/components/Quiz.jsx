@@ -13,6 +13,8 @@ const Quiz = (props) => {
   const [result, setResult] = useState(null);
   const navigate = useNavigate();
   const api = data[index];
+  let answerIndex = 0;
+
 
   const renderChoices = () => {
     for (let choice in api.answers) {
@@ -25,17 +27,13 @@ const Quiz = (props) => {
   const renderAnswers = () => {
     console.log('renderAnwsers')
     for (let answer in api.correct_answers) {
-      //set property values (true or false) to answers array 
       setAnswers((answers) => answers.concat(api.correct_answers[answer]));
     }
-    correctAnswer();
   };
 
-  let answerIndex = 0;
   const correctAnswer = () => {
     console.log('correctAnswer hit')
     for (let i = 0; i < answers.length; i++) {
-      console.log(answers);
       if (answers[i] === "true") {
         return answerIndex;
       } else {
@@ -51,7 +49,8 @@ const Quiz = (props) => {
 
   const handleChoice = (id) => {
     selected === id ? setSelected(null) : setSelected(id);
-    console.log('correct answer = ', correctAnswer());
+    console.log('correct answers = ', answers);
+    console.log('answerIndex: ', answerIndex);
   };
 
   const handleNext = () => {
@@ -78,13 +77,12 @@ const Quiz = (props) => {
 
   useEffect(() => {
     setChoices([]);
-    renderChoices();
-    renderAnswers();
+    setAnswers([]);
     setSelected(null);
     setResult(null);
     setCheck(false);
-    setAnswers([]);
-
+    renderChoices();
+    renderAnswers();
   }, [index]);
 
   return (

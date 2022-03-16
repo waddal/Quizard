@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import logo from "../assets/visual/github.png";
 
 const Splash = () => {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ const Splash = () => {
       <Title>Quizard</Title>
       <Button onClick={handleEnter}>ENTER</Button>
       <Social href="https://github.com/waddal/quizard" target="_blank">
-        <Icon src={"#"} alt="github"></Icon>
+        <Icon src={logo} alt="github" />
       </Social>
     </StyledSplash>
   );
@@ -32,7 +33,7 @@ const StyledSplash = styled.div`
 
 const Title = styled.h1`
   font-size: 4rem;
-  margin:2%;
+  margin: 2%;
 `;
 
 const Button = styled.button`
@@ -40,9 +41,11 @@ const Button = styled.button`
   height: 50px;
   background-color: silver;
   margin: 1%;
+  transition: all 0.4s ease-out;
 
   &:hover {
     background-color: #f4f6ed;
+    box-shadow: 0 0 30px 15px #fff, 0 0 50px 30px #f0f, 0 0 70px 45px #0ff;
   }
 `;
 
@@ -51,6 +54,11 @@ const Social = styled.a``;
 const Icon = styled.img`
   height: 2rem;
   width: 2rem;
-  padding: 5px;
   margin: 2%;
+  border-radius: 50%;
+  background-color: white;
+
+  &:hover {
+    box-shadow: 0 0 4px 2px #0ff;
+  }
 `;
