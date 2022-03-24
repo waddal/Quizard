@@ -75,12 +75,16 @@ const Quiz = (props) => {
     }
   };
 
-  useEffect(() => {
+  const reset = () => {
     setChoices([]);
     setAnswers([]);
     setSelected(null);
     setResult(null);
     setCheck(false);
+  }
+
+  useEffect(() => {
+    reset();
     renderChoices();
     renderAnswers();
   }, [index]);
@@ -126,11 +130,6 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, { addIndex, addScore })(Quiz);
-
-
-/* STYLES */
-/* STYLES */
-/* STYLES */
 
 const StyledQuiz = styled.div`
   height: 100vh;
