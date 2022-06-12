@@ -4,6 +4,7 @@ export const SET_MESSAGE = "SET_MESSAGE";
 export const SET_ANSWER_INDEX = "SET_ANSWER_INDEX";
 export const ADD_SCORE = "ADD_SCORE";
 export const ADD_INDEX = "ADD_INDEX";
+export const RESET_GAME = "RESET_GAME";
 
 export const setData = (data) => {
   return { type: SET_DATA, payload: data };
@@ -27,4 +28,8 @@ export const addIndex = () => {
 
 export const addScore = () => {
   return { type: ADD_SCORE };
+};
+
+export const resetGame = () => {
+  return { type: RESET_GAME };
 };

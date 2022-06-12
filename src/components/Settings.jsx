@@ -28,7 +28,7 @@ const initialFormErrors = {
 
 const initialDisabled = true;
 
-const Settings = (props) => {
+const Settings = ({ setData }) => {
   const [formValues, setFormValues] = useState(initialFormValues);
   const [formErrors, setFormErrors] = useState(initialFormErrors);
   const [disabled, setDisabled] = useState(initialDisabled);
@@ -48,7 +48,7 @@ const Settings = (props) => {
         },
       })
       .then((res) => {
-        props.setData(res.data);
+        setData(res.data);
         navigate("/quiz");
       })
       .catch((err) => {

@@ -9,6 +9,7 @@ import {
   setChecked,
   setMessage,
   setAnswerIndex,
+  resetGame,
 } from "../actions/quizActions";
 
 const Quiz = (props) => {
@@ -24,6 +25,7 @@ const Quiz = (props) => {
     setChecked,
     setMessage,
     setAnswerIndex,
+    resetGame,
   } = props;
   const [answers, setAnswers] = useState([]);
   const [choices, setChoices] = useState([]);
@@ -92,6 +94,10 @@ const Quiz = (props) => {
   };
 
   useEffect(() => {
+    resetGame();
+  }, []);
+
+  useEffect(() => {
     reset();
     renderChoices();
     renderAnswers();
@@ -116,14 +122,14 @@ const Quiz = (props) => {
               className={`answer${getClassName(idx)}`}
               onClick={() => handleChoice(idx)}
               selected={selected}
-              disabled={isChecked}
+              disabled={selected === null}
             >
               {choice}
             </div>
           );
         })}
       </Answers>
-      <Button onClick={handleNext}>
+      <Button onClick={handleNext} disabled={selected === null}>
         {isChecked === false ? "check" : "next"}
       </Button>
       {isChecked && <div>{message}</div>}
@@ -148,6 +154,7 @@ export default connect(mapStateToProps, {
   setChecked,
   setMessage,
   setAnswerIndex,
+  resetGame,
 })(Quiz);
 
 const StyledQuiz = styled.div`
