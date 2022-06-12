@@ -12,21 +12,21 @@ import {
   resetGame,
 } from "../actions/quizActions";
 
-const Quiz = (props) => {
-  const {
-    data,
-    index,
-    score,
-    message,
-    answerIndex,
-    isChecked,
-    addIndex,
-    addScore,
-    setChecked,
-    setMessage,
-    setAnswerIndex,
-    resetGame,
-  } = props;
+const Quiz = ({
+  data,
+  index,
+  score,
+  message,
+  mode,
+  answerIndex,
+  isChecked,
+  addIndex,
+  addScore,
+  setChecked,
+  setMessage,
+  setAnswerIndex,
+  resetGame,
+}) => {
   const [answers, setAnswers] = useState([]);
   const [choices, setChoices] = useState([]);
   const [selected, setSelected] = useState();
@@ -72,6 +72,11 @@ const Quiz = (props) => {
       ? setMessage("Correct!")
       : setMessage(`the correct answer is option: ${answerIndex + 1}`);
 
+    if (mode === "Sudden Death" && isChecked && message !== "Correct!") {
+      console.log("dead");
+      navigate("/result");
+    }
+
     if (index < data.length - 1 && isChecked) {
       if (message === "Correct!") {
         addScore();
@@ -105,7 +110,7 @@ const Quiz = (props) => {
 
   return (
     <StyledQuiz>
-      <Title>QUIZ index:{index}</Title>
+      <Title>QUIZ</Title>
       <h5>Category: {api.category}</h5>
       <div>
         Score: {score} out of {index}/{data.length}
@@ -142,6 +147,7 @@ const mapStateToProps = (state) => {
     data: state.quizReducer.data,
     isChecked: state.quizReducer.isChecked,
     message: state.quizReducer.message,
+    mode: state.quizReducer.mode,
     answerIndex: state.quizReducer.answerIndex,
     index: state.quizReducer.index,
     score: state.quizReducer.score,

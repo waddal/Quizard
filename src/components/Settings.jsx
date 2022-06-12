@@ -50,7 +50,7 @@ const Settings = ({ setData, setCategory, setMode }) => {
       .then((res) => {
         setData(res.data);
         setCategory(`${formValues.category}` === "Any" ? "Any" : `${formValues.category}`);
-        setMode(`${formValues.mode}`);
+        setMode(`${formValues.mode}` === "20" ? "Sudden Death" : `${formValues.mode}`);
         navigate("/quiz");
       })
       .catch((err) => {
