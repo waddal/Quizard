@@ -3,18 +3,33 @@ import styled from "styled-components";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { addIndex, addScore, setChecked } from "../actions/quizActions";
+import {
+  addIndex,
+  addScore,
+  setChecked,
+  setMessage,
+  setAnswerIndex,
+} from "../actions/quizActions";
 
 const Quiz = (props) => {
-  const { data, index, score, isChecked, addIndex, addScore, setChecked } =
-    props;
+  const {
+    data,
+    index,
+    score,
+    message,
+    answerIndex,
+    isChecked,
+    addIndex,
+    addScore,
+    setChecked,
+    setMessage,
+    setAnswerIndex,
+  } = props;
   const [answers, setAnswers] = useState([]);
   const [choices, setChoices] = useState([]);
   const [selected, setSelected] = useState();
-  const [result, setResult] = useState(null);
   const navigate = useNavigate();
   const api = data[index];
-  let answerIndex = 0;
 
   const renderChoices = () => {
     for (let choice in api.answers) {
@@ -33,11 +48,8 @@ const Quiz = (props) => {
   const correctAnswer = () => {
     for (let i = 0; i < answers.length; i++) {
       if (answers[i] === "true") {
-        answerIndex = i;
-        console.log(answerIndex);
+        setAnswerIndex(i);
         return answerIndex;
-      } else {
-        answerIndex++;
       }
       return answerIndex;
     }
@@ -52,19 +64,19 @@ const Quiz = (props) => {
     correctAnswer();
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     setChecked(true);
-    selected === answerIndex
-      ? setResult("Correct!")
-      : setResult(`the correct answer is option: ${answerIndex + 1}`);
+    (await selected) === answerIndex
+      ? setMessage("Correct!")
+      : setMessage(`the correct answer is option: ${answerIndex + 1}`);
 
     if (index < data.length - 1 && isChecked) {
-      if (result === "correct!") {
+      if (message === "Correct!") {
         addScore();
       }
       addIndex();
     } else if (index + 1 === data.length && isChecked) {
-      if (result === "correct!") {
+      if (message === "Correct!") {
         addScore();
       }
       navigate("/result");
@@ -75,7 +87,7 @@ const Quiz = (props) => {
     setChoices([]);
     setAnswers([]);
     setSelected(null);
-    setResult(null);
+    setMessage(null);
     setChecked(false);
   };
 
@@ -88,7 +100,7 @@ const Quiz = (props) => {
   return (
     <StyledQuiz>
       <Title>QUIZ index:{index}</Title>
-      {/* <h5>Category: {api.category}</h5> */}
+      <h5>Category: {api.category}</h5>
       <div>
         Score: {score} out of {index}/{data.length}
       </div>
@@ -114,7 +126,7 @@ const Quiz = (props) => {
       <Button onClick={handleNext}>
         {isChecked === false ? "check" : "next"}
       </Button>
-      {isChecked && <div>{result}</div>}
+      {isChecked && <div>{message}</div>}
     </StyledQuiz>
   );
 };
@@ -123,14 +135,20 @@ const mapStateToProps = (state) => {
   return {
     data: state.quizReducer.data,
     isChecked: state.quizReducer.isChecked,
+    message: state.quizReducer.message,
+    answerIndex: state.quizReducer.answerIndex,
     index: state.quizReducer.index,
     score: state.quizReducer.score,
   };
 };
 
-export default connect(mapStateToProps, { addIndex, addScore, setChecked })(
-  Quiz
-);
+export default connect(mapStateToProps, {
+  addIndex,
+  addScore,
+  setChecked,
+  setMessage,
+  setAnswerIndex,
+})(Quiz);
 
 const StyledQuiz = styled.div`
   height: 100vh;

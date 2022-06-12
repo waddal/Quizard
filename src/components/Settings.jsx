@@ -12,16 +12,18 @@ import categories from "../data/categories";
 import { setData } from "../actions/quizActions";
 import popSfx from "../assets/audio/pop.mp3";
 
-const initialFormValues = {
+const sharedValues = {
   mode: "",
   category: "",
   difficulty: "",
 };
 
+const initialFormValues = {
+  ...sharedValues,
+};
+
 const initialFormErrors = {
-  mode: "",
-  category: "",
-  difficulty: "",
+  ...sharedValues,
 };
 
 const initialDisabled = true;
@@ -227,7 +229,7 @@ const Form = styled.form`
 const SettingTitle = styled.h2`
   font-size: 2rem;
   margin-bottom: 20px;
-  color: orange
+  color: orange;
 `;
 
 const SettingsSection = styled.div`
