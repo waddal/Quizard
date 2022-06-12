@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
+
 import { addIndex, addScore } from '../actions/quizActions';
 
 const Quiz = (props) => {
@@ -89,6 +90,7 @@ const Quiz = (props) => {
     renderAnswers();
   }, [index]);
 
+  console.log(props)
   return (
     <StyledQuiz>
       <Title>QUIZ</Title>

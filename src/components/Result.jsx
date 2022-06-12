@@ -1,7 +1,7 @@
 import React from "react";
+import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { connect } from "react-redux";
 
 const StyledResult = styled.div`
   height: 100vh;

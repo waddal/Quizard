@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { BASE_URL, API_KEY } from "../constants";
 import axios from "axios";
 import * as yup from "yup";
+import useSound from "use-sound";
+
+import { BASE_URL, API_KEY } from "../constants";
 import schema from "../validation/formSchema";
 import categories from "../data/categories";
-import { useNavigate } from "react-router-dom";
-import { connect } from "react-redux";
 import { setData } from "../actions/quizActions";
-import useSound from "use-sound";
 import popSfx from "../assets/audio/pop.mp3";
-
-// import dotenv from "dotenv";
-// dotenv.config({ path: ".env" });
 
 const initialFormValues = {
   mode: "",
@@ -93,7 +91,7 @@ const Settings = (props) => {
         <SettingsSection>
           <SettingTitle>Mode</SettingTitle>
           <label className="modeSelect">
-            {" "}
+            
             5
             <input
               type="radio"
@@ -106,7 +104,7 @@ const Settings = (props) => {
             />
           </label>
           <label className="modeSelect">
-            {" "}
+            
             10
             <input
               type="radio"
@@ -118,7 +116,7 @@ const Settings = (props) => {
             />
           </label>
           <label className="modeSelect">
-            {" "}
+            
             ☠️
             <input
               type="radio"
@@ -133,7 +131,7 @@ const Settings = (props) => {
         <SettingsSection>
           <SettingTitle>Difficulty</SettingTitle>
           <label className="modeSelect">
-            {" "}
+            
             easy
             <input
               type="radio"
@@ -146,7 +144,7 @@ const Settings = (props) => {
             />
           </label>
           <label className="difficultySelect">
-            {" "}
+            
             medium
             <input
               type="radio"
@@ -158,7 +156,7 @@ const Settings = (props) => {
             />
           </label>
           <label className="difficultySelect">
-            {" "}
+            
             hard
             <input
               type="radio"
@@ -183,7 +181,7 @@ const Settings = (props) => {
                   checked={formValues.category === item}
                   onChange={handleChange}
                   onMouseOver={pop}
-                />{" "}
+                />
                 {item} &nbsp;
               </label>
             );
@@ -233,8 +231,9 @@ const Form = styled.form`
 `;
 
 const SettingTitle = styled.h2`
-  font-size: 1.5rem;
+  font-size: 2rem;
   margin-bottom: 20px;
+  color: orange
 `;
 
 const SettingsSection = styled.div`

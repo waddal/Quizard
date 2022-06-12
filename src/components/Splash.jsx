@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+
 import logo from "../assets/visual/github.png";
 
 const Splash = () => {
@@ -45,7 +46,7 @@ const Button = styled.button`
 
   &:hover {
     background-color: #f4f6ed;
-    box-shadow: 0 0 30px 15px #fff, 0 0 50px 30px #f0f, 0 0 70px 45px #0ff;
+    box-shadow: 0 0 6px 3px #fff, 0 0 16px 8px #f0f, 0 0 20px 10px #0ff;
   }
 `;
 
