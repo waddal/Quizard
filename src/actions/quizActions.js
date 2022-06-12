@@ -29,6 +29,7 @@ export const setMessage = (string) => {
 };
 
 export const setAnswerIndex = (index) => {
+  console.log('setActionIndex: ', index);
   return { type: SET_ANSWER_INDEX, payload: index };
 };
 

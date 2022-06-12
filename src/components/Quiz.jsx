@@ -48,13 +48,15 @@ const Quiz = ({
   };
 
   const correctAnswer = () => {
-    for (let i = 0; i < answers.length; i++) {
-      if (answers[i] === "true") {
-        setAnswerIndex(i);
-        return answerIndex;
+    let correct;
+
+    answers.forEach((ans, index) => {
+      if (ans === "true") {
+        correct = index;
       }
-      return answerIndex;
-    }
+    });
+
+    setAnswerIndex(correct);
   };
 
   const getClassName = (id) => {
@@ -107,6 +109,8 @@ const Quiz = ({
     renderChoices();
     renderAnswers();
   }, [index]);
+
+  console.log(data[index]);
 
   return (
     <StyledQuiz>
