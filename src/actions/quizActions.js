@@ -1,4 +1,6 @@
 export const SET_DATA = "SET_DATA";
+export const SET_CATEGORY = "SET_CATEGORY";
+export const SET_MODE = "SET_MODE";
 export const SET_CHECKED = "SET_CHECKED";
 export const SET_MESSAGE = "SET_MESSAGE";
 export const SET_ANSWER_INDEX = "SET_ANSWER_INDEX";
@@ -8,6 +10,14 @@ export const RESET_GAME = "RESET_GAME";
 
 export const setData = (data) => {
   return { type: SET_DATA, payload: data };
+};
+
+export const setCategory = (string) => {
+  return { type: SET_CATEGORY, payload: string };
+};
+
+export const setMode = (string) => {
+  return { type: SET_MODE, payload: string };
 };
 
 export const setChecked = (bool) => {

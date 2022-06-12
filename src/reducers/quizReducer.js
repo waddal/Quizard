@@ -1,5 +1,7 @@
 import {
   SET_DATA,
+  SET_CATEGORY,
+  SET_MODE,
   SET_CHECKED,
   SET_MESSAGE,
   SET_ANSWER_INDEX,
@@ -11,16 +13,12 @@ import {
 const initialState = {
   data: {},
   category: "",
-  question: "",
+  mode: "",
   message: "",
   score: 0,
   index: 0,
   answerIndex: 0,
   isChecked: false,
-  isFetching: false,
-  isLoading: false,
-  isSuccessful: false,
-  isFailure: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -29,6 +27,16 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         data: action.payload,
+      };
+    case SET_CATEGORY:
+      return {
+        ...state,
+        category: action.payload,
+      };
+    case SET_MODE:
+      return {
+        ...state,
+        mode: action.payload,
       };
     case SET_CHECKED:
       return {

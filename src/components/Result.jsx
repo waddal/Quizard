@@ -3,6 +3,35 @@ import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
+const Result = ({ category, data, mode, score }) => {
+  const navigate = useNavigate();
+  console.log(data);
+  return (
+    <StyledResult>
+      <Title>Alakazam!</Title>
+      <Results>
+        <Message></Message>
+        <Score>You answered {score} out of {data.length} questions!</Score>
+        <Category>{category}</Category>
+        <Difficulty>{data[0].difficulty}</Difficulty>
+        <Mode>{mode} of {mode}</Mode>
+      </Results>
+      <Button onClick={() => navigate("/menu")}>Main Menu</Button>
+    </StyledResult>
+  );
+};
+
+const mapStateToProps = (state) => {
+  return {
+    category: state.quizReducer.category,
+    data: state.quizReducer.data,
+    mode: state.quizReducer.mode,
+    score: state.quizReducer.score,
+  };
+};
+
+export default connect(mapStateToProps, {})(Result);
+
 const StyledResult = styled.div`
   height: 100vh;
   display: flex;
@@ -33,28 +62,3 @@ const Button = styled.button`
     background-color: #f4f6ed;
   }
 `;
-
-const Result = props => {
-  const navigate = useNavigate();
-  return (
-    <StyledResult>
-      <Title>Alakazam!</Title>
-      <Results>
-          <Message></Message>
-          <Score>You answered 'score' out of 'amount of questions'</Score>
-          <Category>Any</Category>
-          <Difficulty>Hard</Difficulty>
-          <Mode>10 for 10</Mode>
-      </Results>
-      <Button onClick={() => navigate("/menu")}>Main Menu</Button>
-    </StyledResult>
-  );
-};
-
-const mapStateToProps = (state) => {
-  return {
-    title: state.title,
-  };
-};
-
-export default connect(mapStateToProps, {})(Result);
