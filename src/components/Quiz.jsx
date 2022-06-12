@@ -3,19 +3,18 @@ import styled from "styled-components";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { addIndex, addScore } from '../actions/quizActions';
+import { addIndex, addScore, setChecked } from "../actions/quizActions";
 
 const Quiz = (props) => {
-  const { data, index, score, addIndex, addScore } = props;
+  const { data, index, score, isChecked, addIndex, addScore, setChecked } =
+    props;
   const [answers, setAnswers] = useState([]);
   const [choices, setChoices] = useState([]);
   const [selected, setSelected] = useState();
-  const [check, setCheck] = useState(false);
   const [result, setResult] = useState(null);
   const navigate = useNavigate();
   const api = data[index];
   let answerIndex = 0;
-
 
   const renderChoices = () => {
     for (let choice in api.answers) {
@@ -26,16 +25,16 @@ const Quiz = (props) => {
   };
 
   const renderAnswers = () => {
-    console.log('renderAnwsers')
     for (let answer in api.correct_answers) {
       setAnswers((answers) => answers.concat(api.correct_answers[answer]));
     }
   };
 
   const correctAnswer = () => {
-    console.log('correctAnswer hit')
     for (let i = 0; i < answers.length; i++) {
       if (answers[i] === "true") {
+        answerIndex = i;
+        console.log(answerIndex);
         return answerIndex;
       } else {
         answerIndex++;
@@ -43,36 +42,32 @@ const Quiz = (props) => {
       return answerIndex;
     }
   };
-  
+
   const getClassName = (id) => {
     return (id = id === selected ? "_selected" : "");
   };
 
   const handleChoice = (id) => {
     selected === id ? setSelected(null) : setSelected(id);
-    console.log('correct answers = ', answers);
-    console.log('answerIndex: ', answerIndex);
+    correctAnswer();
   };
 
   const handleNext = () => {
-    if (selected === correctAnswer()) {
-      setCheck(!check);
-      setResult("correct!");
-    } else {
-      setCheck(!check);
-      setResult(`the correct answer is option: ${answerIndex + 1}`);
-    }
+    setChecked(true);
+    selected === answerIndex
+      ? setResult("Correct!")
+      : setResult(`the correct answer is option: ${answerIndex + 1}`);
 
-    if (index < data.length - 1 && check) {
+    if (index < data.length - 1 && isChecked) {
       if (result === "correct!") {
         addScore();
       }
       addIndex();
-    } else if (index + 1 === data.length && check) {
+    } else if (index + 1 === data.length && isChecked) {
       if (result === "correct!") {
         addScore();
       }
-      navigate('/result')
+      navigate("/result");
     }
   };
 
@@ -81,8 +76,8 @@ const Quiz = (props) => {
     setAnswers([]);
     setSelected(null);
     setResult(null);
-    setCheck(false);
-  }
+    setChecked(false);
+  };
 
   useEffect(() => {
     reset();
@@ -90,11 +85,10 @@ const Quiz = (props) => {
     renderAnswers();
   }, [index]);
 
-  console.log(props)
   return (
     <StyledQuiz>
-      <Title>QUIZ</Title>
-      <h5>Category: {api.category}</h5>
+      <Title>QUIZ index:{index}</Title>
+      {/* <h5>Category: {api.category}</h5> */}
       <div>
         Score: {score} out of {index}/{data.length}
       </div>
@@ -110,15 +104,17 @@ const Quiz = (props) => {
               className={`answer${getClassName(idx)}`}
               onClick={() => handleChoice(idx)}
               selected={selected}
-              disabled={check}
+              disabled={isChecked}
             >
               {choice}
             </div>
           );
         })}
       </Answers>
-      <Button onClick={handleNext}>{check === false ? "check" : "next"}</Button>
-      {check && <div>{result}</div>}
+      <Button onClick={handleNext}>
+        {isChecked === false ? "check" : "next"}
+      </Button>
+      {isChecked && <div>{result}</div>}
     </StyledQuiz>
   );
 };
@@ -126,12 +122,15 @@ const Quiz = (props) => {
 const mapStateToProps = (state) => {
   return {
     data: state.quizReducer.data,
+    isChecked: state.quizReducer.isChecked,
     index: state.quizReducer.index,
     score: state.quizReducer.score,
   };
 };
 
-export default connect(mapStateToProps, { addIndex, addScore })(Quiz);
+export default connect(mapStateToProps, { addIndex, addScore, setChecked })(
+  Quiz
+);
 
 const StyledQuiz = styled.div`
   height: 100vh;
@@ -155,10 +154,14 @@ const Answers = styled.div`
     height: 20px;
     padding: 2px;
     margin: 2px;
-    background-color: ${(props) => (props.selected ? `${theme => theme.accent}` : `${theme => theme.text}`)};
+    background-color: ${(props) =>
+      props.selected
+        ? `${(theme) => theme.accent}`
+        : `${(theme) => theme.text}`};
 
     &:hover {
-      background-color: ${(props) => (props.selected ? "orange" : `${theme => theme.accent}`)};
+      background-color: ${(props) =>
+        props.selected ? "orange" : `${(theme) => theme.accent}`};
     }
   }
 

@@ -35,7 +35,7 @@ const Settings = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("submit!");
+    console.log("your quiz is being created..!");
     axios
       .get(`${BASE_URL}${API_KEY}`, {
         params: {
@@ -91,7 +91,6 @@ const Settings = (props) => {
         <SettingsSection>
           <SettingTitle>Mode</SettingTitle>
           <label className="modeSelect">
-            
             5
             <input
               type="radio"
@@ -104,7 +103,6 @@ const Settings = (props) => {
             />
           </label>
           <label className="modeSelect">
-            
             10
             <input
               type="radio"
@@ -116,7 +114,6 @@ const Settings = (props) => {
             />
           </label>
           <label className="modeSelect">
-            
             ☠️
             <input
               type="radio"
@@ -131,7 +128,6 @@ const Settings = (props) => {
         <SettingsSection>
           <SettingTitle>Difficulty</SettingTitle>
           <label className="modeSelect">
-            
             easy
             <input
               type="radio"
@@ -144,7 +140,6 @@ const Settings = (props) => {
             />
           </label>
           <label className="difficultySelect">
-            
             medium
             <input
               type="radio"
@@ -156,7 +151,6 @@ const Settings = (props) => {
             />
           </label>
           <label className="difficultySelect">
-            
             hard
             <input
               type="radio"
