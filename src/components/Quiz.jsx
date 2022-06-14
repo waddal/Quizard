@@ -47,7 +47,7 @@ const Quiz = ({
     }
   };
 
-  const correctAnswer = () => {
+  const handleAnswerCheck = () => {
     let correct;
 
     answers.forEach((ans, index) => {
@@ -65,12 +65,12 @@ const Quiz = ({
 
   const handleChoice = (id) => {
     selected === id ? setSelected(null) : setSelected(id);
-    correctAnswer();
+    handleAnswerCheck();
   };
 
-  const handleNext = async () => {
+  const handleNext = () => {
     setChecked(true);
-    (await selected) === answerIndex
+    selected === answerIndex
       ? setMessage("Correct!")
       : setMessage(`the correct answer is option: ${answerIndex + 1}`);
 
@@ -110,38 +110,45 @@ const Quiz = ({
     renderAnswers();
   }, [index]);
 
-  console.log(data[index]);
-
   return (
     <StyledQuiz>
-      <Title>QUIZ</Title>
-      <h5>Category: {api.category}</h5>
-      <div>
-        Score: {score} out of {index}/{data.length}
-      </div>
-      <Question>
-        <div>{api.question}</div>
-      </Question>
-      {}
-      <Answers>
-        {choices.map((choice, idx) => {
-          return (
-            <div
-              key={idx}
-              className={`answer${getClassName(idx)}`}
-              onClick={() => handleChoice(idx)}
-              selected={selected}
-              disabled={selected === null}
-            >
-              {choice}
-            </div>
-          );
-        })}
-      </Answers>
-      <Button onClick={handleNext} disabled={selected === null}>
-        {isChecked === false ? "check" : "next"}
-      </Button>
-      {isChecked && <div>{message}</div>}
+      <QuizContainer>
+        <QuitButton>X</QuitButton>
+
+        <Title>QUIZ</Title>
+
+        <Category>Category: {api.category}</Category>
+
+        <Score>Score: {score}</Score>
+
+        <Question>{api.question}</Question>
+
+        <Answers>
+          {choices.map((choice, idx) => {
+            return (
+              <div
+                key={idx}
+                className={`answer${getClassName(idx)}`}
+                onClick={() => handleChoice(idx)}
+                selected={selected}
+                disabled={selected === null}
+              >
+                {choice}
+              </div>
+            );
+          })}
+        </Answers>
+
+        <Index>
+          {index}/{data.length}
+        </Index>
+
+        <SubmitButton onClick={handleNext} disabled={selected === null}>
+          {isChecked === false ? "check" : "next"}
+        </SubmitButton>
+
+        <Message>{isChecked && <div>{message}</div>}</Message>
+      </QuizContainer>
     </StyledQuiz>
   );
 };
@@ -174,21 +181,82 @@ const StyledQuiz = styled.div`
   justify-content: center;
   flex-direction: column;
 `;
-const Title = styled.h1`
-  font-size: 4rem;
-  margin: 2%;
+
+const QuizContainer = styled.div`
+  height: 512px;
+  width: clamp(600px, 650px, 90vw);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border: 2px dotted purple;
 `;
 
-const Question = styled.div``;
+const QuitButton = styled.button`
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  color: white;
+  border: none;
+  background: transparent;
+
+  &:hover {
+    color: red;
+    cursor: pointer;
+  }
+`;
+
+const Title = styled.h1`
+  width: 80%;
+  position: absolute;
+  top: 0;
+  font-size: 4rem;
+  margin: 2%;
+  text-align: center;
+`;
+
+const Category = styled.h5`
+  position: absolute;
+  bottom: 5px;
+  left: 8px;
+`;
+
+const Score = styled.div`
+  position: absolute;
+  top: 5px;
+  left: 8px;
+`;
+
+const Index = styled.div`
+  position: absolute;
+  bottom: 5px;
+  right: 8px;
+`;
+
+const Question = styled.div`
+  text-align: center;
+  line-height: 1.2;
+  position: absolute;
+  top: 90px;
+  padding: 15px;
+`;
 
 const Answers = styled.div`
+  width: 80%;
+  height: 60%;
+  padding: 0px 20px;
+  position: absolute;
+  top: 150px;
   cursor: pointer;
 
   .answer {
+    display: flex;
+    align-items: center;
     width: 100%;
-    height: 20px;
+    min-height: 20px;
     padding: 2px;
-    margin: 2px;
+    margin: 4px 0px;
     background-color: ${(props) =>
       props.selected
         ? `${(theme) => theme.accent}`
@@ -201,15 +269,27 @@ const Answers = styled.div`
   }
 
   .answer_selected {
+    display: flex;
+    align-items: center;
     width: 100%;
-    height: 20px;
+    min-height: 20px;
     padding: 2px;
-    margin: 2px;
+    margin: 4px 0px;
     background-color: orange;
   }
 `;
 
-const Button = styled.button`
+const SubmitButton = styled.button`
   width: 25%;
   height: 25px;
+  position: absolute;
+  bottom: 15px;
+`;
+
+const Message = styled.div`
+  font-size: 0.5rem;
+  color: red;
+  text-align: center;
+  position: absolute;
+  bottom: 3.5px;
 `;
