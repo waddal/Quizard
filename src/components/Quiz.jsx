@@ -11,6 +11,7 @@ import {
   setAnswerIndex,
   resetGame,
 } from "../actions/quizActions";
+import PopupModule from "./PopupModule";
 
 const Quiz = ({
   data,
@@ -30,6 +31,7 @@ const Quiz = ({
   const [answers, setAnswers] = useState([]);
   const [choices, setChoices] = useState([]);
   const [selected, setSelected] = useState();
+  const [module, setModule] = useState(false);
   const navigate = useNavigate();
   const api = data[index];
 
@@ -92,6 +94,11 @@ const Quiz = ({
     }
   };
 
+  const handleModuleChoice = (bool) => {
+    setModule(!module)
+    bool && navigate('/menu');
+  }
+
   const reset = () => {
     setChoices([]);
     setAnswers([]);
@@ -113,7 +120,9 @@ const Quiz = ({
   return (
     <StyledQuiz>
       <QuizContainer>
-        <QuitButton>X</QuitButton>
+
+      <QuitButton onClick={() => handleModuleChoice(false)}>X</QuitButton>
+        {module && <PopupModule headerText="Are you sure you want to quit?" handleModuleChoice={handleModuleChoice} />}
 
         <Title>QUIZ</Title>
 
@@ -148,6 +157,7 @@ const Quiz = ({
         </SubmitButton>
 
         <Message>{isChecked && <div>{message}</div>}</Message>
+
       </QuizContainer>
     </StyledQuiz>
   );
@@ -197,7 +207,8 @@ const QuitButton = styled.button`
   position: absolute;
   top: 5px;
   right: 5px;
-  color: white;
+  font-weight: 909;
+  color: purple;
   border: none;
   background: transparent;
 
@@ -248,7 +259,6 @@ const Answers = styled.div`
   padding: 0px 20px;
   position: absolute;
   top: 150px;
-  cursor: pointer;
 
   .answer {
     display: flex;
