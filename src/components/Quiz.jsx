@@ -94,10 +94,10 @@ const Quiz = ({
     }
   };
 
-  const handleModuleChoice = (bool) => {
-    setModule(!module)
-    bool && navigate('/menu');
-  }
+  const handlePopupModule = (bool) => {
+    setModule(!module);
+    bool && navigate("/menu");
+  };
 
   const reset = () => {
     setChoices([]);
@@ -119,10 +119,14 @@ const Quiz = ({
 
   return (
     <StyledQuiz>
-      <QuizContainer>
-
-      <QuitButton onClick={() => handleModuleChoice(false)}>X</QuitButton>
-        {module && <PopupModule headerText="Are you sure you want to quit?" handleModuleChoice={handleModuleChoice} />}
+      {module && (
+        <PopupModule
+          headerText="Are you sure you want to quit?"
+          handlePopupModule={handlePopupModule}
+        />
+      )}
+      <QuizContainer module={module}>
+        <QuitButton onClick={() => handlePopupModule(false)}>X</QuitButton>
 
         <Title>QUIZ</Title>
 
@@ -135,15 +139,15 @@ const Quiz = ({
         <Answers>
           {choices.map((choice, idx) => {
             return (
-              <div
+              <button
                 key={idx}
                 className={`answer${getClassName(idx)}`}
-                onClick={() => handleChoice(idx)}
+                // onClick={() => handleChoice(idx)}
+                onFocus={() => handleChoice(idx)}
                 selected={selected}
-                disabled={selected === null}
               >
                 {choice}
-              </div>
+              </button>
             );
           })}
         </Answers>
@@ -157,7 +161,6 @@ const Quiz = ({
         </SubmitButton>
 
         <Message>{isChecked && <div>{message}</div>}</Message>
-
       </QuizContainer>
     </StyledQuiz>
   );
@@ -201,9 +204,10 @@ const QuizContainer = styled.div`
   justify-content: center;
   position: relative;
   border: 2px dotted purple;
+  opacity: ${({ module }) => module && 0.5};
 `;
 
-const QuitButton = styled.button`
+const QuitButton = styled.div`
   position: absolute;
   top: 5px;
   right: 5px;
@@ -267,15 +271,10 @@ const Answers = styled.div`
     min-height: 20px;
     padding: 2px;
     margin: 4px 0px;
-    background-color: ${(props) =>
-      props.selected
-        ? `${(theme) => theme.accent}`
-        : `${(theme) => theme.text}`};
-
-    &:hover {
-      background-color: ${(props) =>
-        props.selected ? "orange" : `${(theme) => theme.accent}`};
-    }
+    color: ${(theme) => (theme === "light" ? "black" : "white")};
+    border: 1px solid grey;
+    background: transparent;
+    cursor: pointer;
   }
 
   .answer_selected {
@@ -285,7 +284,9 @@ const Answers = styled.div`
     min-height: 20px;
     padding: 2px;
     margin: 4px 0px;
+    border: 1px solid grey;
     background-color: orange;
+    cursor: pointer;
   }
 `;
 
