@@ -11,6 +11,7 @@ import {
   setAnswerIndex,
   resetGame,
 } from "../actions/quizActions";
+import { fetchSuccess } from "../actions/stateActions";
 import Answers from "./Answers";
 import PopupModule from "./PopupModule";
 
@@ -28,6 +29,7 @@ const Quiz = ({
   setMessage,
   setAnswerIndex,
   resetGame,
+  fetchSuccess,
 }) => {
   const [answers, setAnswers] = useState([]);
   const [choices, setChoices] = useState([]);
@@ -60,10 +62,6 @@ const Quiz = ({
     });
 
     setAnswerIndex(correct);
-  };
-
-  const getClassName = (id) => {
-    return (id = id === selected ? "_selected" : "");
   };
 
   const handleChoice = (id) => {
@@ -109,6 +107,7 @@ const Quiz = ({
   };
 
   useEffect(() => {
+    fetchSuccess();
     resetGame();
   }, []);
 
@@ -169,6 +168,7 @@ export default connect(mapStateToProps, {
   setMessage,
   setAnswerIndex,
   resetGame,
+  fetchSuccess,
 })(Quiz);
 
 const StyledQuiz = styled.div`

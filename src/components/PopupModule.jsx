@@ -5,8 +5,12 @@ const PopupModule = ({ headerText, handlePopupModule }) => {
   return (
     <StyledModule>
       <Header>{headerText}</Header>
-      <Button onClick={() => handlePopupModule(true)}>Yes</Button>
-      <Button onClick={() => handlePopupModule(false)}>No</Button>
+      {handlePopupModule && (
+        <>
+          <Button onClick={() => handlePopupModule(true)}>Yes</Button>
+          <Button onClick={() => handlePopupModule(false)}>No</Button>
+        </>
+      )}
     </StyledModule>
   );
 };

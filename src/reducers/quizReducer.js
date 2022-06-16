@@ -36,7 +36,6 @@ const reducer = (state = initialState, action) => {
         category: action.payload,
       };
     case SET_CHOICES:
-      console.log('setting choices: ', action.payload);
       return {
         ...state,
         choices: action.payload,

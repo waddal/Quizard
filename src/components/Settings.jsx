@@ -7,10 +7,12 @@ import * as yup from "yup";
 import useSound from "use-sound";
 
 import { BASE_URL, API_KEY } from "../constants";
-import schema from "../validation/formSchema";
 import categories from "../data/categories";
+import schema from "../validation/formSchema";
 import { setData, setCategory, setMode } from "../actions/quizActions";
+import { fetchData } from "../actions/stateActions";
 import popSfx from "../assets/audio/pop.mp3";
+import PopupModule from "./PopupModule";
 
 const sharedValues = {
   mode: "",
@@ -28,7 +30,7 @@ const initialFormErrors = {
 
 const initialDisabled = true;
 
-const Settings = ({ setData, setCategory, setMode }) => {
+const Settings = ({ setData, setCategory, setMode, fetchData, isFetching }) => {
   const [formValues, setFormValues] = useState(initialFormValues);
   const [formErrors, setFormErrors] = useState(initialFormErrors);
   const [disabled, setDisabled] = useState(initialDisabled);
@@ -38,6 +40,7 @@ const Settings = ({ setData, setCategory, setMode }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("your quiz is being created..!", formValues);
+    fetchData();
     axios
       .get(`${BASE_URL}${API_KEY}`, {
         params: {
@@ -94,6 +97,9 @@ const Settings = ({ setData, setCategory, setMode }) => {
 
   return (
     <StyledSettings>
+      {isFetching && (
+        <PopupModule headerText={"your quiz is being created..."} />
+      )}
       <BorderWrap>
         <SettingsContainer>
           <Title>SETTINGS</Title>
@@ -306,13 +312,16 @@ const Settings = ({ setData, setCategory, setMode }) => {
 
 const mapStateToProps = (state) => {
   return {
-    data: state.data,
+    isFetching: state.stateReducer.isFetching,
   };
 };
 
-export default connect(mapStateToProps, { setData, setCategory, setMode })(
-  Settings
-);
+export default connect(mapStateToProps, {
+  setData,
+  setCategory,
+  setMode,
+  fetchData,
+})(Settings);
 
 const StyledSettings = styled.div`
   height: 100vh;
