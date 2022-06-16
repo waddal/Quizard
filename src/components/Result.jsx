@@ -67,14 +67,16 @@ const Result = ({ category, data, mode, score }) => {
     <StyledResult>
       <Title>{titleLabel}</Title>
       <Score>{scoreLabel}</Score>
-      <Results>
-        <Label>Category:</Label>
-        <Text>{categoryLabel}</Text>
-        <Label>Difficulty:</Label>
-        <Text>{difficultyLabel}</Text>
-        <Label>Mode:</Label>
-        <Text>{modeLabel}</Text>
-      </Results>
+      <BorderWrap>
+        <Results>
+          <Label>Category:</Label>
+          <Text>{categoryLabel}</Text>
+          <Label>Difficulty:</Label>
+          <Text>{difficultyLabel}</Text>
+          <Label>Mode:</Label>
+          <Text>{modeLabel}</Text>
+        </Results>
+      </BorderWrap>
       <ButtonContainer>
         <Button onPointerDown={handleNavigateMenu}>Main Menu</Button>
         <Button leaderboard onPointerDown={handleNavigateMenu}>
@@ -112,18 +114,27 @@ const Title = styled.h1`
 `;
 
 const Score = styled.h2`
-  font-size: 1rem;
-  margin-bottom: 2%;
-  background: -webkit-linear-gradient(#d207f6, #ffe91f);
+  font-size: 1.2rem;
+  margin: 2% 0px;
+  /* background: -webkit-linear-gradient(#d207f6, #ffe91f);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  -webkit-text-fill-color: transparent; */
+`;
+
+const BorderWrap = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px;
+  background: linear-gradient(to right, red, purple);
+  margin-bottom: 2%;
 `;
 
 const Results = styled.div`
   border: 1px solid purple;
   width: 236px;
   padding: 20px;
-  margin-bottom: 2%;
+  background: ${({ theme }) => theme.body};
 `;
 
 const Label = styled.h3`
@@ -144,8 +155,11 @@ const Button = styled.button`
   background-color: ${({ leaderboard }) => (leaderboard ? "gold" : "silver")};
   margin: 0.5%;
 
-  &:hover {
+  &:hover,
+  &:focus {
     background-color: ${({ leaderboard }) =>
       leaderboard ? "#ffe74b" : "#f4f6ed"};
+    box-shadow: 0 0 3px 1px #fff, 0 0 8px 4px #f0f, 0 0 10px 5px #0ff;
+    transition: ease 0.1s;
   }
 `;

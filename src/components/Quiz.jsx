@@ -128,15 +128,7 @@ const Quiz = ({
       <BorderWrap>
         <QuizContainer module={module}>
           <QuitButton onClick={() => handlePopupModule(false)}>X</QuitButton>
-
-          <Title>QUIZ</Title>
-
-          <Category>Category: {api.category}</Category>
-
-          <Score>Score: {score}</Score>
-
           <Question>{api.question}</Question>
-
           <Answers>
             {choices.map((choice, idx) => {
               return (
@@ -151,15 +143,14 @@ const Quiz = ({
               );
             })}
           </Answers>
-
+          <Category>Category: {api.category}</Category>
+          <Score>Score: {score}</Score>
           <Index>
             {index}/{data.length}
           </Index>
-
           <SubmitButton onClick={handleNext} disabled={selected === null}>
             {isChecked === false ? "check" : "next"}
           </SubmitButton>
-
           <Message>{isChecked && <div>{message}</div>}</Message>
         </QuizContainer>
       </BorderWrap>
@@ -199,7 +190,7 @@ const StyledQuiz = styled.div`
 const BorderWrap = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;  
+  justify-content: center;
   padding: 3px;
   background: linear-gradient(to right, red, purple);
 `;
@@ -231,15 +222,6 @@ const QuitButton = styled.div`
   }
 `;
 
-const Title = styled.h1`
-  width: 80%;
-  position: absolute;
-  top: 0;
-  font-size: 4rem;
-  margin: 2%;
-  text-align: center;
-`;
-
 const Category = styled.h5`
   position: absolute;
   bottom: 5px;
@@ -262,8 +244,8 @@ const Question = styled.div`
   text-align: center;
   line-height: 1.2;
   position: absolute;
-  top: 90px;
-  padding: 15px;
+  top: 70px;
+  padding: 20px;
 `;
 
 const Answers = styled.div`
@@ -281,7 +263,7 @@ const Answers = styled.div`
     padding: 2px;
     margin: 4px 0px;
     color: ${({ theme }) => theme.text};
-    border: 1px solid grey;
+    border: 1px solid purple;
     background: transparent;
     cursor: pointer;
   }
@@ -303,7 +285,12 @@ const SubmitButton = styled.button`
   width: 25%;
   height: 25px;
   position: absolute;
-  bottom: 15px;
+  bottom: 25px;
+
+  &:enabled {
+    box-shadow: 0 0 3px 1px #fff, 0 0 8px 4px #f0f, 0 0 10px 5px #0ff;
+    transition: ease 0.1s;
+  }
 `;
 
 const Message = styled.div`
