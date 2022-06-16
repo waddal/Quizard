@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { connect } from "react-redux";
@@ -76,9 +76,11 @@ const Button = styled.button`
   height: 50px;
   background-color: silver;
   margin: 0.5%;
+  transition: ease 0.1s;
 
-  &:hover {
-    background-color: #f4f6ed;
+  &:hover, &:focus {
+    box-shadow: 0 0 3px 1px #fff, 0 0 8px 4px #f0f, 0 0 10px 5px #0ff;
+    transition: ease 0.1s;
   }
 `;
 //MAIN MENU
@@ -100,8 +102,10 @@ const HiscoresButton = styled(Button)`
 `;
 
 const SettingsButton = styled(Button)`
-  background-color: ${(props) => (props.settings === true ? "#ff678a" : "#fc537a")};
-  box-shadow: ${props => props.settings === false ? "0 0 2px 1px #0ff" : null};
+  background-color: ${(props) =>
+    props.settings === true ? "#ff678a" : "#fc537a"};
+  box-shadow: ${(props) =>
+    props.settings === false ? "0 0 2px 1px #0ff" : null};
 
   &:hover {
     background-color: #fc537a;
@@ -111,10 +115,12 @@ const SettingsButton = styled(Button)`
 //SETTINGS
 const ThemeButton = styled(Button)`
   color: ${(props) => (props.theme === "light" ? "white" : "black")};
-  background-color: ${(props) => (props.theme === "light" ? "#3b3b3b" : "#e5e5e5")};
+  background-color: ${(props) =>
+    props.theme === "light" ? "#3b3b3b" : "#e5e5e5"};
 
   &:hover {
-    background-color: ${(props) => (props.theme === "light" ? "black" : "white")};
+    background-color: ${(props) =>
+      props.theme === "light" ? "black" : "white"};
   }
 `;
 const MusicButton = styled(Button)`

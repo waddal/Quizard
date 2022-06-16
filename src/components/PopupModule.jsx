@@ -20,7 +20,7 @@ const StyledModule = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  background-color: #777575;
+  background-color: ${({ theme }) => theme.body};
   border: 2px solid red;
   position: absolute;
   z-index: 1;

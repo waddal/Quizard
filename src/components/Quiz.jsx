@@ -125,42 +125,44 @@ const Quiz = ({
           handlePopupModule={handlePopupModule}
         />
       )}
-      <QuizContainer module={module}>
-        <QuitButton onClick={() => handlePopupModule(false)}>X</QuitButton>
+      <BorderWrap>
+        <QuizContainer module={module}>
+          <QuitButton onClick={() => handlePopupModule(false)}>X</QuitButton>
 
-        <Title>QUIZ</Title>
+          <Title>QUIZ</Title>
 
-        <Category>Category: {api.category}</Category>
+          <Category>Category: {api.category}</Category>
 
-        <Score>Score: {score}</Score>
+          <Score>Score: {score}</Score>
 
-        <Question>{api.question}</Question>
+          <Question>{api.question}</Question>
 
-        <Answers>
-          {choices.map((choice, idx) => {
-            return (
-              <button
-                key={idx}
-                className={`answer${getClassName(idx)}`}
-                onFocus={() => handleChoice(idx)}
-                selected={selected}
-              >
-                {choice}
-              </button>
-            );
-          })}
-        </Answers>
+          <Answers>
+            {choices.map((choice, idx) => {
+              return (
+                <button
+                  key={idx}
+                  className={`answer${getClassName(idx)}`}
+                  onFocus={() => handleChoice(idx)}
+                  selected={selected}
+                >
+                  {choice}
+                </button>
+              );
+            })}
+          </Answers>
 
-        <Index>
-          {index}/{data.length}
-        </Index>
+          <Index>
+            {index}/{data.length}
+          </Index>
 
-        <SubmitButton onClick={handleNext} disabled={selected === null}>
-          {isChecked === false ? "check" : "next"}
-        </SubmitButton>
+          <SubmitButton onClick={handleNext} disabled={selected === null}>
+            {isChecked === false ? "check" : "next"}
+          </SubmitButton>
 
-        <Message>{isChecked && <div>{message}</div>}</Message>
-      </QuizContainer>
+          <Message>{isChecked && <div>{message}</div>}</Message>
+        </QuizContainer>
+      </BorderWrap>
     </StyledQuiz>
   );
 };
@@ -194,6 +196,14 @@ const StyledQuiz = styled.div`
   flex-direction: column;
 `;
 
+const BorderWrap = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;  
+  padding: 3px;
+  background: linear-gradient(to right, red, purple);
+`;
+
 const QuizContainer = styled.div`
   height: 512px;
   width: clamp(600px, 650px, 90vw);
@@ -202,22 +212,22 @@ const QuizContainer = styled.div`
   align-items: center;
   justify-content: center;
   position: relative;
-  border: 2px dotted purple;
   opacity: ${({ module }) => module && 0.5};
+  background: ${({ theme }) => theme.body};
 `;
 
 const QuitButton = styled.div`
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: 6px;
+  right: 10px;
   font-weight: 909;
   color: purple;
   border: none;
   background: transparent;
+  cursor: pointer;
 
   &:hover {
     color: red;
-    cursor: pointer;
   }
 `;
 
@@ -270,7 +280,7 @@ const Answers = styled.div`
     min-height: 20px;
     padding: 2px;
     margin: 4px 0px;
-    color: ${(theme) => (theme === "light" ? "black" : "white")};
+    color: ${({ theme }) => theme.text};
     border: 1px solid grey;
     background: transparent;
     cursor: pointer;
