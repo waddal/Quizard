@@ -1,5 +1,6 @@
 export const SET_DATA = "SET_DATA";
 export const SET_CATEGORY = "SET_CATEGORY";
+export const SET_CHOICES = "SET_CHOICES";
 export const SET_MODE = "SET_MODE";
 export const SET_CHECKED = "SET_CHECKED";
 export const SET_MESSAGE = "SET_MESSAGE";
@@ -16,6 +17,10 @@ export const setCategory = (string) => {
   return { type: SET_CATEGORY, payload: string };
 };
 
+export const setChoices = (array) => {
+  return { type: SET_CHOICES, payload: array };
+};
+
 export const setMode = (string) => {
   return { type: SET_MODE, payload: string };
 };
@@ -29,7 +34,6 @@ export const setMessage = (string) => {
 };
 
 export const setAnswerIndex = (index) => {
-  console.log('setActionIndex: ', index);
   return { type: SET_ANSWER_INDEX, payload: index };
 };
 

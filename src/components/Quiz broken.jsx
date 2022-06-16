@@ -7,13 +7,17 @@ import {
   addIndex,
   addScore,
   setChecked,
+  setChoices,
   setMessage,
   setAnswerIndex,
   resetGame,
 } from "../actions/quizActions";
+import Answers from "./Answers";
 import PopupModule from "./PopupModule";
+import SubmitButton from "./SubmitButton";
 
 const Quiz = ({
+  choices,
   data,
   index,
   score,
@@ -24,23 +28,27 @@ const Quiz = ({
   addIndex,
   addScore,
   setChecked,
+  setChoices,
   setMessage,
   setAnswerIndex,
   resetGame,
 }) => {
   const [answers, setAnswers] = useState([]);
-  const [choices, setChoices] = useState([]);
+  const [choiceOptions, setChoiceOptions] = useState([]);
   const [selected, setSelected] = useState();
   const [module, setModule] = useState(false);
   const navigate = useNavigate();
   const api = data[index];
 
+  console.log(choiceOptions)
+
   const renderChoices = () => {
     for (let choice in api.answers) {
       if (api.answers[choice] !== null) {
-        setChoices((choices) => choices.concat(api.answers[choice]));
+        setChoiceOptions((choices) => choices.concat(api.answers[choice]));
       }
     }
+    return choiceOptions;
   };
 
   const renderAnswers = () => {
@@ -61,10 +69,6 @@ const Quiz = ({
     setAnswerIndex(correct);
   };
 
-  const getClassName = (id) => {
-    return (id = id === selected ? "_selected" : "");
-  };
-
   const handleChoice = (id) => {
     selected === id ? setSelected(null) : setSelected(id);
     handleAnswerCheck();
@@ -77,7 +81,6 @@ const Quiz = ({
       : setMessage(`the correct answer is option: ${answerIndex + 1}`);
 
     if (mode === "Sudden Death" && isChecked && message !== "Correct!") {
-      console.log("dead");
       navigate("/result");
     }
 
@@ -94,13 +97,18 @@ const Quiz = ({
     }
   };
 
+  const handleRender = (choiceOptions) => {
+    console.log('choice options in handleRender: ', choiceOptions)
+    setChoices(choiceOptions);
+  };
+
   const handlePopupModule = (bool) => {
     setModule(!module);
     bool && navigate("/menu");
   };
 
   const reset = () => {
-    setChoices([]);
+    setChoiceOptions([]);
     setAnswers([]);
     setSelected(null);
     setMessage(null);
@@ -115,6 +123,7 @@ const Quiz = ({
     reset();
     renderChoices();
     renderAnswers();
+    handleRender(choiceOptions);
   }, [index]);
 
   return (
@@ -129,28 +138,17 @@ const Quiz = ({
         <QuizContainer module={module}>
           <QuitButton onClick={() => handlePopupModule(false)}>X</QuitButton>
           <Question>{api.question}</Question>
-          <Answers>
-            {choices.map((choice, idx) => {
-              return (
-                <button
-                  key={idx}
-                  className={`answer${getClassName(idx)}`}
-                  onFocus={() => handleChoice(idx)}
-                  selected={selected}
-                >
-                  {choice}
-                </button>
-              );
-            })}
-          </Answers>
+          <Answers handleChoice={handleChoice} selected={selected} />
           <Category>Category: {api.category}</Category>
           <Score>Score: {score}</Score>
           <Index>
             {index}/{data.length}
           </Index>
-          <SubmitButton onClick={handleNext} disabled={selected === null}>
-            {isChecked === false ? "check" : "next"}
-          </SubmitButton>
+          <SubmitButton
+            handleNext={handleNext}
+            isChecked={isChecked}
+            selected={selected}
+          />
           <Message>{isChecked && <div>{message}</div>}</Message>
         </QuizContainer>
       </BorderWrap>
@@ -162,6 +160,7 @@ const mapStateToProps = (state) => {
   return {
     data: state.quizReducer.data,
     isChecked: state.quizReducer.isChecked,
+    choices: state.quizReducer.choices,
     message: state.quizReducer.message,
     mode: state.quizReducer.mode,
     answerIndex: state.quizReducer.answerIndex,
@@ -174,6 +173,7 @@ export default connect(mapStateToProps, {
   addIndex,
   addScore,
   setChecked,
+  setChoices,
   setMessage,
   setAnswerIndex,
   resetGame,
@@ -246,51 +246,6 @@ const Question = styled.div`
   position: absolute;
   top: 70px;
   padding: 20px;
-`;
-
-const Answers = styled.div`
-  width: 80%;
-  height: 60%;
-  padding: 0px 20px;
-  position: absolute;
-  top: 150px;
-
-  .answer {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    min-height: 20px;
-    padding: 2px;
-    margin: 4px 0px;
-    color: ${({ theme }) => theme.text};
-    border: 1px solid purple;
-    background: transparent;
-    cursor: pointer;
-  }
-
-  .answer_selected {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    min-height: 20px;
-    padding: 2px;
-    margin: 4px 0px;
-    border: 1px solid grey;
-    background-color: orange;
-    cursor: pointer;
-  }
-`;
-
-const SubmitButton = styled.button`
-  width: 25%;
-  height: 25px;
-  position: absolute;
-  bottom: 25px;
-
-  &:enabled {
-    box-shadow: 0 0 3px 1px #fff, 0 0 8px 4px #f0f, 0 0 10px 5px #0ff;
-    transition: ease 0.1s;
-  }
 `;
 
 const Message = styled.div`

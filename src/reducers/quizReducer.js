@@ -1,6 +1,7 @@
 import {
   SET_DATA,
   SET_CATEGORY,
+  SET_CHOICES,
   SET_MODE,
   SET_CHECKED,
   SET_MESSAGE,
@@ -12,6 +13,7 @@ import {
 
 const initialState = {
   data: {},
+  choices: [],
   category: "",
   mode: "",
   message: "",
@@ -32,6 +34,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         category: action.payload,
+      };
+    case SET_CHOICES:
+      console.log('setting choices: ', action.payload);
+      return {
+        ...state,
+        choices: action.payload,
       };
     case SET_MODE:
       return {

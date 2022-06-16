@@ -13,7 +13,6 @@ import {
 } from "../actions/quizActions";
 import Answers from "./Answers";
 import PopupModule from "./PopupModule";
-import SubmitButton from "./SubmitButton";
 
 const Quiz = ({
   data,
@@ -61,6 +60,10 @@ const Quiz = ({
     });
 
     setAnswerIndex(correct);
+  };
+
+  const getClassName = (id) => {
+    return (id = id === selected ? "_selected" : "");
   };
 
   const handleChoice = (id) => {
@@ -137,11 +140,9 @@ const Quiz = ({
           <Index>
             {index}/{data.length}
           </Index>
-          <SubmitButton
-            handleNext={handleNext}
-            isChecked={isChecked}
-            selected={selected}
-          />
+          <SubmitButton onClick={handleNext} disabled={selected === null}>
+            {isChecked === false ? "check" : "next"}
+          </SubmitButton>
           <Message>{isChecked && <div>{message}</div>}</Message>
         </QuizContainer>
       </BorderWrap>
@@ -237,6 +238,18 @@ const Question = styled.div`
   position: absolute;
   top: 70px;
   padding: 20px;
+`;
+
+const SubmitButton = styled.button`
+  width: 25%;
+  height: 25px;
+  position: absolute;
+  bottom: 25px;
+
+  &:enabled {
+    box-shadow: 0 0 3px 1px #fff, 0 0 8px 4px #f0f, 0 0 10px 5px #0ff;
+    transition: ease 0.1s;
+  }
 `;
 
 const Message = styled.div`
