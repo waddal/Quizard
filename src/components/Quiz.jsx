@@ -142,7 +142,6 @@ const Quiz = ({
               <button
                 key={idx}
                 className={`answer${getClassName(idx)}`}
-                // onClick={() => handleChoice(idx)}
                 onFocus={() => handleChoice(idx)}
                 selected={selected}
               >
