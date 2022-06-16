@@ -27,7 +27,7 @@ const Menu = ({ theme, themeToggler }) => {
           >
             New Game
           </NewGameButton>
-          <HiscoresButton onMouseOver={pop}>Hiscores</HiscoresButton>
+          <HiscoresButton onMouseOver={pop} onClick={() => navigate("/leaderboard")} >Hiscores</HiscoresButton>
         </>
       ) : (
         <>

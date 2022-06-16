@@ -9,6 +9,3 @@
     - create persistant db 
     - endpoints for get/post
     - hiscores view
-- finite state machine
-    - fetching data module(loading popup)
-    

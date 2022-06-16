@@ -12,6 +12,7 @@ import {
   resetGame,
 } from "../actions/quizActions";
 import { fetchSuccess } from "../actions/stateActions";
+import Screen from "../components/Screen";
 import Answers from "./Answers";
 import PopupModule from "./PopupModule";
 
@@ -34,9 +35,17 @@ const Quiz = ({
   const [answers, setAnswers] = useState([]);
   const [choices, setChoices] = useState([]);
   const [selected, setSelected] = useState();
+  const [wrapArg, setWrapArg] = useState(1);
   const [module, setModule] = useState(false);
   const navigate = useNavigate();
   const api = data[index];
+
+  const renderWrapper = () => {
+    if (mode === "5") setWrapArg(1);
+    if (mode === "10") setWrapArg(2);
+    if (mode === "Sudden Death") setWrapArg(3);
+    console.log(mode);
+  };
 
   const renderChoices = () => {
     for (let choice in api.answers) {
@@ -115,37 +124,36 @@ const Quiz = ({
     reset();
     renderChoices();
     renderAnswers();
+    renderWrapper();
   }, [index]);
 
   return (
-    <StyledQuiz>
+    <Screen wrapStyle={wrapArg}>
       {module && (
         <PopupModule
           headerText="Are you sure you want to quit?"
           handlePopupModule={handlePopupModule}
         />
       )}
-      <BorderWrap>
-        <QuizContainer module={module}>
-          <QuitButton onClick={() => handlePopupModule(false)}>X</QuitButton>
-          <Question>{api.question}</Question>
-          <Answers
-            choices={choices}
-            handleChoice={handleChoice}
-            selected={selected}
-          />
-          <Category>Category: {api.category}</Category>
-          <Score>Score: {score}</Score>
-          <Index>
-            {index}/{data.length}
-          </Index>
-          <SubmitButton onClick={handleNext} disabled={selected === null}>
-            {isChecked === false ? "check" : "next"}
-          </SubmitButton>
-          <Message>{isChecked && <div>{message}</div>}</Message>
-        </QuizContainer>
-      </BorderWrap>
-    </StyledQuiz>
+      <QuizContainer module={module}>
+        <QuitButton onClick={() => handlePopupModule(false)}>X</QuitButton>
+        <Question>{api.question}</Question>
+        <Answers
+          choices={choices}
+          handleChoice={handleChoice}
+          selected={selected}
+        />
+        <Category>Category: {api.category}</Category>
+        <Score>Score: {score}</Score>
+        <Index>
+          {index}/{data.length}
+        </Index>
+        <SubmitButton onClick={handleNext} disabled={selected === null}>
+          {isChecked === false ? "check" : "next"}
+        </SubmitButton>
+        <Message>{isChecked && <div>{message}</div>}</Message>
+      </QuizContainer>
+    </Screen>
   );
 };
 
@@ -170,22 +178,6 @@ export default connect(mapStateToProps, {
   resetGame,
   fetchSuccess,
 })(Quiz);
-
-const StyledQuiz = styled.div`
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-`;
-
-const BorderWrap = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 3px;
-  background: linear-gradient(to right, red, purple);
-`;
 
 const QuizContainer = styled.div`
   height: 512px;

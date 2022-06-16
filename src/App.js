@@ -8,6 +8,7 @@ import Menu from "./components/Menu";
 import Settings from "./components/Settings";
 import Quiz from "./components/Quiz";
 import Result from "./components/Result";
+import Leaderboard from "./components/Leaderboard";
 
 function App() {
   const [theme, setTheme] = useState("dark");
@@ -23,6 +24,7 @@ function App() {
         <Route path="/settings" element={<Settings />} />
         <Route path="/quiz" element={<Quiz />} />
         <Route path="/result" element={<Result />} />
+        <Route path="/leaderboard" element={<Leaderboard />} />
       </Routes>
     </ThemeProvider>
   );
