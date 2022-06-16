@@ -11,9 +11,7 @@ import {
   setAnswerIndex,
   resetGame,
 } from "../actions/quizActions";
-import Answers from "./Answers";
 import PopupModule from "./PopupModule";
-import SubmitButton from "./SubmitButton";
 
 const Quiz = ({
   data,
@@ -61,6 +59,10 @@ const Quiz = ({
     });
 
     setAnswerIndex(correct);
+  };
+
+  const getClassName = (id) => {
+    return (id = id === selected ? "_selected" : "");
   };
 
   const handleChoice = (id) => {
@@ -127,21 +129,28 @@ const Quiz = ({
         <QuizContainer module={module}>
           <QuitButton onClick={() => handlePopupModule(false)}>X</QuitButton>
           <Question>{api.question}</Question>
-          <Answers
-            choices={choices}
-            handleChoice={handleChoice}
-            selected={selected}
-          />
+          <Answers>
+            {choices.map((choice, idx) => {
+              return (
+                <button
+                  key={idx}
+                  className={`answer${getClassName(idx)}`}
+                  onFocus={() => handleChoice(idx)}
+                  selected={selected}
+                >
+                  {choice}
+                </button>
+              );
+            })}
+          </Answers>
           <Category>Category: {api.category}</Category>
           <Score>Score: {score}</Score>
           <Index>
             {index}/{data.length}
           </Index>
-          <SubmitButton
-            handleNext={handleNext}
-            isChecked={isChecked}
-            selected={selected}
-          />
+          <SubmitButton onClick={handleNext} disabled={selected === null}>
+            {isChecked === false ? "check" : "next"}
+          </SubmitButton>
           <Message>{isChecked && <div>{message}</div>}</Message>
         </QuizContainer>
       </BorderWrap>
@@ -237,6 +246,51 @@ const Question = styled.div`
   position: absolute;
   top: 70px;
   padding: 20px;
+`;
+
+const Answers = styled.div`
+  width: 80%;
+  height: 60%;
+  padding: 0px 20px;
+  position: absolute;
+  top: 150px;
+
+  .answer {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 20px;
+    padding: 2px;
+    margin: 4px 0px;
+    color: ${({ theme }) => theme.text};
+    border: 1px solid purple;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .answer_selected {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 20px;
+    padding: 2px;
+    margin: 4px 0px;
+    border: 1px solid grey;
+    background-color: orange;
+    cursor: pointer;
+  }
+`;
+
+const SubmitButton = styled.button`
+  width: 25%;
+  height: 25px;
+  position: absolute;
+  bottom: 25px;
+
+  &:enabled {
+    box-shadow: 0 0 3px 1px #fff, 0 0 8px 4px #f0f, 0 0 10px 5px #0ff;
+    transition: ease 0.1s;
+  }
 `;
 
 const Message = styled.div`
