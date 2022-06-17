@@ -63,6 +63,10 @@ const Result = ({ category, data, mode, score }) => {
     navigate("/menu");
   };
 
+  const handleNavigateLeaderboard = () => {
+    navigate("/leaderboard");
+  };
+
   return (
     <StyledResult>
       <Title>{titleLabel}</Title>
@@ -79,7 +83,7 @@ const Result = ({ category, data, mode, score }) => {
       </BorderWrap>
       <ButtonContainer>
         <Button onPointerDown={handleNavigateMenu}>Main Menu</Button>
-        <Button leaderboard onPointerDown={handleNavigateMenu}>
+        <Button leaderboard onPointerDown={handleNavigateLeaderboard}>
           Leaderboard
         </Button>
       </ButtonContainer>

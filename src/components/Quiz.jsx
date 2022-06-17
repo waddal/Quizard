@@ -41,10 +41,9 @@ const Quiz = ({
   const api = data[index];
 
   const renderWrapper = () => {
-    if (mode === "5") setWrapArg(1);
-    if (mode === "10") setWrapArg(2);
-    if (mode === "Sudden Death") setWrapArg(3);
-    console.log(mode);
+    if (api.difficulty === "Easy") setWrapArg(1);
+    if (api.difficulty === "Medium") setWrapArg(2);
+    if (api.difficulty === "Hard") setWrapArg(3);
   };
 
   const renderChoices = () => {

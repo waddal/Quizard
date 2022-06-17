@@ -27,7 +27,7 @@ const Menu = ({ theme, themeToggler }) => {
           >
             New Game
           </NewGameButton>
-          <HiscoresButton onMouseOver={pop} onClick={() => navigate("/leaderboard")} >Hiscores</HiscoresButton>
+          <LeaderboardButton onMouseOver={pop} onClick={() => navigate("/leaderboard")} >Leaderboard</LeaderboardButton>
         </>
       ) : (
         <>
@@ -93,7 +93,7 @@ const NewGameButton = styled(Button)`
   }
 `;
 
-const HiscoresButton = styled(Button)`
+const LeaderboardButton = styled(Button)`
   background-color: #eada75;
 
   &:hover {
