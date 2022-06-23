@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import axios from 'axios';
 
 const Result = ({ category, data, mode, score }) => {
   const navigate = useNavigate();
@@ -51,6 +52,24 @@ const Result = ({ category, data, mode, score }) => {
     }
   };
 
+  const rankingSubmission = {
+    wizard_name: 'yo',
+    mode_name: 'five',
+    difficulty_name: 'hard',
+    category_name: 'any',
+    score: 8,
+  };
+
+  const handleLeaderboard = (rankingSubmission) => {
+
+    axios.post('http://localhost:9090/api', rankingSubmission)
+    .then(res => {
+      console.log(res);
+    }).catch(err => {
+      console.log(err);
+    })
+  }
+
   useEffect(() => {
     mode === "Sudden Death"
       ? setModeLabel("Sudden Death")
@@ -83,7 +102,7 @@ const Result = ({ category, data, mode, score }) => {
       </BorderWrap>
       <ButtonContainer>
         <Button onPointerDown={handleNavigateMenu}>Main Menu</Button>
-        <Button leaderboard onPointerDown={handleNavigateLeaderboard}>
+        <Button leaderboard onPointerDown={handleLeaderboard}>
           Leaderboard
         </Button>
       </ButtonContainer>
@@ -120,9 +139,6 @@ const Title = styled.h1`
 const Score = styled.h2`
   font-size: 1.2rem;
   margin: 2% 0px;
-  /* background: -webkit-linear-gradient(#d207f6, #ffe91f);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent; */
 `;
 
 const BorderWrap = styled.div`
