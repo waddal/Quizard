@@ -54,7 +54,7 @@ const Result = ({ name, category, data, mode, score }) => {
 
   const submission = {
     name: name,
-    mode: mode,
+    mode: mode === "5" ? "Five" : "Ten",
     difficulty: data[0].difficulty,
     category: category,
     score: score,
@@ -64,7 +64,6 @@ const Result = ({ name, category, data, mode, score }) => {
     axios
       .post("http://localhost:9090/api", submission)
       .then((res) => {
-        console.log(res);
         navigate("/leaderboard");
       })
       .catch((err) => {
@@ -101,7 +100,7 @@ const Result = ({ name, category, data, mode, score }) => {
       </BorderWrap>
       <ButtonContainer>
         <Button onPointerDown={handleNavigateMenu}>Main Menu</Button>
-        <Button leaderboard onPointerDown={handleSubmission(submission)}>
+        <Button leaderboard onPointerDown={() => handleSubmission(submission)}>
           Submit Score
         </Button>
       </ButtonContainer>

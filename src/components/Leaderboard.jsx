@@ -1,39 +1,27 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 
 import Screen from "./Screen";
 
-const wizards = [
-  {
-    name: "Will",
-    mode: "Five",
-    difficulty: "Medium",
-    category: "Any",
-    score: 5,
-  },
-  {
-    name: "Gandalf",
-    mode: "Sudden Death",
-    difficulty: "Hard",
-    category: "Any",
-    score: 13,
-  },
-  {
-    name: "Mona",
-    mode: "Ten",
-    difficulty: "Easy",
-    category: "Any",
-    score: 6,
-  },
-];
-
 const Leaderboard = () => {
+  const [wizards, setWizards] = useState([]);
   const navigate = useNavigate();
   const handleNavigateMenu = () => {
     navigate("/menu");
   };
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:9090/api")
+      .then((res) => {
+        setWizards(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
 
   return (
     <Screen>
@@ -57,13 +45,13 @@ const Leaderboard = () => {
           </Filters>
         </Header>
         <Board>
-          {wizards.map((ele) => {
+          {wizards.map((wizard, index) => {
             return (
-              <BoardListing key={ele.id}>
-                <ListColumn name>{ele.name}</ListColumn>
-                <ListColumn>{ele.difficulty}</ListColumn>
-                <ListColumn>{ele.mode}</ListColumn>
-                <ListColumn score>{ele.score}</ListColumn>
+              <BoardListing key={index}>
+                <ListColumn name>{wizard.name}</ListColumn>
+                <ListColumn>{wizard.difficulty}</ListColumn>
+                <ListColumn>{wizard.mode}</ListColumn>
+                <ListColumn score>{wizard.score}</ListColumn>
               </BoardListing>
             );
           })}
