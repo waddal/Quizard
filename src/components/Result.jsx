@@ -72,10 +72,12 @@ const Result = ({ name, category, data, mode, score }) => {
   };
 
   useEffect(() => {
-    mode === "Sudden Death"
-      ? setModeLabel("Sudden Death")
-      : setModeLabel(`${mode} of ${mode}`);
-
+    if (mode === "Sudden Death") {
+    } else if (mode === "10") {
+      setModeLabel("Ten");
+    } else {
+      setModeLabel("Five");
+    }
     generateTitle();
   }, []);
 
