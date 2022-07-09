@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import axios from 'axios';
+import axios from "axios";
 
-const Result = ({ category, data, mode, score }) => {
+const Result = ({ name, category, data, mode, score }) => {
   const navigate = useNavigate();
   const [categoryLabel] = useState(`${category}`);
   const [difficultyLabel] = useState(`${data[0].difficulty}`);
@@ -52,23 +52,25 @@ const Result = ({ category, data, mode, score }) => {
     }
   };
 
-  const rankingSubmission = {
-    wizard_name: 'yo',
-    mode_name: 'five',
-    difficulty_name: 'hard',
-    category_name: 'any',
-    score: 8,
+  const submission = {
+    name: name,
+    mode: mode,
+    difficulty: data[0].difficulty,
+    category: category,
+    score: score,
   };
 
-  const handleLeaderboard = (rankingSubmission) => {
-
-    axios.post('http://localhost:9090/api', rankingSubmission)
-    .then(res => {
-      console.log(res);
-    }).catch(err => {
-      console.log(err);
-    })
-  }
+  const handleSubmission = (submission) => {
+    axios
+      .post("http://localhost:9090/api", submission)
+      .then((res) => {
+        console.log(res);
+        navigate("/leaderboard");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   useEffect(() => {
     mode === "Sudden Death"
@@ -82,13 +84,10 @@ const Result = ({ category, data, mode, score }) => {
     navigate("/menu");
   };
 
-  const handleNavigateLeaderboard = () => {
-    navigate("/leaderboard");
-  };
-
   return (
     <StyledResult>
       <Title>{titleLabel}</Title>
+      <Name>{name}</Name>
       <Score>{scoreLabel}</Score>
       <BorderWrap>
         <Results>
@@ -102,8 +101,8 @@ const Result = ({ category, data, mode, score }) => {
       </BorderWrap>
       <ButtonContainer>
         <Button onPointerDown={handleNavigateMenu}>Main Menu</Button>
-        <Button leaderboard onPointerDown={handleLeaderboard}>
-          Leaderboard
+        <Button leaderboard onPointerDown={handleSubmission(submission)}>
+          Submit Score
         </Button>
       </ButtonContainer>
     </StyledResult>
@@ -112,6 +111,7 @@ const Result = ({ category, data, mode, score }) => {
 
 const mapStateToProps = (state) => {
   return {
+    name: state.quizReducer.name,
     category: state.quizReducer.category,
     data: state.quizReducer.data,
     mode: state.quizReducer.mode,
@@ -134,6 +134,11 @@ const Title = styled.h1`
   text-align: center;
   font-size: 2rem;
   margin: 1%;
+`;
+
+const Name = styled.h3`
+  margin-top: 1%;
+  font-size: 1.4rem;
 `;
 
 const Score = styled.h2`

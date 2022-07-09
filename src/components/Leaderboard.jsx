@@ -34,17 +34,6 @@ const Leaderboard = () => {
   const handleNavigateMenu = () => {
     navigate("/menu");
   };
-  const submitScore = (score) => {
-    console.log("submitting: ", score);
-    axios
-      .post("http://localhost:9090/api", score)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
 
   return (
     <Screen>
@@ -81,11 +70,6 @@ const Leaderboard = () => {
         </Board>
         <ButtonContainer>
           <Button onPointerDown={handleNavigateMenu}>Main Menu</Button>
-        </ButtonContainer>
-        <ButtonContainer>
-          <Button onPointerDown={() => submitScore(wizards[0])}>
-            Submit Score
-          </Button>
         </ButtonContainer>
       </StyledLeaderboard>
     </Screen>
