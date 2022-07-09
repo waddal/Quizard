@@ -35,7 +35,6 @@ export const setMessage = (string) => {
 };
 
 export const setName = (string) => {
-  console.log('setName: ', string);
   return { type: SET_NAME, payload: string };
 };
 

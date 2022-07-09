@@ -5,6 +5,7 @@ import styled from "styled-components";
 import axios from "axios";
 import * as yup from "yup";
 import useSound from "use-sound";
+import { uniqueNamesGenerator, colors, animals } from "unique-names-generator";
 
 import { BASE_URL, API_KEY } from "../constants";
 import categories from "../data/categories";
@@ -39,12 +40,25 @@ const Settings = ({
   fetchData,
   isFetching,
 }) => {
+  const [wizard, setWizard] = useState("");
   const [formValues, setFormValues] = useState(initialFormValues);
   const [formErrors, setFormErrors] = useState(initialFormErrors);
-  const [wizard, setWizard] = useState("");
   const [disabled, setDisabled] = useState(initialDisabled);
   const [pop] = useSound(popSfx, { volume: 0.01 });
   const navigate = useNavigate();
+
+  const shortName = uniqueNamesGenerator({
+    dictionaries: [colors, animals],
+    length: 2,
+  });
+
+  const fillWizard = () => {
+    if (localStorage.getItem("moniker") == null) {
+      setWizard(shortName);
+    } else {
+      setWizard(localStorage.getItem("moniker"));
+    }
+  };
 
   const handleWizard = (e) => {
     setWizard(e.target.value);
@@ -71,6 +85,7 @@ const Settings = ({
           `${formValues.mode}` === "20" ? "Sudden Death" : `${formValues.mode}`
         );
         setName(wizard);
+        localStorage.setItem('moniker', wizard);
         navigate("/quiz");
       })
       .catch((err) => {
@@ -108,10 +123,14 @@ const Settings = ({
     });
   }, [formValues]);
 
+  useEffect(() => {
+    fillWizard();
+  }, []);
+
   return (
     <Screen>
       {isFetching && (
-        <PopupModule headerText={"your quiz is being created..."} />
+        <PopupModule headerText={"a worthy quiz is being created..."} />
       )}
       <SettingsContainer>
         <Title>SETTINGS</Title>
@@ -122,7 +141,7 @@ const Settings = ({
             <label>
               <input
                 type="text"
-                placeholder="Wizard39"
+                placeholder="Wizard93"
                 onChange={handleWizard}
                 value={wizard}
                 onMouseOver={pop}
