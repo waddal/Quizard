@@ -1,29 +1,31 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import axios from "axios";
+
 import Screen from "./Screen";
 
 const wizards = [
   {
-    id: 0,
     name: "Will",
     mode: "Five",
     difficulty: "Medium",
-    score: "5",
+    category: "Any",
+    score: 5,
   },
   {
-    id: 1,
     name: "Gandalf",
     mode: "Sudden Death",
     difficulty: "Hard",
-    score: "13",
+    category: "Any",
+    score: 13,
   },
   {
-    id: 2,
     name: "Mona",
     mode: "Ten",
     difficulty: "Easy",
-    score: "6",
+    category: "Any",
+    score: 6,
   },
 ];
 
@@ -31,6 +33,17 @@ const Leaderboard = () => {
   const navigate = useNavigate();
   const handleNavigateMenu = () => {
     navigate("/menu");
+  };
+  const submitScore = (score) => {
+    console.log("submitting: ", score);
+    axios
+      .post("http://localhost:9090/api", score)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   return (
@@ -68,6 +81,11 @@ const Leaderboard = () => {
         </Board>
         <ButtonContainer>
           <Button onPointerDown={handleNavigateMenu}>Main Menu</Button>
+        </ButtonContainer>
+        <ButtonContainer>
+          <Button onPointerDown={() => submitScore(wizards[0])}>
+            Submit Score
+          </Button>
         </ButtonContainer>
       </StyledLeaderboard>
     </Screen>

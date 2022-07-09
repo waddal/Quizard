@@ -9,7 +9,7 @@ import useSound from "use-sound";
 import { BASE_URL, API_KEY } from "../constants";
 import categories from "../data/categories";
 import schema from "../validation/formSchema";
-import { setData, setCategory, setMode } from "../actions/quizActions";
+import { setData, setCategory, setMode, setName } from "../actions/quizActions";
 import { fetchData } from "../actions/stateActions";
 import popSfx from "../assets/audio/pop.mp3";
 import PopupModule from "./PopupModule";
@@ -31,16 +31,27 @@ const initialFormErrors = {
 
 const initialDisabled = true;
 
-const Settings = ({ setData, setCategory, setMode, fetchData, isFetching }) => {
+const Settings = ({
+  setData,
+  setCategory,
+  setMode,
+  setName,
+  fetchData,
+  isFetching,
+}) => {
   const [formValues, setFormValues] = useState(initialFormValues);
   const [formErrors, setFormErrors] = useState(initialFormErrors);
+  const [wizard, setWizard] = useState("");
   const [disabled, setDisabled] = useState(initialDisabled);
   const [pop] = useSound(popSfx, { volume: 0.01 });
   const navigate = useNavigate();
 
+  const handleWizard = (e) => {
+    setWizard(e.target.value);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("your quiz is being created..!", formValues);
     fetchData();
     axios
       .get(`${BASE_URL}${API_KEY}`, {
@@ -59,6 +70,7 @@ const Settings = ({ setData, setCategory, setMode, fetchData, isFetching }) => {
         setMode(
           `${formValues.mode}` === "20" ? "Sudden Death" : `${formValues.mode}`
         );
+        setName(wizard);
         navigate("/quiz");
       })
       .catch((err) => {
@@ -103,6 +115,22 @@ const Settings = ({ setData, setCategory, setMode, fetchData, isFetching }) => {
       )}
       <SettingsContainer>
         <Title>SETTINGS</Title>
+
+        <WizardContainer>
+          <SettingTitle>Name</SettingTitle>
+          <UserContainer>
+            <label>
+              <input
+                type="text"
+                placeholder="Wizard39"
+                onChange={handleWizard}
+                value={wizard}
+                onMouseOver={pop}
+              />
+            </label>
+          </UserContainer>
+        </WizardContainer>
+
         <Form onSubmit={handleSubmit}>
           <SettingsSection>
             <SettingTitle>Mode</SettingTitle>
@@ -319,6 +347,7 @@ export default connect(mapStateToProps, {
   setData,
   setCategory,
   setMode,
+  setName,
   fetchData,
 })(Settings);
 
@@ -335,18 +364,43 @@ const SettingsContainer = styled.div`
 
 const Title = styled.h1`
   font-size: 3rem;
-  margin: 2%;
+  margin-bottom: 30px;
+`;
+
+const WizardContainer = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 10px 40px;
+  box-sizing: border-box;
+`;
+
+const UserContainer = styled.div`
+  margin-left: 225px;
+  input {
+    height: 30px;
+    width: 250px;
+    text-align: center;
+    color: ${({ theme }) => theme.text};
+    background: transparent;
+    box-sizing: border-box;
+
+    &:focus {
+      outline: 1px solid yellow;
+    }
+  }
+  /* input:focus {
+    border: 1px solid yellow;
+  } */
 `;
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
 `;
 
 const SettingTitle = styled.h2`
   font-size: 2rem;
-  margin-bottom: 20px;
   color: orange;
 `;
 
@@ -355,7 +409,7 @@ const SettingsSection = styled.div`
   align-items: baseline;
   justify-content: space-between;
   width: 100%;
-  padding: 30px;
+  padding: 15px;
   box-sizing: border-box;
 
   label {
@@ -405,7 +459,7 @@ const CategorySection = styled.div`
   justify-content: space-between;
   width: 100%;
   height: auto;
-  padding: 30px;
+  padding: 15px;
   box-sizing: border-box;
 
   label {

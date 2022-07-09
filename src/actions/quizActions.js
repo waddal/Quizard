@@ -4,6 +4,7 @@ export const SET_CHOICES = "SET_CHOICES";
 export const SET_MODE = "SET_MODE";
 export const SET_CHECKED = "SET_CHECKED";
 export const SET_MESSAGE = "SET_MESSAGE";
+export const SET_NAME = "SET_NAME";
 export const SET_ANSWER_INDEX = "SET_ANSWER_INDEX";
 export const ADD_SCORE = "ADD_SCORE";
 export const ADD_INDEX = "ADD_INDEX";
@@ -31,6 +32,11 @@ export const setChecked = (bool) => {
 
 export const setMessage = (string) => {
   return { type: SET_MESSAGE, payload: string };
+};
+
+export const setName = (string) => {
+  console.log('setName: ', string);
+  return { type: SET_NAME, payload: string };
 };
 
 export const setAnswerIndex = (index) => {

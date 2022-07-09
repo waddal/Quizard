@@ -5,6 +5,7 @@ import {
   SET_MODE,
   SET_CHECKED,
   SET_MESSAGE,
+  SET_NAME,
   SET_ANSWER_INDEX,
   ADD_INDEX,
   ADD_SCORE,
@@ -17,6 +18,7 @@ const initialState = {
   category: "",
   mode: "",
   message: "",
+  name: "",
   score: 0,
   index: 0,
   answerIndex: 0,
@@ -54,6 +56,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         message: action.payload,
+      };
+    case SET_NAME:
+      return {
+        ...state,
+        name: action.payload,
       };
     case SET_ANSWER_INDEX:
       return {
