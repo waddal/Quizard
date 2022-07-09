@@ -64,6 +64,10 @@ const Settings = ({
     setWizard(e.target.value);
   };
 
+  const handleGamble = () => {
+    setWizard(shortName);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     fetchData();
@@ -85,7 +89,7 @@ const Settings = ({
           `${formValues.mode}` === "20" ? "Sudden Death" : `${formValues.mode}`
         );
         setName(wizard);
-        localStorage.setItem('moniker', wizard);
+        localStorage.setItem("moniker", wizard);
         navigate("/quiz");
       })
       .catch((err) => {
@@ -138,6 +142,7 @@ const Settings = ({
         <WizardContainer>
           <SettingTitle>Name</SettingTitle>
           <UserContainer>
+            <Dice onPointerDown={handleGamble}>🎲</Dice>
             <label>
               <input
                 type="text"
@@ -395,7 +400,10 @@ const WizardContainer = styled.div`
 `;
 
 const UserContainer = styled.div`
+  display: flex;
+  align-items: center;
   margin-left: 225px;
+  position: relative;
   input {
     height: 30px;
     width: 250px;
@@ -408,9 +416,12 @@ const UserContainer = styled.div`
       outline: 1px solid yellow;
     }
   }
-  /* input:focus {
-    border: 1px solid yellow;
-  } */
+`;
+
+const Dice = styled.div`
+  position: absolute;
+  right: 8px;
+  cursor: pointer;
 `;
 
 const Form = styled.form`
