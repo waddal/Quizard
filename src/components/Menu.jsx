@@ -3,17 +3,32 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import useSound from "use-sound";
+
 import tuneSfx from "../assets/audio/tune.mp3";
 import popSfx from "../assets/audio/pop.mp3";
 
 const Menu = ({ theme, themeToggler }) => {
   const [settings, setSettings] = useState(true);
-  const [tune] = useSound(tuneSfx);
+  const [musicOn, setMusicOn] = useState(false);
+  const [tune, exposedData] = useSound(tuneSfx);
   const [pop] = useSound(popSfx, { volume: 0.03 });
   const navigate = useNavigate();
 
   const handleSettings = () => {
     setSettings(!settings);
+  };
+
+  const toggleMusic = () => {
+    //if music is off, turn it on and set musicOn state var to true
+    if (!musicOn) {
+      setMusicOn(true);
+      tune();
+      console.log("PLAY");
+    } else {
+      setMusicOn(false);
+      exposedData.stop();
+      console.log("STOP");
+    }
   };
 
   return (
@@ -27,14 +42,19 @@ const Menu = ({ theme, themeToggler }) => {
           >
             New Game
           </NewGameButton>
-          <LeaderboardButton onMouseOver={pop} onClick={() => navigate("/leaderboard")} >Leaderboard</LeaderboardButton>
+          <LeaderboardButton
+            onMouseOver={pop}
+            onClick={() => navigate("/leaderboard")}
+          >
+            Leaderboard
+          </LeaderboardButton>
         </>
       ) : (
         <>
           <ThemeButton onClick={themeToggler} onMouseOver={pop} theme={theme}>
             Theme
           </ThemeButton>
-          <MusicButton onClick={tune} onMouseOver={pop}>
+          <MusicButton onClick={toggleMusic} onMouseOver={pop}>
             Music
           </MusicButton>
         </>
@@ -78,7 +98,8 @@ const Button = styled.button`
   margin: 0.5%;
   transition: ease 0.1s;
 
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     box-shadow: 0 0 3px 1px #fff, 0 0 8px 4px #f0f, 0 0 10px 5px #0ff;
     transition: ease 0.1s;
   }
