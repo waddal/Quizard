@@ -7,7 +7,7 @@ import Screen from "./Screen";
 
 const Leaderboard = () => {
   const [leaderboard, setLeaderboard] = useState([]);
-  const [wizards, setWizards] = useState([]);
+  const [filtered, setFilteredList] = useState([]);
   const navigate = useNavigate();
   const handleNavigateMenu = () => {
     navigate("/menu");
@@ -16,36 +16,36 @@ const Leaderboard = () => {
   const handleSearchFilter = (e) => {
     const keyword = e.target.value;
     if (keyword !== "") {
-      const filtered = wizards.filter((wizard) => {
+      const filtered = leaderboard.filter((wizard) => {
         return wizard.name.toUpperCase().startsWith(keyword.toUpperCase());
       });
-      setWizards(filtered);
+      setFilteredList(filtered);
     } else {
-      setWizards(leaderboard);
+      setFilteredList(leaderboard);
     }
   };
 
   const handleModeFilter = (e) => {
     const keyword = e.target.value;
     if (keyword !== "Any") {
-      const filtered = wizards.filter((wizard) => {
+      const filtered = leaderboard.filter((wizard) => {
         return wizard.mode === keyword;
       });
-      setWizards(filtered);
+      setFilteredList(filtered);
     } else {
-      setWizards(leaderboard);
+      setFilteredList(leaderboard);
     }
   };
 
   const handleDifficultyFilter = (e) => {
     const keyword = e.target.value;
     if (keyword !== "Any") {
-      const filtered = wizards.filter((wizard) => {
+      const filtered = leaderboard.filter((wizard) => {
         return wizard.difficulty === keyword;
       });
-      setWizards(filtered);
+      setFilteredList(filtered);
     } else {
-      setWizards(leaderboard);
+      setFilteredList(leaderboard);
     }
   };
 
@@ -54,7 +54,7 @@ const Leaderboard = () => {
       .get("http://localhost:9090/api")
       .then((res) => {
         setLeaderboard(res.data);
-        setWizards(res.data);
+        setFilteredList(res.data);
       })
       .catch((err) => {
         console.error(err);
@@ -86,19 +86,19 @@ const Leaderboard = () => {
                 Mode
               </option>
               <option value="Any">Any</option>
-              <option value="Five">Five</option>
-              <option value="Ten">Ten</option>
-              <option value="Sudden Death">Sudden Death</option>
+              <option value="5">Five</option>
+              <option value="10">Ten</option>
+              <option value="☠️">Sudden Death</option>
             </Filter>
           </Filters>
         </Header>
         <Board>
-          {wizards.map((wizard, index) => {
+          {filtered.map((wizard, index) => {
             return (
               <BoardListing key={index}>
                 <ListColumn name>{wizard.name}</ListColumn>
-                <ListColumn>{wizard.difficulty}</ListColumn>
                 <ListColumn>{wizard.category}</ListColumn>
+                <ListColumn>{wizard.difficulty}</ListColumn>
                 <ListColumn>{wizard.mode}</ListColumn>
                 <ListColumn score>{wizard.score}</ListColumn>
               </BoardListing>

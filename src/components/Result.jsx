@@ -52,9 +52,15 @@ const Result = ({ name, category, data, mode, score }) => {
     }
   };
 
+  const generateMode = () => {
+    if (mode !== "Sudden Death") {
+      mode === "10" ? setModeLabel("Ten") : setModeLabel("Five");
+    }
+  };
+
   const submission = {
     name: name,
-    mode: mode === "5" ? "Five" : "Ten",
+    mode: mode === "Sudden Death" ? "☠️" : mode,
     difficulty: data[0].difficulty,
     category: category,
     score: score,
@@ -63,8 +69,7 @@ const Result = ({ name, category, data, mode, score }) => {
   const handleSubmission = (submission) => {
     axios
       .post("http://localhost:9090/api", submission)
-      .then((res) => {
-        console.log(res);
+      .then(() => {
         navigate("/leaderboard");
       })
       .catch((err) => {
@@ -73,9 +78,7 @@ const Result = ({ name, category, data, mode, score }) => {
   };
 
   useEffect(() => {
-    if (mode !== "Sudden Death") {
-      mode === "10" ? setModeLabel("Ten") : setModeLabel("Five");
-    }
+    generateMode();
     generateTitle();
   }, []);
 
@@ -118,7 +121,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, {})(Result);
+export default connect(mapStateToProps)(Result);
 
 const StyledResult = styled.div`
   height: 100vh;
