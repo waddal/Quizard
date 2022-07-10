@@ -6,16 +6,54 @@ import axios from "axios";
 import Screen from "./Screen";
 
 const Leaderboard = () => {
+  const [leaderboard, setLeaderboard] = useState([]);
   const [wizards, setWizards] = useState([]);
   const navigate = useNavigate();
   const handleNavigateMenu = () => {
     navigate("/menu");
   };
 
+  const handleSearchFilter = (e) => {
+    const keyword = e.target.value;
+    if (keyword !== "") {
+      const filtered = wizards.filter((wizard) => {
+        return wizard.name.toUpperCase().startsWith(keyword.toUpperCase());
+      });
+      setWizards(filtered);
+    } else {
+      setWizards(leaderboard);
+    }
+  };
+
+  const handleModeFilter = (e) => {
+    const keyword = e.target.value;
+    if (keyword !== "Any") {
+      const filtered = wizards.filter((wizard) => {
+        return wizard.mode === keyword;
+      });
+      setWizards(filtered);
+    } else {
+      setWizards(leaderboard);
+    }
+  };
+
+  const handleDifficultyFilter = (e) => {
+    const keyword = e.target.value;
+    if (keyword !== "Any") {
+      const filtered = wizards.filter((wizard) => {
+        return wizard.difficulty === keyword;
+      });
+      setWizards(filtered);
+    } else {
+      setWizards(leaderboard);
+    }
+  };
+
   useEffect(() => {
     axios
       .get("http://localhost:9090/api")
       .then((res) => {
+        setLeaderboard(res.data);
         setWizards(res.data);
       })
       .catch((err) => {
@@ -29,18 +67,28 @@ const Leaderboard = () => {
         <Header>
           <Title>Leaderboard</Title>
           <Filters>
-            <Search type={"text"} placeholder={"Wizard Name"} />
-            <Filter type={"dropdown"}>
-              <option value="Difficulty">Difficulty</option>
+            <Search
+              type={"text"}
+              placeholder={"Wizard"}
+              onChange={handleSearchFilter}
+            />
+            <Filter type={"dropdown"} onChange={handleDifficultyFilter}>
+              <option value="Difficulty" selected disabled>
+                Difficulty
+              </option>
+              <option value="Any">Any</option>
               <option value="Easy">Easy</option>
               <option value="Medium">Medium</option>
               <option value="Hard">Hard</option>
             </Filter>
-            <Filter type={"dropdown"}>
-              <option value="Mode">Mode</option>
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="SuddenDeath">Sudden Death</option>
+            <Filter type={"dropdown"} onChange={handleModeFilter}>
+              <option value="Mode" selected disabled>
+                Mode
+              </option>
+              <option value="Any">Any</option>
+              <option value="Five">Five</option>
+              <option value="Ten">Ten</option>
+              <option value="Sudden Death">Sudden Death</option>
             </Filter>
           </Filters>
         </Header>
@@ -50,6 +98,7 @@ const Leaderboard = () => {
               <BoardListing key={index}>
                 <ListColumn name>{wizard.name}</ListColumn>
                 <ListColumn>{wizard.difficulty}</ListColumn>
+                <ListColumn>{wizard.category}</ListColumn>
                 <ListColumn>{wizard.mode}</ListColumn>
                 <ListColumn score>{wizard.score}</ListColumn>
               </BoardListing>
