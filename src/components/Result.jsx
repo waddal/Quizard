@@ -8,7 +8,7 @@ const Result = ({ name, category, data, mode, score }) => {
   const navigate = useNavigate();
   const [categoryLabel] = useState(`${category}`);
   const [difficultyLabel] = useState(`${data[0].difficulty}`);
-  const [modeLabel, setModeLabel] = useState("");
+  const [modeLabel, setModeLabel] = useState(mode);
   const [scoreLabel] = useState(
     `You answered ${score} out of ${data.length} questions!`
   );
@@ -64,6 +64,7 @@ const Result = ({ name, category, data, mode, score }) => {
     axios
       .post("http://localhost:9090/api", submission)
       .then((res) => {
+        console.log(res);
         navigate("/leaderboard");
       })
       .catch((err) => {
@@ -72,11 +73,8 @@ const Result = ({ name, category, data, mode, score }) => {
   };
 
   useEffect(() => {
-    if (mode === "Sudden Death") {
-    } else if (mode === "10") {
-      setModeLabel("Ten");
-    } else {
-      setModeLabel("Five");
+    if (mode !== "Sudden Death") {
+      mode === "10" ? setModeLabel("Ten") : setModeLabel("Five");
     }
     generateTitle();
   }, []);

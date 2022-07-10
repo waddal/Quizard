@@ -19,15 +19,12 @@ const Menu = ({ theme, themeToggler }) => {
   };
 
   const toggleMusic = () => {
-    //if music is off, turn it on and set musicOn state var to true
     if (!musicOn) {
       setMusicOn(true);
       tune();
-      console.log("PLAY");
     } else {
       setMusicOn(false);
       exposedData.stop();
-      console.log("STOP");
     }
   };
 
