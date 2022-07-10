@@ -27,7 +27,7 @@ const Leaderboard = () => {
 
   const handleModeFilter = (e) => {
     const keyword = e.target.value;
-    if (keyword !== "Any") {
+    if (keyword !== "All") {
       const filtered = leaderboard.filter((wizard) => {
         return wizard.mode === keyword;
       });
@@ -39,9 +39,21 @@ const Leaderboard = () => {
 
   const handleDifficultyFilter = (e) => {
     const keyword = e.target.value;
-    if (keyword !== "Any") {
+    if (keyword !== "All") {
       const filtered = leaderboard.filter((wizard) => {
         return wizard.difficulty === keyword;
+      });
+      setFilteredList(filtered);
+    } else {
+      setFilteredList(leaderboard);
+    }
+  };
+
+  const handleCategoryFilter = (e) => {
+    const keyword = e.target.value;
+    if (keyword !== "All") {
+      const filtered = leaderboard.filter((wizard) => {
+        return wizard.category === keyword;
       });
       setFilteredList(filtered);
     } else {
@@ -72,20 +84,46 @@ const Leaderboard = () => {
               placeholder={"Wizard"}
               onChange={handleSearchFilter}
             />
-            <Filter type={"dropdown"} onChange={handleDifficultyFilter}>
-              <option value="Difficulty" selected disabled>
+            <Filter
+              type={"dropdown"}
+              onChange={handleCategoryFilter}
+              defaultValue="Category"
+            >
+              <option value="Category" disabled>
+                Category
+              </option>
+              <option value="All">All</option>
+              <option value="Any">Any</option>
+              <option value="Bash">Bash</option>
+              <option value="Code">Code</option>
+              <option value="SQL">SQL</option>
+              <option value="DevOps">DevOps</option>
+              <option value="CMS">CMS</option>
+              <option value="Linux">Linux</option>
+              <option value="Docker">Docker</option>
+            </Filter>
+            <Filter
+              type={"dropdown"}
+              onChange={handleDifficultyFilter}
+              defaultValue="Difficulty"
+            >
+              <option value="Difficulty" disabled>
                 Difficulty
               </option>
-              <option value="Any">Any</option>
+              <option value="All">All</option>
               <option value="Easy">Easy</option>
               <option value="Medium">Medium</option>
               <option value="Hard">Hard</option>
             </Filter>
-            <Filter type={"dropdown"} onChange={handleModeFilter}>
-              <option value="Mode" selected disabled>
+            <Filter
+              type={"dropdown"}
+              onChange={handleModeFilter}
+              defaultValue="Mode"
+            >
+              <option value="Mode" disabled>
                 Mode
               </option>
-              <option value="Any">Any</option>
+              <option value="All">All</option>
               <option value="5">Five</option>
               <option value="10">Ten</option>
               <option value="☠️">Sudden Death</option>
@@ -137,11 +175,13 @@ const Title = styled.h1`
 `;
 const Filters = styled.div``;
 const Search = styled.input`
-  margin-right: 10px;
+  margin-right: 5px;
+  width: 120px;
 `;
 const Filter = styled.select`
   text-align: center;
-  width: auto;
+  width: 110px;
+  margin-left: 5px;
 `;
 const Board = styled.ul`
   padding: 10px;
