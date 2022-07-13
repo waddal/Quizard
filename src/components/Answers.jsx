@@ -29,9 +29,6 @@ export default Answers;
 const StyledAnswers = styled.div`
   width: 80%;
   height: 60%;
-  padding: 0px 20px;
-  position: absolute;
-  top: 150px;
 
   .answer {
     display: flex;

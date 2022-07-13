@@ -35,14 +35,27 @@ const StyledSplash = styled.div`
 const Title = styled.h1`
   font-size: 4rem;
   margin: 2%;
+  animation: glow 1s ease-in-out infinite alternate;
+  transform: translateZ(0);
+  @keyframes glow {
+    from {
+      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073,
+        0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
+    }
+    to {
+      text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6,
+        0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
+    }
+  }
 `;
 
 const Button = styled.button`
   width: 140px;
   height: 50px;
   background-color: silver;
-  margin: 1%;
+  margin-bottom: 2%;
   transition: all 0.4s ease-out;
+  cursor: pointer;
 
   &:hover {
     background-color: #f4f6ed;

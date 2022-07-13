@@ -16,7 +16,7 @@ const Leaderboard = () => {
   const handleSearchFilter = (e) => {
     const keyword = e.target.value;
     if (keyword !== "") {
-      const filtered = leaderboard.filter((wizard) => {
+      let filtered = leaderboard.filter((wizard) => {
         return wizard.name.toUpperCase().startsWith(keyword.toUpperCase());
       });
       setFilteredList(filtered);
@@ -61,11 +61,17 @@ const Leaderboard = () => {
     }
   };
 
+  const sortLeaderboard = () => {
+    let sorted = filtered.sort((a, b) => {
+      return b.score - a.score;
+    });
+    setLeaderboard(sorted);
+  };
+
   useEffect(() => {
     axios
       .get("http://localhost:9090/api")
       .then((res) => {
-        setLeaderboard(res.data);
         setFilteredList(res.data);
       })
       .catch((err) => {
@@ -128,6 +134,7 @@ const Leaderboard = () => {
               <option value="10">Ten</option>
               <option value="☠️">Sudden Death</option>
             </Filter>
+            <button onClick={sortLeaderboard}>Sort</button>
           </Filters>
         </Header>
         <Board>
@@ -154,11 +161,17 @@ const Leaderboard = () => {
 export default Leaderboard;
 
 const StyledLeaderboard = styled.div`
+  min-height: 90vh;
+  width: 90vw;
   display: flex;
   flex-direction: column;
-  height: 512px;
-  width: clamp(600px, 650px, 90vw);
+  align-items: center;
+  opacity: ${({ module }) => module && 0.5};
   background: ${({ theme }) => theme.body};
+
+  @media (min-width: 600px) {
+    width: 60vw;
+  }
 `;
 
 const Header = styled.header`
@@ -170,10 +183,17 @@ const Header = styled.header`
 `;
 
 const Title = styled.h1`
-  font-size: 4rem;
+  font-size: 4vh;
   margin-bottom: 10px;
+  @media (min-width: 600px) {
+    font-size: ;
+  }
 `;
-const Filters = styled.div``;
+const Filters = styled.div`
+  button {
+    margin-left: 5px;
+  }
+`;
 const Search = styled.input`
   margin-right: 5px;
   width: 120px;
@@ -184,9 +204,10 @@ const Filter = styled.select`
   margin-left: 5px;
 `;
 const Board = styled.ul`
+  width: 90%;
+  height: 100%;
   padding: 10px;
   overflow: scroll;
-  height: 300px;
 
   li {
     margin: 5px 10px;
@@ -221,6 +242,7 @@ const Button = styled.button`
   width: 140px;
   height: 50px;
   background-color: "silver";
+  cursor: pointer;
 
   &:hover,
   &:focus {

@@ -125,6 +125,7 @@ const Settings = ({
     schema.isValid(formValues).then((valid) => {
       setDisabled(!valid);
     });
+    console.log(formValues);
   }, [formValues]);
 
   useEffect(() => {
@@ -139,23 +140,23 @@ const Settings = ({
       <SettingsContainer>
         <Title>SETTINGS</Title>
 
-        <WizardContainer>
-          <SettingTitle>Name</SettingTitle>
-          <UserContainer>
-            <Dice onPointerDown={handleGamble}>🎲</Dice>
-            <label>
-              <input
-                type="text"
-                placeholder="Wizard93"
-                onChange={handleWizard}
-                value={wizard}
-                onMouseOver={pop}
-              />
-            </label>
-          </UserContainer>
-        </WizardContainer>
-
         <Form onSubmit={handleSubmit}>
+          <SettingsSection>
+            <SettingTitle>Name</SettingTitle>
+            <BoxContainers>
+              <Dice onPointerDown={handleGamble}>🎲</Dice>
+              <label>
+                <input
+                  className="box"
+                  type="text"
+                  placeholder="Smarterdore"
+                  onChange={handleWizard}
+                  value={wizard}
+                  onMouseOver={pop}
+                />
+              </label>
+            </BoxContainers>
+          </SettingsSection>
           <SettingsSection>
             <SettingTitle>Mode</SettingTitle>
             <InputContainer>
@@ -325,28 +326,35 @@ const Settings = ({
               </label>
             </InputContainer>
           </SettingsSection>
-          <CategorySection>
+          <SettingsSection>
             <SettingTitle>Category</SettingTitle>
-            <CategoriesList>
-              {categories.map((item, idx) => {
-                return (
-                  <label key={idx}>
-                    <input
-                      type="radio"
-                      name="category"
+            <BoxContainers>
+              <select
+                className="box"
+                type="dropdown"
+                name="category"
+                onChange={handleChange}
+                onMouseOver={pop}
+                defaultValue={"select"}
+              >
+                <option value="select" disabled>
+                  Select
+                </option>
+                {categories.map((item, idx) => {
+                  return (
+                    <option
+                      key={idx}
                       id={item}
                       value={item}
                       checked={formValues.category === item}
-                      onChange={handleChange}
-                      onMouseOver={pop}
-                    />
-                    {item} &nbsp;
-                  </label>
-                );
-              })}
-            </CategoriesList>
-          </CategorySection>
-          <br></br>
+                    >
+                      {item}
+                    </option>
+                  );
+                })}
+              </select>
+            </BoxContainers>
+          </SettingsSection>
         </Form>
         <Button disabled={disabled} onClick={handleSubmit} onMouseOver={pop}>
           start
@@ -376,37 +384,70 @@ export default connect(mapStateToProps, {
 })(Settings);
 
 const SettingsContainer = styled.div`
-  height: 512px;
-  width: clamp(600px, 650px, 90vw);
+  min-height: 90vh;
+  width: 90vw;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   background: ${({ theme }) => theme.body};
+  padding: 16px;
   box-sizing: border-box;
+
+  @media (min-width: 600px) {
+    width: 60vw;
+  }
 `;
 
 const Title = styled.h1`
   font-size: 3rem;
-  margin-bottom: 30px;
+  margin: 10% 0%;
 `;
 
-const WizardContainer = styled.div`
+const Form = styled.form`
   display: flex;
-  align-items: center;
-  width: 100%;
-  padding: 10px 40px;
+  flex-direction: column;
+  width: 80%;
+`;
+
+const SettingTitle = styled.h2`
+  font-size: 1.5rem;
+  color: orange;
+  margin-bottom: 1%;
+`;
+
+const SettingsSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 10px 0%;
   box-sizing: border-box;
+
+  label {
+    flex: 1;
+    cursor: pointer;
+  }
+
+  .box {
+    height: 30px;
+    width: 200px;
+    text-align: center;
+    color: ${({ theme }) => theme.text};
+    background: transparent;
+
+    &:focus {
+      outline: 1px solid yellow;
+    }
+  }
 `;
 
-const UserContainer = styled.div`
+const BoxContainers = styled.div`
   display: flex;
-  align-items: center;
-  margin-left: 225px;
+  align-self: center;
   position: relative;
+
   input {
-    height: 30px;
-    width: 250px;
     text-align: center;
     color: ${({ theme }) => theme.text};
     background: transparent;
@@ -420,38 +461,17 @@ const UserContainer = styled.div`
 
 const Dice = styled.div`
   position: absolute;
+  bottom: 7px;
   right: 8px;
   cursor: pointer;
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-`;
-
-const SettingTitle = styled.h2`
-  font-size: 2rem;
-  color: orange;
-`;
-
-const SettingsSection = styled.div`
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  width: 100%;
-  padding: 15px;
-  box-sizing: border-box;
-
-  label {
-    flex: 1;
-    cursor: pointer;
-  }
 `;
 
 const InputContainer = styled.div`
   display: flex;
   text-align: center;
-  width: 50%;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 
   input {
     flex: 1;
@@ -484,30 +504,12 @@ const InputContainer = styled.div`
   }
 `;
 
-const CategorySection = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  height: auto;
-  padding: 15px;
-  box-sizing: border-box;
-
-  label {
-    flex: 1;
-    cursor: pointer;
-  }
-`;
-
-const CategoriesList = styled.div`
-  margin-left: 15px;
-  width: 400px;
-`;
-
 const Button = styled.button`
-  width: 50%;
-  height: 50px;
-  margin-bottom: 40px;
+  width: 60%;
+  height: 30px;
+  margin: 5%;
   transition: ease 0.1s;
+  cursor: pointer;
 
   &:enabled {
     box-shadow: 0 0 3px 1px #fff, 0 0 8px 4px #f0f, 0 0 10px 5px #0ff;

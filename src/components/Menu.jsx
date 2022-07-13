@@ -30,39 +30,41 @@ const Menu = ({ theme, themeToggler }) => {
 
   return (
     <StyledMenu>
-      <Title>Menu</Title>
-      {settings ? (
-        <>
-          <NewGameButton
-            onClick={() => navigate("/settings")}
-            onMouseOver={pop}
-          >
-            New Game
-          </NewGameButton>
-          <LeaderboardButton
-            onMouseOver={pop}
-            onClick={() => navigate("/leaderboard")}
-          >
-            Leaderboard
-          </LeaderboardButton>
-        </>
-      ) : (
-        <>
-          <ThemeButton onClick={themeToggler} onMouseOver={pop} theme={theme}>
-            Theme
-          </ThemeButton>
-          <MusicButton onClick={toggleMusic} onMouseOver={pop}>
-            Music
-          </MusicButton>
-        </>
-      )}
-      <SettingsButton
-        onClick={handleSettings}
-        onMouseOver={pop}
-        settings={settings}
-      >
-        Settings
-      </SettingsButton>
+      <MenuContainer>
+        <Title>Menu</Title>
+        {settings ? (
+          <>
+            <NewGameButton
+              onClick={() => navigate("/settings")}
+              onMouseOver={pop}
+            >
+              New Game
+            </NewGameButton>
+            <LeaderboardButton
+              onMouseOver={pop}
+              onClick={() => navigate("/leaderboard")}
+            >
+              Leaderboard
+            </LeaderboardButton>
+          </>
+        ) : (
+          <>
+            <ThemeButton onClick={themeToggler} onMouseOver={pop} theme={theme}>
+              Theme
+            </ThemeButton>
+            <MusicButton onClick={toggleMusic} onMouseOver={pop}>
+              Music
+            </MusicButton>
+          </>
+        )}
+        <SettingsButton
+          onClick={handleSettings}
+          onMouseOver={pop}
+          settings={settings}
+        >
+          Settings
+        </SettingsButton>
+      </MenuContainer>
     </StyledMenu>
   );
 };
@@ -77,23 +79,40 @@ export default connect(mapStateToProps, {})(Menu);
 
 const StyledMenu = styled.div`
   height: 100vh;
+  width: 100vw;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  box-sizing: border-box;
+`;
+
+const MenuContainer = styled.div`
+  min-height: 90vh;
+  width: 90vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  @media (min-width: 600px) {
+    width: 50vw;
+  }
 `;
 
 const Title = styled.h1`
-  font-size: 4rem;
-  margin: 1%;
+  font-size: 5rem;
+  margin-bottom: 8%;
 `;
 
 const Button = styled.button`
-  width: 140px;
-  height: 50px;
+  width: 60%;
+  height: 10%;
   background-color: silver;
+  font-size: 1.5rem;
   margin: 0.5%;
   transition: ease 0.1s;
+  cursor: pointer;
 
   &:hover,
   &:focus {

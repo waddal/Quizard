@@ -179,15 +179,18 @@ export default connect(mapStateToProps, {
 })(Quiz);
 
 const QuizContainer = styled.div`
-  height: 512px;
-  width: clamp(600px, 650px, 90vw);
+  min-height: 90vh;
+  width: 90vw;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   position: relative;
   opacity: ${({ module }) => module && 0.5};
   background: ${({ theme }) => theme.body};
+
+  @media (min-width: 600px) {
+    width: 60vw;
+  }
 `;
 
 const QuitButton = styled.div`
@@ -226,20 +229,25 @@ const Index = styled.div`
 const Question = styled.div`
   text-align: center;
   line-height: 1.2;
-  position: absolute;
-  top: 70px;
-  padding: 20px;
+  padding: 15px;
+  margin: 40px;
+  margin-bottom: 20px;
 `;
 
 const SubmitButton = styled.button`
-  width: 25%;
-  height: 25px;
+  width: 40%;
+  height: 8%;
   position: absolute;
-  bottom: 25px;
+  bottom: 30px;
 
   &:enabled {
     box-shadow: 0 0 3px 1px #fff, 0 0 8px 4px #f0f, 0 0 10px 5px #0ff;
     transition: ease 0.1s;
+  }
+
+  @media (min-width: 600px) {
+    width: 50%;
+    bottom: 40px;
   }
 `;
 

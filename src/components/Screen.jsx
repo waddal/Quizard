@@ -15,10 +15,13 @@ export default Screen;
 
 const StyledScreen = styled.div`
   height: 100vh;
+  width: 100vw;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  box-sizing: border-box;
+  overflow: hidden;
 `;
 
 const Wrap = styled.div`

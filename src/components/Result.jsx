@@ -129,23 +129,35 @@ const StyledResult = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  text-align: center;
   cursor: default;
 `;
 
 const Title = styled.h1`
-  text-align: center;
   font-size: 2rem;
-  margin: 1%;
 `;
 
 const Name = styled.h3`
-  margin-top: 1%;
-  font-size: 1.4rem;
+  font-size: 1.6rem;
+  font-weight: 909;
+  margin: 3%;
+  animation: glow 1s ease-in-out infinite alternate;
+  transform: translateZ(0);
+  @keyframes glow {
+    from {
+      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073,
+        0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
+    }
+    to {
+      text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6,
+        0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
+    }
+  }
 `;
 
 const Score = styled.h2`
   font-size: 1.2rem;
-  margin: 2% 0px;
+  margin-bottom: 2%;
 `;
 
 const BorderWrap = styled.div`
@@ -158,10 +170,14 @@ const BorderWrap = styled.div`
 `;
 
 const Results = styled.div`
-  border: 1px solid purple;
-  width: 236px;
+  min-width: 236px;
   padding: 20px;
   background: ${({ theme }) => theme.body};
+  text-align: left;
+
+  @media (min-width: 600px) {
+    width: 40vw;
+  }
 `;
 
 const Label = styled.h3`
@@ -181,6 +197,7 @@ const Button = styled.button`
   height: 50px;
   background-color: ${({ leaderboard }) => (leaderboard ? "gold" : "silver")};
   margin: 0.5%;
+  cursor: pointer;
 
   &:hover,
   &:focus {

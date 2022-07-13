@@ -19,7 +19,7 @@ export default PopupModule;
 
 const StyledModule = styled.div`
   height: 30%;
-  width: 30%;
+  width: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -28,6 +28,9 @@ const StyledModule = styled.div`
   border: 2px solid red;
   position: absolute;
   z-index: 1;
+  @media (min-width: 600px) {
+    width: 30%;
+  }
 `;
 
 const Header = styled.header`
@@ -38,8 +41,8 @@ const Header = styled.header`
 `;
 
 const Button = styled.button`
-  width: 70px;
-  height: 25px;
+  width: 40%;
+  height: 40px;
   background-color: silver;
   margin: 0.5%;
 
