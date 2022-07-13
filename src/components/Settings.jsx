@@ -384,7 +384,7 @@ export default connect(mapStateToProps, {
 })(Settings);
 
 const SettingsContainer = styled.div`
-  min-height: 90vh;
+  height: 90vh;
   width: 90vw;
   display: flex;
   align-items: center;
@@ -401,13 +401,16 @@ const SettingsContainer = styled.div`
 
 const Title = styled.h1`
   font-size: 3rem;
-  margin: 10% 0%;
+  margin: 6% 0%;
 `;
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   width: 80%;
+  @media(min-width: 600px) {
+    width: 50%;
+  }
 `;
 
 const SettingTitle = styled.h2`
@@ -506,7 +509,7 @@ const InputContainer = styled.div`
 
 const Button = styled.button`
   width: 60%;
-  height: 30px;
+  height: 10%;
   margin: 5%;
   transition: ease 0.1s;
   cursor: pointer;

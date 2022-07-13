@@ -141,11 +141,11 @@ const Leaderboard = () => {
           {filtered.map((wizard, index) => {
             return (
               <BoardListing key={index}>
-                <ListColumn name>{wizard.name}</ListColumn>
-                <ListColumn>{wizard.category}</ListColumn>
-                <ListColumn>{wizard.difficulty}</ListColumn>
-                <ListColumn>{wizard.mode}</ListColumn>
-                <ListColumn score>{wizard.score}</ListColumn>
+                <ListColumn type={"name"}>{wizard.name}</ListColumn>
+                <ListColumn type={"category"}>{wizard.category}</ListColumn>
+                <ListColumn type={"difficulty"}>{wizard.difficulty}</ListColumn>
+                <ListColumn type={"mode"}>{wizard.mode}</ListColumn>
+                <ListColumn type={"score"}>{wizard.score}</ListColumn>
               </BoardListing>
             );
           })}
@@ -168,6 +168,8 @@ const StyledLeaderboard = styled.div`
   align-items: center;
   opacity: ${({ module }) => module && 0.5};
   background: ${({ theme }) => theme.body};
+  padding: 20px;
+  box-sizing: border-box;
 
   @media (min-width: 600px) {
     width: 60vw;
@@ -185,8 +187,9 @@ const Header = styled.header`
 const Title = styled.h1`
   font-size: 4vh;
   margin-bottom: 10px;
+
   @media (min-width: 600px) {
-    font-size: ;
+    font-size: 6vh;
   }
 `;
 const Filters = styled.div`
@@ -212,12 +215,17 @@ const Board = styled.ul`
   li {
     margin: 5px 10px;
   }
+
+  @media (max-width: 600px) {
+    width: 100%;
+  }
 `;
 
 const BoardListing = styled.li`
   display: flex;
   border-bottom: 1px solid gold;
   border-right: 1px solid gold;
+  overflow: scroll;
 
   &:hover {
     background: rgba(255, 255, 255, 0.5);
@@ -226,8 +234,18 @@ const BoardListing = styled.li`
 
 const ListColumn = styled.div`
   flex: 1;
-  flex: ${({ name }) => name && 1.5};
-  flex: ${({ score }) => score && 0.2};
+  flex: ${({ type }) => type === "name" && 1.5};
+  flex: ${({ type }) => type === "category" && 0.5};
+  flex: ${({ type }) => type === "difficulty" && 0.5};
+  flex: ${({ type }) => type === "mode" && 0.3};
+  flex: ${({ type }) => type === "score" && 0.1};
+  overflow: hidden;
+
+  @media (max-width: 600px) {
+    flex: ${({ type }) => type === "name" && 0.9};
+    display: ${({ type }) => type === "category" && "none"};
+    display: ${({ type }) => type === "difficulty" && "none"};
+  }
 `;
 
 const ButtonContainer = styled.div`
