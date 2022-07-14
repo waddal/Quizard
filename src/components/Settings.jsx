@@ -92,7 +92,7 @@ const Settings = ({
         navigate("/quiz");
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 
@@ -124,7 +124,6 @@ const Settings = ({
     schema.isValid(formValues).then((valid) => {
       setDisabled(!valid);
     });
-    console.log(formValues);
   }, [formValues]);
 
   useEffect(() => {
@@ -407,7 +406,7 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   width: 80%;
-  @media(min-width: 600px) {
+  @media (min-width: 600px) {
     width: 50%;
   }
 `;

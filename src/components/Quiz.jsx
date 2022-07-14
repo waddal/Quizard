@@ -84,7 +84,6 @@ const Quiz = ({
       : setMessage(`the correct answer is option: ${answerIndex + 1}`);
 
     if (mode === "Sudden Death" && isChecked && message !== "Correct!") {
-      console.log("dead");
       navigate("/result");
     }
 

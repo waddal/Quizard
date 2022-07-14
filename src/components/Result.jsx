@@ -68,12 +68,12 @@ const Result = ({ name, category, data, mode, score }) => {
 
   const handleSubmission = (submission) => {
     axios
-      .post("http://localhost:9090/api", submission)
+      .post(`${process.env.REACT_APP_DATABASE_URL}/api`, submission)
       .then(() => {
         navigate("/leaderboard");
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 
