@@ -7,7 +7,6 @@ import * as yup from "yup";
 import useSound from "use-sound";
 import { uniqueNamesGenerator, colors, animals } from "unique-names-generator";
 
-import { BASE_URL, API_KEY } from "../constants";
 import categories from "../data/categories";
 import schema from "../validation/formSchema";
 import { setData, setCategory, setMode, setName } from "../actions/quizActions";
@@ -72,7 +71,7 @@ const Settings = ({
     e.preventDefault();
     fetchData();
     axios
-      .get(`${BASE_URL}${API_KEY}`, {
+      .get(`${process.env.REACT_APP_API_URL}${process.env.REACT_APP_API_KEY}`, {
         params: {
           limit: `${formValues.mode}`,
           category:
