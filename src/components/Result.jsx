@@ -68,7 +68,7 @@ const Result = ({ name, category, data, mode, score }) => {
 
   const handleSubmission = (submission) => {
     axios
-      .post(`${process.env.REACT_APP_DATABASE_URL}/api`, submission)
+      .post(`${process.env.REACT_APP_DATABASE_URL}api`, submission)
       .then(() => {
         navigate("/leaderboard");
       })
