@@ -70,7 +70,7 @@ const Leaderboard = () => {
 
   useEffect(() => {
     axios
-      .get(`${process.env.DATABASE_URL}/api`)
+      .get(`${process.env.API_URL}/api`)
       .then((res) => {
         setFilteredList(res.data);
       })
