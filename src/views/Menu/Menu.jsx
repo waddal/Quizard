@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import useSound from 'use-sound';
 
-import tuneSfx from '../assets/audio/tune.mp3';
-import popSfx from '../assets/audio/pop.mp3';
+import tuneSfx from '../../assets/audio/tune.mp3';
+import popSfx from '../../assets/audio/pop.mp3';
 
 const Menu = ({ theme, themeToggler }) => {
   const [settings, setSettings] = useState(true);

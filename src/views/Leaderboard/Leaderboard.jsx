@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 
-import Screen from '../components/common/Screen';
+import Screen from '../../components/common/Screen';
 
 const Leaderboard = () => {
   const [leaderboard, setLeaderboard] = useState([]);
