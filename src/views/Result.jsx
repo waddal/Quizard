@@ -1,66 +1,62 @@
-import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import axios from 'axios';
 
 const Result = ({ name, category, data, mode, score }) => {
   const navigate = useNavigate();
   const [categoryLabel] = useState(`${category}`);
   const [difficultyLabel] = useState(`${data[0].difficulty}`);
   const [modeLabel, setModeLabel] = useState(mode);
-  const [scoreLabel] = useState(
-    `You answered ${score} out of ${data.length} questions!`
-  );
-  const [titleLabel, setTitleLabel] = useState("Alakazam!");
+  const [scoreLabel] = useState(`You answered ${score} out of ${data.length} questions!`);
+  const [titleLabel, setTitleLabel] = useState('Alakazam!');
 
   const generateTitle = () => {
-    if (mode === "5") {
+    if (mode === '5') {
       if (score < 3) {
-        setTitleLabel("Back to the books...");
+        setTitleLabel('Back to the books...');
       } else if (score > 3) {
-        setTitleLabel("A true wizard of the 5!");
+        setTitleLabel('A true wizard of the 5!');
       } else {
-        setTitleLabel("You did fairly well.");
+        setTitleLabel('You did fairly well.');
       }
     }
 
-    if (mode === "10") {
+    if (mode === '10') {
       if (score <= 3) {
-        setTitleLabel("You must trust yourself. Trust your own strength..");
+        setTitleLabel('You must trust yourself. Trust your own strength..');
       } else if (score >= 5) {
-        setTitleLabel("You must talk to yourself a lot.");
+        setTitleLabel('You must talk to yourself a lot.');
       } else if (score >= 8) {
-        setTitleLabel("Alakazam!");
+        setTitleLabel('Alakazam!');
       }
     }
 
-    if (mode === "Sudden Death") {
+    if (mode === 'Sudden Death') {
       if (score < 2) {
-        setTitleLabel(
-          "Death is just another path.. one that we all must take."
-        );
+        setTitleLabel('Death is just another path.. one that we all must take.');
       } else if (score <= 3) {
-        setTitleLabel("Brave... but unrefined!");
+        setTitleLabel('Brave... but unrefined!');
       } else if (score >= 5) {
-        setTitleLabel("Fearless!.. and quite bright.");
+        setTitleLabel('Fearless!.. and quite bright.');
       } else if (score >= 10) {
-        setTitleLabel("Intrepid AND intelligent! Impressive!");
+        setTitleLabel('Intrepid AND intelligent! Impressive!');
       } else if (score >= 15) {
-        setTitleLabel("Impeccable!");
+        setTitleLabel('Impeccable!');
       }
     }
   };
 
   const generateMode = () => {
-    if (mode !== "Sudden Death") {
-      mode === "10" ? setModeLabel("Ten") : setModeLabel("Five");
+    if (mode !== 'Sudden Death') {
+      mode === '10' ? setModeLabel('Ten') : setModeLabel('Five');
     }
   };
 
   const submission = {
     name: name,
-    mode: mode === "Sudden Death" ? "☠️" : mode,
+    mode: mode === 'Sudden Death' ? '☠️' : mode,
     difficulty: data[0].difficulty,
     category: category,
     score: score,
@@ -70,7 +66,7 @@ const Result = ({ name, category, data, mode, score }) => {
     axios
       .post(`${process.env.REACT_APP_DATABASE_URL}api`, submission)
       .then(() => {
-        navigate("/leaderboard");
+        navigate('/leaderboard');
       })
       .catch((err) => {
         console.error(err);
@@ -80,10 +76,11 @@ const Result = ({ name, category, data, mode, score }) => {
   useEffect(() => {
     generateMode();
     generateTitle();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleNavigateMenu = () => {
-    navigate("/menu");
+    navigate('/menu');
   };
 
   return (
@@ -145,12 +142,12 @@ const Name = styled.h3`
   transform: translateZ(0);
   @keyframes glow {
     from {
-      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073,
-        0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
+      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073,
+        0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
     }
     to {
-      text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6,
-        0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
+      text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6,
+        0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
     }
   }
 `;
@@ -195,14 +192,13 @@ const ButtonContainer = styled.div`
 const Button = styled.button`
   width: 140px;
   height: 50px;
-  background-color: ${({ leaderboard }) => (leaderboard ? "gold" : "silver")};
+  background-color: ${({ leaderboard }) => (leaderboard ? 'gold' : 'silver')};
   margin: 0.5%;
   cursor: pointer;
 
   &:hover,
   &:focus {
-    background-color: ${({ leaderboard }) =>
-      leaderboard ? "#ffe74b" : "#f4f6ed"};
+    background-color: ${({ leaderboard }) => (leaderboard ? '#ffe74b' : '#f4f6ed')};
     box-shadow: 0 0 3px 1px #fff, 0 0 8px 4px #f0f, 0 0 10px 5px #0ff;
     transition: ease 0.1s;
   }

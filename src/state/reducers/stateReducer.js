@@ -1,5 +1,5 @@
-import { FETCH_DATA } from "../actions/stateActions";
-import { FETCH_SUCCESS } from "../actions/stateActions";
+import { FETCH_DATA } from '../actions/stateActions';
+import { FETCH_SUCCESS } from '../actions/stateActions';
 
 const initialState = {
   isFetching: false,

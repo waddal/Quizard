@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import { connect } from "react-redux";
-import useSound from "use-sound";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import { connect } from 'react-redux';
+import useSound from 'use-sound';
 
-import tuneSfx from "../assets/audio/tune.mp3";
-import popSfx from "../assets/audio/pop.mp3";
+import tuneSfx from '../assets/audio/tune.mp3';
+import popSfx from '../assets/audio/pop.mp3';
 
 const Menu = ({ theme, themeToggler }) => {
   const [settings, setSettings] = useState(true);
@@ -34,16 +34,10 @@ const Menu = ({ theme, themeToggler }) => {
         <Title>Menu</Title>
         {settings ? (
           <>
-            <NewGameButton
-              onClick={() => navigate("/settings")}
-              onMouseOver={pop}
-            >
+            <NewGameButton onClick={() => navigate('/settings')} onMouseOver={pop}>
               New Game
             </NewGameButton>
-            <LeaderboardButton
-              onMouseOver={pop}
-              onClick={() => navigate("/leaderboard")}
-            >
+            <LeaderboardButton onMouseOver={pop} onClick={() => navigate('/leaderboard')}>
               Leaderboard
             </LeaderboardButton>
           </>
@@ -57,11 +51,7 @@ const Menu = ({ theme, themeToggler }) => {
             </MusicButton>
           </>
         )}
-        <SettingsButton
-          onClick={handleSettings}
-          onMouseOver={pop}
-          settings={settings}
-        >
+        <SettingsButton onClick={handleSettings} onMouseOver={pop} settings={settings}>
           Settings
         </SettingsButton>
       </MenuContainer>
@@ -139,10 +129,8 @@ const LeaderboardButton = styled(Button)`
 `;
 
 const SettingsButton = styled(Button)`
-  background-color: ${(props) =>
-    props.settings === true ? "#ff678a" : "#fc537a"};
-  box-shadow: ${(props) =>
-    props.settings === false ? "0 0 2px 1px #0ff" : null};
+  background-color: ${(props) => (props.settings === true ? '#ff678a' : '#fc537a')};
+  box-shadow: ${(props) => (props.settings === false ? '0 0 2px 1px #0ff' : null)};
 
   &:hover {
     background-color: #fc537a;
@@ -151,13 +139,11 @@ const SettingsButton = styled(Button)`
 
 //SETTINGS
 const ThemeButton = styled(Button)`
-  color: ${(props) => (props.theme === "light" ? "white" : "black")};
-  background-color: ${(props) =>
-    props.theme === "light" ? "#3b3b3b" : "#e5e5e5"};
+  color: ${(props) => (props.theme === 'light' ? 'white' : 'black')};
+  background-color: ${(props) => (props.theme === 'light' ? '#3b3b3b' : '#e5e5e5')};
 
   &:hover {
-    background-color: ${(props) =>
-      props.theme === "light" ? "black" : "white"};
+    background-color: ${(props) => (props.theme === 'light' ? 'black' : 'white')};
   }
 `;
 const MusicButton = styled(Button)`

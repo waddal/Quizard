@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 const Answers = ({ choices, handleChoice, selected }) => {
   const getClassName = (id) => {
-    return (id = id === selected ? "_selected" : "");
+    return (id = id === selected ? '_selected' : '');
   };
 
   return (

@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import axios from 'axios';
 
-import Screen from "./Screen";
+import Screen from '../components/common/Screen';
 
 const Leaderboard = () => {
   const [leaderboard, setLeaderboard] = useState([]);
   const [filtered, setFilteredList] = useState([]);
   const navigate = useNavigate();
   const handleNavigateMenu = () => {
-    navigate("/menu");
+    navigate('/menu');
   };
 
   const handleSearchFilter = (e) => {
     const keyword = e.target.value;
-    if (keyword !== "") {
+    if (keyword !== '') {
       let filtered = leaderboard.filter((wizard) => {
         return wizard.name.toUpperCase().startsWith(keyword.toUpperCase());
       });
@@ -27,7 +27,7 @@ const Leaderboard = () => {
 
   const handleModeFilter = (e) => {
     const keyword = e.target.value;
-    if (keyword !== "All") {
+    if (keyword !== 'All') {
       const filtered = leaderboard.filter((wizard) => {
         return wizard.mode === keyword;
       });
@@ -39,7 +39,7 @@ const Leaderboard = () => {
 
   const handleDifficultyFilter = (e) => {
     const keyword = e.target.value;
-    if (keyword !== "All") {
+    if (keyword !== 'All') {
       const filtered = leaderboard.filter((wizard) => {
         return wizard.difficulty === keyword;
       });
@@ -51,7 +51,7 @@ const Leaderboard = () => {
 
   const handleCategoryFilter = (e) => {
     const keyword = e.target.value;
-    if (keyword !== "All") {
+    if (keyword !== 'All') {
       const filtered = leaderboard.filter((wizard) => {
         return wizard.category === keyword;
       });
@@ -85,16 +85,8 @@ const Leaderboard = () => {
         <Header>
           <Title>Leaderboard</Title>
           <Filters>
-            <Search
-              type={"text"}
-              placeholder={"Wizard"}
-              onChange={handleSearchFilter}
-            />
-            <Filter
-              type={"dropdown"}
-              onChange={handleCategoryFilter}
-              defaultValue="Category"
-            >
+            <Search type={'text'} placeholder={'Wizard'} onChange={handleSearchFilter} />
+            <Filter type={'dropdown'} onChange={handleCategoryFilter} defaultValue="Category">
               <option value="Category" disabled>
                 Category
               </option>
@@ -108,11 +100,7 @@ const Leaderboard = () => {
               <option value="Linux">Linux</option>
               <option value="Docker">Docker</option>
             </Filter>
-            <Filter
-              type={"dropdown"}
-              onChange={handleDifficultyFilter}
-              defaultValue="Difficulty"
-            >
+            <Filter type={'dropdown'} onChange={handleDifficultyFilter} defaultValue="Difficulty">
               <option value="Difficulty" disabled>
                 Difficulty
               </option>
@@ -121,11 +109,7 @@ const Leaderboard = () => {
               <option value="Medium">Medium</option>
               <option value="Hard">Hard</option>
             </Filter>
-            <Filter
-              type={"dropdown"}
-              onChange={handleModeFilter}
-              defaultValue="Mode"
-            >
+            <Filter type={'dropdown'} onChange={handleModeFilter} defaultValue="Mode">
               <option value="Mode" disabled>
                 Mode
               </option>
@@ -141,11 +125,11 @@ const Leaderboard = () => {
           {filtered.map((wizard, index) => {
             return (
               <BoardListing key={index}>
-                <ListColumn type={"name"}>{wizard.name}</ListColumn>
-                <ListColumn type={"category"}>{wizard.category}</ListColumn>
-                <ListColumn type={"difficulty"}>{wizard.difficulty}</ListColumn>
-                <ListColumn type={"mode"}>{wizard.mode}</ListColumn>
-                <ListColumn type={"score"}>{wizard.score}</ListColumn>
+                <ListColumn type={'name'}>{wizard.name}</ListColumn>
+                <ListColumn type={'category'}>{wizard.category}</ListColumn>
+                <ListColumn type={'difficulty'}>{wizard.difficulty}</ListColumn>
+                <ListColumn type={'mode'}>{wizard.mode}</ListColumn>
+                <ListColumn type={'score'}>{wizard.score}</ListColumn>
               </BoardListing>
             );
           })}
@@ -234,17 +218,17 @@ const BoardListing = styled.li`
 
 const ListColumn = styled.div`
   flex: 1;
-  flex: ${({ type }) => type === "name" && 1.5};
-  flex: ${({ type }) => type === "category" && 0.5};
-  flex: ${({ type }) => type === "difficulty" && 0.5};
-  flex: ${({ type }) => type === "mode" && 0.3};
-  flex: ${({ type }) => type === "score" && 0.1};
+  flex: ${({ type }) => type === 'name' && 1.5};
+  flex: ${({ type }) => type === 'category' && 0.5};
+  flex: ${({ type }) => type === 'difficulty' && 0.5};
+  flex: ${({ type }) => type === 'mode' && 0.3};
+  flex: ${({ type }) => type === 'score' && 0.1};
   overflow: hidden;
 
   @media (max-width: 600px) {
-    flex: ${({ type }) => type === "name" && 0.9};
-    display: ${({ type }) => type === "category" && "none"};
-    display: ${({ type }) => type === "difficulty" && "none"};
+    flex: ${({ type }) => type === 'name' && 0.9};
+    display: ${({ type }) => type === 'category' && 'none'};
+    display: ${({ type }) => type === 'difficulty' && 'none'};
   }
 `;
 
@@ -259,7 +243,7 @@ const ButtonContainer = styled.div`
 const Button = styled.button`
   width: 140px;
   height: 50px;
-  background-color: "silver";
+  background-color: 'silver';
   cursor: pointer;
 
   &:hover,

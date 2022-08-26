@@ -10,15 +10,15 @@ import {
   ADD_INDEX,
   ADD_SCORE,
   RESET_GAME,
-} from "../actions/quizActions.js";
+} from '../actions/quizActions.js';
 
 const initialState = {
   data: {},
   choices: [],
-  category: "",
-  mode: "",
-  message: "",
-  name: "",
+  category: '',
+  mode: '',
+  message: '',
+  name: '',
   score: 0,
   index: 0,
   answerIndex: 0,
@@ -80,8 +80,8 @@ const reducer = (state = initialState, action) => {
     case RESET_GAME:
       return {
         ...state,
-        index: state.index = 0,
-        score: state.score = 0,
+        index: (state.index = 0),
+        score: (state.score = 0),
       };
     default:
       return state;

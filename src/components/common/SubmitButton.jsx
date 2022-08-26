@@ -1,10 +1,10 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 const SubmitButton = ({ handleNext, isChecked, selected }) => {
   return (
     <StyledButton onClick={handleNext} disabled={selected === null}>
-      {isChecked === false ? "check" : "next"}
+      {isChecked === false ? 'check' : 'next'}
     </StyledButton>
   );
 };

@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import axios from "axios";
-import * as yup from "yup";
-import useSound from "use-sound";
-import { uniqueNamesGenerator, colors, animals } from "unique-names-generator";
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import axios from 'axios';
+import * as yup from 'yup';
+import useSound from 'use-sound';
+import { uniqueNamesGenerator, colors, animals } from 'unique-names-generator';
 
-import categories from "../data/categories";
-import schema from "../validation/formSchema";
-import { setData, setCategory, setMode, setName } from "../actions/quizActions";
-import { fetchData } from "../actions/stateActions";
-import popSfx from "../assets/audio/pop.mp3";
-import PopupModule from "./PopupModule";
-import Screen from "./Screen";
+import categories from '../data/categories';
+import schema from '../validation/formSchema';
+import { setData, setCategory, setMode, setName } from '../state/actions/quizActions';
+import { fetchData } from '../state/actions/stateActions';
+import popSfx from '../assets/audio/pop.mp3';
+import PopupModule from '../components/common/PopupModule';
+import Screen from '../components/common/Screen';
 
 const sharedValues = {
-  mode: "",
-  category: "",
-  difficulty: "",
+  mode: '',
+  category: '',
+  difficulty: '',
 };
 
 const initialFormValues = {
@@ -31,15 +31,8 @@ const initialFormErrors = {
 
 const initialDisabled = true;
 
-const Settings = ({
-  setData,
-  setCategory,
-  setMode,
-  setName,
-  fetchData,
-  isFetching,
-}) => {
-  const [wizard, setWizard] = useState("");
+const Settings = ({ setData, setCategory, setMode, setName, fetchData, isFetching }) => {
+  const [wizard, setWizard] = useState('');
   const [formValues, setFormValues] = useState(initialFormValues);
   const [formErrors, setFormErrors] = useState(initialFormErrors);
   const [disabled, setDisabled] = useState(initialDisabled);
@@ -52,10 +45,10 @@ const Settings = ({
   });
 
   const fillWizard = () => {
-    if (localStorage.getItem("moniker") == null) {
+    if (localStorage.getItem('moniker') == null) {
       setWizard(shortName);
     } else {
-      setWizard(localStorage.getItem("moniker"));
+      setWizard(localStorage.getItem('moniker'));
     }
   };
 
@@ -74,22 +67,17 @@ const Settings = ({
       .get(`${process.env.REACT_APP_API_URL}${process.env.REACT_APP_API_KEY}`, {
         params: {
           limit: `${formValues.mode}`,
-          category:
-            `${formValues.category}` === "Any" ? "" : `${formValues.category}`,
+          category: `${formValues.category}` === 'Any' ? '' : `${formValues.category}`,
           difficulty: `${formValues.difficulty}`,
         },
       })
       .then((res) => {
         setData(res.data);
-        setCategory(
-          `${formValues.category}` === "Any" ? "Any" : `${formValues.category}`
-        );
-        setMode(
-          `${formValues.mode}` === "20" ? "Sudden Death" : `${formValues.mode}`
-        );
+        setCategory(`${formValues.category}` === 'Any' ? 'Any' : `${formValues.category}`);
+        setMode(`${formValues.mode}` === '20' ? 'Sudden Death' : `${formValues.mode}`);
         setName(wizard);
-        localStorage.setItem("moniker", wizard);
-        navigate("/quiz");
+        localStorage.setItem('moniker', wizard);
+        navigate('/quiz');
       })
       .catch((err) => {
         console.error(err);
@@ -105,7 +93,7 @@ const Settings = ({
       .then(() => {
         setFormErrors({
           ...formErrors,
-          [name]: "",
+          [name]: '',
         });
       })
       .catch((err) => {
@@ -128,13 +116,12 @@ const Settings = ({
 
   useEffect(() => {
     fillWizard();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <Screen>
-      {isFetching && (
-        <PopupModule headerText={"a worthy quiz is being created..."} />
-      )}
+      {isFetching && <PopupModule headerText={'a worthy quiz is being created...'} />}
       <SettingsContainer>
         <Title>SETTINGS</Title>
 
@@ -165,7 +152,7 @@ const Settings = ({
                   name="mode"
                   id="5"
                   value="5"
-                  checked={formValues.mode === "5"}
+                  checked={formValues.mode === '5'}
                   onChange={handleChange}
                   onMouseOver={pop}
                 />
@@ -176,14 +163,7 @@ const Settings = ({
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <rect
-                    x="0.5"
-                    y="0.5"
-                    width="64"
-                    height="24"
-                    fill=""
-                    stroke="black"
-                  />
+                  <rect x="0.5" y="0.5" width="64" height="24" fill="" stroke="black" />
                   <path
                     d="M11.5554 18V7.09091H18.0966V8.26278H12.8764V11.9489H17.6065V13.1207H12.8764V18H11.5554ZM25.8989 7.09091V18H24.5779V7.09091H25.8989ZM33.2138 7.09091L36.4524 16.2741H36.5803L39.8189 7.09091H41.2038L37.1982 18H35.8345L31.8288 7.09091H33.2138ZM47.1218 18V7.09091H53.7056V8.26278H48.4428V11.9489H53.3647V13.1207H48.4428V16.8281H53.7908V18H47.1218Z"
                     fill="grey"
@@ -196,7 +176,7 @@ const Settings = ({
                   type="radio"
                   name="mode"
                   value="10"
-                  checked={formValues.mode === "10"}
+                  checked={formValues.mode === '10'}
                   onChange={handleChange}
                   onMouseOver={pop}
                 />
@@ -207,14 +187,7 @@ const Settings = ({
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <rect
-                    x="0.5"
-                    y="0.5"
-                    width="64"
-                    height="24"
-                    fill="none"
-                    stroke="black"
-                  />
+                  <rect x="0.5" y="0.5" width="64" height="24" fill="none" stroke="black" />
                   <path
                     d="M14.0643 8.26278V7.09091H22.2461V8.26278H18.8157V18H17.4947V8.26278H14.0643ZM28.5036 18V7.09091H35.0874V8.26278H29.8247V11.9489H34.7465V13.1207H29.8247V16.8281H35.1727V18H28.5036ZM50.3378 7.09091V18H49.0594L43.1148 9.43466H43.0083V18H41.6872V7.09091H42.9656L48.9316 15.6776H49.0381V7.09091H50.3378Z"
                     fill="grey"
@@ -227,7 +200,7 @@ const Settings = ({
                   type="radio"
                   name="mode"
                   value="20"
-                  checked={formValues.mode === "20"}
+                  checked={formValues.mode === '20'}
                   onChange={handleChange}
                   onMouseOver={pop}
                 />
@@ -238,14 +211,7 @@ const Settings = ({
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <rect
-                    x="0.5"
-                    y="0.5"
-                    width="64"
-                    height="24"
-                    fill=""
-                    stroke="black"
-                  />
+                  <rect x="0.5" y="0.5" width="64" height="24" fill="" stroke="black" />
                   <path
                     d="M9.75586 21H7.06268V12.2727H9.87518C10.7218 12.2727 11.4462 12.4474 12.0485 12.7969C12.6507 13.1435 13.1124 13.642 13.4334 14.2926C13.7544 14.9403 13.915 15.7159 13.915 16.6193C13.915 17.5284 13.753 18.3111 13.4292 18.9673C13.1053 19.6207 12.6337 20.1236 12.0144 20.4759C11.3951 20.8253 10.6422 21 9.75586 21ZM8.1195 20.0625H9.68768C10.4093 20.0625 11.0073 19.9233 11.4817 19.6449C11.9561 19.3665 12.3098 18.9702 12.5428 18.456C12.7757 17.9418 12.8922 17.3295 12.8922 16.6193C12.8922 15.9148 12.7772 15.3082 12.5471 14.7997C12.3169 14.2884 11.9732 13.8963 11.5158 13.6236C11.0584 13.348 10.4888 13.2102 9.807 13.2102H8.1195V20.0625ZM19.0627 21V12.2727H24.3297V13.2102H20.1195V16.1591H24.057V17.0966H20.1195V20.0625H24.3979V21H19.0627ZM29.9675 21H28.8596L32.0641 12.2727H33.155L36.3596 21H35.2516L32.6436 13.6534H32.5755L29.9675 21ZM30.3766 17.5909H34.8425V18.5284H30.3766V17.5909ZM40.6167 13.2102V12.2727H47.1621V13.2102H44.4178V21H43.361V13.2102H40.6167ZM52.1681 21V12.2727H53.225V16.1591H57.8784V12.2727H58.9352V21H57.8784V17.0966H53.225V21H52.1681Z"
                     fill="red"
@@ -268,7 +234,7 @@ const Settings = ({
                   name="difficulty"
                   id="easy"
                   value="easy"
-                  checked={formValues.difficulty === "easy"}
+                  checked={formValues.difficulty === 'easy'}
                   onChange={handleChange}
                   onMouseOver={pop}
                 />
@@ -288,7 +254,7 @@ const Settings = ({
                   type="radio"
                   name="difficulty"
                   value="medium"
-                  checked={formValues.difficulty === "medium"}
+                  checked={formValues.difficulty === 'medium'}
                   onChange={handleChange}
                   onMouseOver={pop}
                 />
@@ -308,7 +274,7 @@ const Settings = ({
                   type="radio"
                   name="difficulty"
                   value="hard"
-                  checked={formValues.difficulty === "hard"}
+                  checked={formValues.difficulty === 'hard'}
                   onChange={handleChange}
                   onMouseOver={pop}
                 />
@@ -333,19 +299,14 @@ const Settings = ({
                 name="category"
                 onChange={handleChange}
                 onMouseOver={pop}
-                defaultValue={"select"}
+                defaultValue={'select'}
               >
                 <option value="select" disabled>
                   Select
                 </option>
                 {categories.map((item, idx) => {
                   return (
-                    <option
-                      key={idx}
-                      id={item}
-                      value={item}
-                      checked={formValues.category === item}
-                    >
+                    <option key={idx} id={item} value={item} checked={formValues.category === item}>
                       {item}
                     </option>
                   );
@@ -481,26 +442,26 @@ const InputContainer = styled.div`
   }
 
   //MODE
-  input[class="mode"]:hover + svg,
-  input[class="mode"]:checked + svg,
-  input[class="mode"]:focus + svg {
+  input[class='mode']:hover + svg,
+  input[class='mode']:checked + svg,
+  input[class='mode']:focus + svg {
     stroke: ${({ theme }) => theme.text};
   }
 
   //DIFFICULTY
-  input[class="easy"]:hover + svg,
-  input[class="easy"]:checked + svg,
-  input[class="easy"]:focus + svg {
+  input[class='easy']:hover + svg,
+  input[class='easy']:checked + svg,
+  input[class='easy']:focus + svg {
     fill: #23e123;
   }
-  input[class="medium"]:hover + svg,
-  input[class="medium"]:checked + svg,
-  input[class="medium"]:focus + svg {
+  input[class='medium']:hover + svg,
+  input[class='medium']:checked + svg,
+  input[class='medium']:focus + svg {
     fill: #fba300;
   }
-  input[class="hard"]:hover + svg,
-  input[class="hard"]:checked + svg,
-  input[class="hard"]:focus + svg {
+  input[class='hard']:hover + svg,
+  input[class='hard']:checked + svg,
+  input[class='hard']:focus + svg {
     fill: #f52525;
   }
 `;

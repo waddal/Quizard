@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import { connect } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { connect } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import {
   addIndex,
@@ -10,11 +10,11 @@ import {
   setMessage,
   setAnswerIndex,
   resetGame,
-} from "../actions/quizActions";
-import { fetchSuccess } from "../actions/stateActions";
-import Screen from "../components/Screen";
-import Answers from "./Answers";
-import PopupModule from "./PopupModule";
+} from '../../state/actions/quizActions';
+import { fetchSuccess } from '../../state/actions/stateActions';
+import Screen from '../../components/common/Screen';
+import { Answers } from './components';
+import PopupModule from '../../components/common/PopupModule';
 
 const Quiz = ({
   data,
@@ -41,9 +41,9 @@ const Quiz = ({
   const api = data[index];
 
   const renderWrapper = () => {
-    if (api.difficulty === "Easy") setWrapArg(1);
-    if (api.difficulty === "Medium") setWrapArg(2);
-    if (api.difficulty === "Hard") setWrapArg(3);
+    if (api.difficulty === 'Easy') setWrapArg(1);
+    if (api.difficulty === 'Medium') setWrapArg(2);
+    if (api.difficulty === 'Hard') setWrapArg(3);
   };
 
   const renderChoices = () => {
@@ -64,7 +64,7 @@ const Quiz = ({
     let correct;
 
     answers.forEach((ans, index) => {
-      if (ans === "true") {
+      if (ans === 'true') {
         correct = index;
       }
     });
@@ -80,29 +80,29 @@ const Quiz = ({
   const handleNext = () => {
     setChecked(true);
     selected === answerIndex
-      ? setMessage("Correct!")
+      ? setMessage('Correct!')
       : setMessage(`the correct answer is option: ${answerIndex + 1}`);
 
-    if (mode === "Sudden Death" && isChecked && message !== "Correct!") {
-      navigate("/result");
+    if (mode === 'Sudden Death' && isChecked && message !== 'Correct!') {
+      navigate('/result');
     }
 
     if (index < data.length - 1 && isChecked) {
-      if (message === "Correct!") {
+      if (message === 'Correct!') {
         addScore();
       }
       addIndex();
     } else if (index + 1 === data.length && isChecked) {
-      if (message === "Correct!") {
+      if (message === 'Correct!') {
         addScore();
       }
-      navigate("/result");
+      navigate('/result');
     }
   };
 
   const handlePopupModule = (bool) => {
     setModule(!module);
-    bool && navigate("/menu");
+    bool && navigate('/menu');
   };
 
   const reset = () => {
@@ -116,6 +116,7 @@ const Quiz = ({
   useEffect(() => {
     fetchSuccess();
     resetGame();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -123,6 +124,7 @@ const Quiz = ({
     renderChoices();
     renderAnswers();
     renderWrapper();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index]);
 
   return (
@@ -136,18 +138,14 @@ const Quiz = ({
       <QuizContainer module={module}>
         <QuitButton onClick={() => handlePopupModule(false)}>X</QuitButton>
         <Question>{api.question}</Question>
-        <Answers
-          choices={choices}
-          handleChoice={handleChoice}
-          selected={selected}
-        />
+        <Answers choices={choices} handleChoice={handleChoice} selected={selected} />
         <Category>Category: {api.category}</Category>
         <Score>Score: {score}</Score>
         <Index>
           {index}/{data.length}
         </Index>
         <SubmitButton onClick={handleNext} disabled={selected === null}>
-          {isChecked === false ? "check" : "next"}
+          {isChecked === false ? 'check' : 'next'}
         </SubmitButton>
         <Message>{isChecked && <div>{message}</div>}</Message>
       </QuizContainer>
