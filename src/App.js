@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from './themes/GlobalStyles';
 import { lightTheme, darkTheme } from './themes/Themes';
-import { Splash } from './views/Splash/Splash';
+import { Splash } from './views/Splash';
 import { Menu } from './views/Menu';
 import { Settings } from './views/Settings';
 import { Quiz } from './views/Quiz';

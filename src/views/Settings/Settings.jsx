@@ -7,13 +7,13 @@ import * as yup from 'yup';
 import useSound from 'use-sound';
 import { uniqueNamesGenerator, colors, animals } from 'unique-names-generator';
 
-import categories from '../data/categories';
-import schema from '../validation/formSchema';
-import { setData, setCategory, setMode, setName } from '../state/actions/quizActions';
-import { fetchData } from '../state/actions/stateActions';
-import popSfx from '../assets/audio/pop.mp3';
-import PopupModule from '../components/common/PopupModule';
-import Screen from '../components/common/Screen';
+import categories from '../../data/categories';
+import schema from '../../validation/formSchema';
+import { setData, setCategory, setMode, setName } from '../../state/actions/quizActions';
+import { fetchData } from '../../state/actions/stateActions';
+import popSfx from '../../assets/audio/pop.mp3';
+import PopupModule from '../../components/common/PopupModule';
+import Screen from '../../components/common/Screen';
 
 const sharedValues = {
   mode: '',
